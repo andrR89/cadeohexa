@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest'
 import {
   diasEntre, hojeEmSaoPaulo, diasDaEspera, diasAteProximaCopa, formatarDias,
 } from '../src/lib/contadores'
+import { DATA_PENTA, DATA_COPA_2030_ESTIMADA } from '../src/data/datas'
 
 describe('diasEntre', () => {
   test('conta dias inteiros entre datas ISO', () => {
@@ -31,5 +32,12 @@ describe('contadores do site', () => {
   })
   test('formata em pt-BR', () => {
     expect(formatarDias(8773)).toBe('8.773')
+  })
+})
+
+describe('constantes-âncora', () => {
+  test('datas âncora são ISO válidas (protege edições futuras)', () => {
+    expect(Number.isFinite(diasEntre(DATA_PENTA, DATA_COPA_2030_ESTIMADA))).toBe(true)
+    expect(diasEntre(DATA_PENTA, DATA_COPA_2030_ESTIMADA)).toBeGreaterThan(0)
   })
 })
