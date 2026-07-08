@@ -8,6 +8,15 @@
 
 **Tech Stack:** Vite 6, TypeScript, Three.js, GSAP (ScrollTrigger), Vitest, workers-og (Pages Function), Cloudflare Pages.
 
+## ⏸ BREAKPOINT — 07/07/2026, retomar daqui
+
+**Concluídas (com revisão de spec + qualidade + fixes):** T1 scaffold (`7ab247d`+`a8b740e`), T2 contadores (`5303c89`+`aeca024`), T3 medidores (`a53e69f`+`c67d22d` — Diniz adicionado, 10 técnicos), T4 quiz (`790597d`+`f458cad` — placar dinâmico + clamp), T5 casca/tema (`bb8da3b`+`9925c9a` — contraste legenda, dvh), T6 herói (`6862b5f`+`4c1c0db` — TAGLINES movidas pra src/data), T7 countdown (`f6fa8ca`), T8 timeline (`27e939d`+`782abda` — a11y do revelar).
+
+**Próxima: T9 (Medidores UI).** Depois T10–T17 na ordem. Processo: superpowers:subagent-driven-development (implementador sonnet + spec review haiku + quality review sonnet/haiku, fixes pelo mesmo implementador via SendMessage).
+
+**Desvios do plano já incorporados ao código (o texto original das tasks abaixo NÃO foi atualizado):** técnicos = 10 com 'Fernando Diniz (interino)' e teste espera 10; rotulo 'presidências da República'; quiz-logic deriva TOTAL de PERGUNTAS.length e clampa entrada; TAGLINES em `src/data/taglines.ts`; `.fatos li` e `.legenda` usam `--ouro-baco` (contraste AA); `.secao` tem `100dvh`; revelar usa querySelectorAll + foco no placar + botão hidden. Pendências anotadas na T16: og:image com URL absoluta + smoke-check de ICU no workerd. Backlog fase 2: vídeos do Craque Neto pós-eliminações.
+
+
 **Regras do projeto:** contador em texto renderiza antes de qualquer 3D; nenhuma seção depende de WebGL pra fazer sentido; timezone `America/Sao_Paulo` em toda matemática de data; conteúdo/piada mora em `src/data/`, nunca hardcoded na UI. Commits pequenos por task.
 
 ---
