@@ -83,7 +83,7 @@ button.solene {
   cursor: pointer;
   transition: background 0.3s, color 0.3s;
 }
-button.solene:hover { background: var(--ouro); color: var(--marmore-0); }
+button.solene:not(:disabled):hover { background: var(--ouro); color: var(--marmore-0); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
