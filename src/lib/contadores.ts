@@ -24,3 +24,95 @@ export function diasAteProximaCopa(agora: Date): number {
 export function formatarDias(n: number): string {
   return n.toLocaleString('pt-BR')
 }
+
+export interface PartesEspera {
+  anos: number
+  meses: number
+  dias: number
+  horas: number
+  minutos: number
+  segundos: number
+}
+
+interface PartesData {
+  ano: number
+  mes: number
+  dia: number
+  hora: number
+  minuto: number
+  segundo: number
+}
+
+// Âncora da espera: 30/06/2002, 00:00:00 no relógio de São Paulo (fim de Yokohama).
+const ANCORA: PartesData = { ano: 2002, mes: 6, dia: 30, hora: 0, minuto: 0, segundo: 0 }
+
+const FORMATADOR_PARTES_SP = new Intl.DateTimeFormat('en-CA', {
+  timeZone: TIMEZONE_BR,
+  hour12: false,
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+})
+
+function partesEmSaoPaulo(agora: Date): PartesData {
+  const partes = FORMATADOR_PARTES_SP.formatToParts(agora)
+  const mapa: Record<string, string> = {}
+  for (const { type, value } of partes) mapa[type] = value
+  // Algumas implementações de Intl formatam meia-noite como "24" em vez de "00"
+  // mesmo com hour12:false — normaliza para não estourar o dia.
+  const hora = Number(mapa.hour) % 24
+  return {
+    ano: Number(mapa.year),
+    mes: Number(mapa.month),
+    dia: Number(mapa.day),
+    hora,
+    minuto: Number(mapa.minute),
+    segundo: Number(mapa.second),
+  }
+}
+
+// Dias no mês `mes` (1-indexado) do ano `ano`; dia 0 do mês seguinte = último dia do mês atual.
+// Respeita bissexto automaticamente (fevereiro em ano bissexto tem 29).
+function diasNoMes(ano: number, mes: number): number {
+  return new Date(Date.UTC(ano, mes, 0)).getUTCDate()
+}
+
+/**
+ * Decompõe o tempo decorrido desde a âncora do penta (30/06/2002, 00:00 em SP)
+ * até `agora` em anos/meses/dias/horas/minutos/segundos "de calendário civil",
+ * com empréstimo (subtração campo a campo, pedindo emprestado do campo maior
+ * quando o menor fica negativo — o mesmo esquema usado para calcular idade).
+ *
+ * A matemática é feita direto nos componentes do relógio de parede de São Paulo,
+ * sem conversão de fuso: tanto a âncora (junho/2002) quanto qualquer `agora`
+ * caem em UTC-3 (junho está fora da antiga janela de horário de verão de SP, e
+ * o Brasil não tem mais horário de verão desde 2019), então não há correção de
+ * offset a fazer — é aritmética de calendário pura.
+ */
+export function partesDaEspera(agora: Date): PartesEspera {
+  const alvo = partesEmSaoPaulo(agora)
+
+  let segundos = alvo.segundo - ANCORA.segundo
+  let minutos = alvo.minuto - ANCORA.minuto
+  let horas = alvo.hora - ANCORA.hora
+  let dias = alvo.dia - ANCORA.dia
+  let meses = alvo.mes - ANCORA.mes
+  let anos = alvo.ano - ANCORA.ano
+
+  if (segundos < 0) { segundos += 60; minutos -= 1 }
+  if (minutos < 0) { minutos += 60; horas -= 1 }
+  if (horas < 0) { horas += 24; dias -= 1 }
+  if (dias < 0) {
+    meses -= 1
+    let mesAnterior = alvo.mes - 1
+    let anoDoMesAnterior = alvo.ano
+    if (mesAnterior === 0) { mesAnterior = 12; anoDoMesAnterior -= 1 }
+    dias += diasNoMes(anoDoMesAnterior, mesAnterior)
+  }
+  if (meses < 0) { meses += 12; anos -= 1 }
+
+  return { anos, meses, dias, horas, minutos, segundos }
+}

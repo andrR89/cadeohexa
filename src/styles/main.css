@@ -58,6 +58,17 @@ main { position: relative; z-index: 1; }
   line-height: 1.1;
 }
 
+.contador-detalhado {
+  margin-top: 0.75rem;
+  color: var(--ouro-baco);
+  font-size: clamp(0.8rem, 2.2vw, 1rem);
+  letter-spacing: 0.03em;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  max-width: 32rem;
+  word-wrap: break-word;
+}
+
 .legenda { font-style: italic; color: var(--ouro-baco); margin-top: 1rem; }
 
 .placa {

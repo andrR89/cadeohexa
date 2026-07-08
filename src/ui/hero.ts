@@ -1,4 +1,4 @@
-import { diasDaEspera, formatarDias } from '../lib/contadores'
+import { diasDaEspera, formatarDias, partesDaEspera, type PartesEspera } from '../lib/contadores'
 import { TAGLINES } from '../data/taglines'
 
 export function montarHeroi(el: HTMLElement): void {
@@ -7,10 +7,37 @@ export function montarHeroi(el: HTMLElement): void {
     <p class="rotulo">Memorial Nacional da Espera</p>
     <h1 class="numero-gigante" id="contador-dias">${formatarDias(dias)}</h1>
     <p class="rotulo">dias sem o hexa</p>
+    <p class="contador-detalhado" id="contador-detalhado" aria-hidden="true">${formatarPartes(partesDaEspera(new Date()))}</p>
     <p class="legenda" id="tagline">Dia ${formatarDias(dias)}. ${TAGLINES[0]}</p>
   `
   animarContagem(el.querySelector('#contador-dias')!, dias)
   rotacionarTaglines(el.querySelector('#tagline')!, dias)
+  iniciarContadorDetalhado(el.querySelector('#contador-detalhado')!)
+}
+
+// Singular/plural pt-BR só para as unidades por extenso; "h/min/seg" ficam
+// abreviadas e invariáveis (uso diegético de UI, não é piada nem conteúdo editorial).
+function unidade(n: number, singular: string, plural: string): string {
+  return `${n} ${n === 1 ? singular : plural}`
+}
+
+function formatarPartes(p: PartesEspera): string {
+  return [
+    unidade(p.anos, 'ano', 'anos'),
+    unidade(p.meses, 'mês', 'meses'),
+    unidade(p.dias, 'dia', 'dias'),
+    `${p.horas} h`,
+    `${p.minutos} min`,
+    `${p.segundos} seg`,
+  ].join(' · ')
+}
+
+// Recalcula do zero a cada tique (não incrementa um contador local) para nunca
+// acumular deriva; é o herói persistente da página, então não precisa de teardown.
+function iniciarContadorDetalhado(alvo: HTMLElement): void {
+  setInterval(() => {
+    alvo.textContent = formatarPartes(partesDaEspera(new Date()))
+  }, 1000)
 }
 
 function animarContagem(alvo: HTMLElement, valorFinal: number): void {
