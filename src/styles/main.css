@@ -89,3 +89,13 @@ button.solene:hover { background: var(--ouro); color: var(--marmore-0); }
   html { scroll-behavior: auto; }
   * { animation: none !important; transition: none !important; }
 }
+
+.lapides { display: grid; gap: 1.5rem; max-width: 40rem; width: 100%; }
+.lapide { text-align: left; }
+.lapide .epitafio { font-style: italic; color: var(--ouro-vivo); margin: 0.5rem 0 1rem; }
+.lapide .fatos { list-style: none; }
+.lapide .fatos li { color: var(--ouro-baco); font-size: 0.9rem; line-height: 1.7; padding-left: 1rem; position: relative; }
+.lapide .fatos li::before { content: '·'; position: absolute; left: 0; color: var(--ouro); }
+.placar.oculto { display: none; }
+.revelar { background: none; border: none; color: var(--ouro-baco); font-size: 1.2rem; cursor: pointer; }
+.fecho { max-width: 34rem; }
