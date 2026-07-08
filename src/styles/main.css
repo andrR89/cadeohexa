@@ -106,3 +106,7 @@ button.solene:hover { background: var(--ouro); color: var(--marmore-0); }
 
 .grafico-vergonha { width: min(40rem, 100%); margin: 2rem 0; }
 .grafico-vergonha .tique { fill: var(--ouro-baco); font-size: 11px; font-family: var(--serifa); }
+/* px dentro do SVG são unidades do viewBox: no mobile o gráfico encolhe ~0,5x, então dobramos. */
+@media (max-width: 40rem) {
+  .grafico-vergonha .tique { font-size: 22px; }
+}

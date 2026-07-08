@@ -22,9 +22,9 @@ export function montarProfecia(el: HTMLElement): void {
 function graficoDaVergonha(): string {
   const larg = 640, alt = 220, margem = 40
   const anos = PROFECIA.map((p) => p.ano)
-  const xDe = (ano: number) =>
-    margem + ((ano - anos[0]) / (anos[anos.length - 1] - anos[0])) * (larg - 2 * margem)
-  const logMax = Math.log10(390_000)
+  const anoMin = Math.min(...anos), anoMax = Math.max(...anos)
+  const xDe = (ano: number) => margem + ((ano - anoMin) / (anoMax - anoMin)) * (larg - 2 * margem)
+  const logMax = Math.log10(Math.max(...PROFECIA.map((p) => p.populacao)))
   const yDe = (pop: number) => margem + (1 - Math.log10(Math.max(pop, 1)) / logMax) * (alt - 2 * margem)
   const pontos = PROFECIA.map((p) => `${xDe(p.ano)},${yDe(p.populacao)}`).join(' ')
   return `
