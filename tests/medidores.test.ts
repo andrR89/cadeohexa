@@ -19,7 +19,7 @@ test('todo medidor produz valor positivo e tem rótulo e nota', () => {
 test('valores conferidos na data de referência', () => {
   const porId = Object.fromEntries(MEDIDORES.map((m) => [m.id, m.valor(ref)]))
   expect(porId['mandatos']).toBe(5)
-  expect(porId['tecnicos']).toBe(9)
+  expect(porId['tecnicos']).toBe(10)
   expect(porId['copas-perdidas']).toBe(6)
   expect(porId['campeoes-na-fila']).toBe(5)
 })

@@ -1,5 +1,4 @@
-import { diasDaEspera, hojeEmSaoPaulo, diasEntre } from '../lib/contadores'
-import { DATA_PENTA } from './datas'
+import { diasDaEspera } from '../lib/contadores'
 
 export interface Medidor {
   id: string
@@ -9,12 +8,13 @@ export interface Medidor {
 }
 
 export function anosDeEspera(agora: Date): number {
-  return Math.floor(diasEntre(DATA_PENTA, hojeEmSaoPaulo(agora)) / 365.2425)
+  return Math.floor(diasDaEspera(agora) / 365.2425)
 }
 
 // Listas fixas: atualizar exige mexer só aqui.
 const MANDATOS_DESDE_O_PENTA = ['Lula I–II (2003)', 'Dilma I–II (2011)', 'Temer (2016)', 'Bolsonaro (2019)', 'Lula III (2023)']
-const TECNICOS_DESDE_O_PENTA = ['Parreira', 'Dunga', 'Mano Menezes', 'Felipão (de novo)', 'Dunga (de novo)', 'Tite', 'Ramon Menezes (interino)', 'Dorival Jr.', 'Ancelotti']
+const TECNICOS_DESDE_O_PENTA = ['Parreira', 'Dunga', 'Mano Menezes', 'Felipão (de novo)', 'Dunga (de novo)', 'Tite', 'Ramon Menezes (interino)', 'Fernando Diniz (interino)', 'Dorival Jr.', 'Ancelotti']
+// Atualizar com o campeão de 2026 após a final (19/07/2026).
 const CAMPEOES_NA_NOSSA_FRENTE = ['Itália 2006', 'Espanha 2010', 'Alemanha 2014', 'França 2018', 'Argentina 2022']
 
 export const MEDIDORES: Medidor[] = [
@@ -23,12 +23,12 @@ export const MEDIDORES: Medidor[] = [
     nota: 'Contados um a um. Conferimos.',
   },
   {
-    id: 'mandatos', rotulo: 'mandatos presidenciais', valor: () => MANDATOS_DESDE_O_PENTA.length,
+    id: 'mandatos', rotulo: 'presidências da República', valor: () => MANDATOS_DESDE_O_PENTA.length,
     nota: 'Um presidente voltou na esperança de ver o hexa. Ainda nada.',
   },
   {
     id: 'tecnicos', rotulo: 'passagens de técnico pela Seleção', valor: () => TECNICOS_DESDE_O_PENTA.length,
-    nota: 'Duas delas repetidas. A definição de insistência.',
+    nota: 'Duas passagens repetidas e dois interinos. A definição de insistência.',
   },
   {
     id: 'iphones', rotulo: 'gerações de iPhone lançadas', valor: (a) => Math.max(0, anosDeEspera(a) - 5),
