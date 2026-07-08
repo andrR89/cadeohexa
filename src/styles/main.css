@@ -27,6 +27,8 @@ body {
   pointer-events: none;
 }
 
+.sem-3d #heroi { background: radial-gradient(ellipse at 50% 30%, var(--marmore-2), var(--marmore-0) 70%); }
+
 main { position: relative; z-index: 1; }
 
 .secao {
