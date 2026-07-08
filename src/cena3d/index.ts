@@ -8,7 +8,12 @@ export function podeRodar3D(): boolean {
   return !!c.getContext('webgl2')
 }
 
-export function iniciarCena(canvas: HTMLCanvasElement): { taca: THREE.Mesh; camera: THREE.PerspectiveCamera } {
+export function iniciarCena(canvas: HTMLCanvasElement): {
+  taca: THREE.Mesh
+  camera: THREE.PerspectiveCamera
+  pausar: () => void
+  retomar: () => void
+} {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true })
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2))
 
@@ -34,10 +39,20 @@ export function iniciarCena(canvas: HTMLCanvasElement): { taca: THREE.Mesh; came
   addEventListener('resize', redimensionar)
   redimensionar()
 
-  renderer.setAnimationLoop(() => {
+  function renderizar(): void {
     taca.rotation.y += 0.004
     renderer.render(cena, camera)
-  })
+  }
+  renderer.setAnimationLoop(renderizar)
 
-  return { taca, camera }
+  // Depois que a taça afunda no fundo (scroll.ts), a cena só mostra neblina —
+  // pausar o loop evita gastar GPU renderizando frames que ninguém vê.
+  function pausar(): void {
+    renderer.setAnimationLoop(null)
+  }
+  function retomar(): void {
+    renderer.setAnimationLoop(renderizar)
+  }
+
+  return { taca, camera, pausar, retomar }
 }

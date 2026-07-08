@@ -29,13 +29,15 @@ rodape.innerHTML = `
 // 3D por último e só se der: a piada nunca espera o WebGL.
 const canvas3d = document.querySelector<HTMLCanvasElement>('#cena3d')!
 import('./cena3d')
-  .then(({ podeRodar3D, iniciarCena }) => {
+  .then(async ({ podeRodar3D, iniciarCena }) => {
     if (!podeRodar3D()) {
       canvas3d.remove()
       document.body.classList.add('sem-3d')
       return
     }
-    iniciarCena(canvas3d)
+    const { taca, camera, pausar, retomar } = iniciarCena(canvas3d)
+    const { ligarScroll } = await import('./cena3d/scroll')
+    ligarScroll(taca, camera, { pausar, retomar })
   })
   .catch(() => {
     // Chunk não carregou ou WebGL falhou (GPU bloqueada etc.): fica o gradiente.
