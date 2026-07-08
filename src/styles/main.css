@@ -20,16 +20,61 @@ body {
   overflow-x: hidden;
 }
 
-#cena3d {
-  position: fixed;
+main { position: relative; z-index: 1; }
+
+/* Herói: taça em imagem atrás do texto, com véu escuro pro contraste AA do
+   dourado segurar mesmo sobre o facho de luz mais claro da foto. */
+#heroi {
+  position: relative;
+  overflow: hidden; /* contém o parallax (scale/translate) sem vazar pra fora da seção */
+  background: radial-gradient(ellipse at 50% 30%, var(--marmore-2), var(--marmore-0) 70%);
+}
+
+.heroi-taca-camada {
+  position: absolute;
   inset: 0;
   z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   pointer-events: none;
 }
 
-.sem-3d #heroi { background: radial-gradient(ellipse at 50% 30%, var(--marmore-2), var(--marmore-0) 70%); }
+.heroi-taca {
+  max-height: 90vh;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
 
-main { position: relative; z-index: 1; }
+/* Mais escuro na faixa central (onde o texto fica) que nas bordas — a foto é
+   mais clara bem no meio (facho sobre a taça), exatamente onde o texto senta. */
+.heroi-veu {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 8, 5, 0.55) 0%,
+    rgba(10, 8, 5, 0.88) 30%,
+    rgba(10, 8, 5, 0.92) 70%,
+    rgba(10, 8, 5, 0.6) 100%
+  );
+}
+
+.heroi-conteudo {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#heroi .rotulo, #heroi .legenda, #heroi .contador-detalhado {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
 
 .secao {
   min-height: 100vh;

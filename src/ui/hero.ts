@@ -4,11 +4,17 @@ import { TAGLINES } from '../data/taglines'
 export function montarHeroi(el: HTMLElement): void {
   const dias = diasDaEspera(new Date())
   el.innerHTML = `
-    <p class="rotulo">Memorial Nacional da Espera</p>
-    <h1 class="numero-gigante" id="contador-dias">${formatarDias(dias)}</h1>
-    <p class="rotulo">dias sem o hexa</p>
-    <p class="contador-detalhado" id="contador-detalhado" aria-hidden="true">${formatarPartes(partesDaEspera(new Date()))}</p>
-    <p class="legenda" id="tagline">Dia ${formatarDias(dias)}. ${TAGLINES[0]}</p>
+    <div class="heroi-taca-camada" aria-hidden="true">
+      <img class="heroi-taca" src="/img/taca-heroi.jpg" alt="Taça sob o facho de luz" loading="eager" width="1024" height="1024" />
+    </div>
+    <div class="heroi-veu" aria-hidden="true"></div>
+    <div class="heroi-conteudo">
+      <p class="rotulo">Memorial Nacional da Espera</p>
+      <h1 class="numero-gigante" id="contador-dias">${formatarDias(dias)}</h1>
+      <p class="rotulo">dias sem o hexa</p>
+      <p class="contador-detalhado" id="contador-detalhado" aria-hidden="true">${formatarPartes(partesDaEspera(new Date()))}</p>
+      <p class="legenda" id="tagline">Dia ${formatarDias(dias)}. ${TAGLINES[0]}</p>
+    </div>
   `
   animarContagem(el.querySelector('#contador-dias')!, dias)
   rotacionarTaglines(el.querySelector('#tagline')!, dias)

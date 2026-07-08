@@ -7,7 +7,7 @@ import { montarQuiz } from './ui/quiz'
 import { montarCard } from './ui/card'
 import { diasDaEspera, formatarDias } from './lib/contadores'
 
-// O contador aparece antes de qualquer coisa — a piada nunca espera o WebGL.
+// O contador aparece antes de qualquer coisa — a piada nunca espera o GSAP.
 montarHeroi(document.querySelector('#heroi')!)
 montarCountdown(document.querySelector('#proxima-tentativa')!)
 montarTimeline(document.querySelector('#ala-das-tentativas')!)
@@ -26,21 +26,9 @@ rodape.innerHTML = `
   <div id="slot-apoio" aria-hidden="true"></div>
 `
 
-// 3D por último e só se der: a piada nunca espera o WebGL.
-const canvas3d = document.querySelector<HTMLCanvasElement>('#cena3d')!
-import('./cena3d')
-  .then(async ({ podeRodar3D, iniciarCena }) => {
-    if (!podeRodar3D()) {
-      canvas3d.remove()
-      document.body.classList.add('sem-3d')
-      return
-    }
-    const { taca, camera, pausar, retomar } = iniciarCena(canvas3d)
-    const { ligarScroll } = await import('./cena3d/scroll')
-    ligarScroll(taca, camera, { pausar, retomar })
-  })
+// Scroll/parallax por último e só se der: a piada nunca espera o GSAP carregar.
+import('./ui/scroll')
+  .then(({ ligarScroll }) => ligarScroll())
   .catch(() => {
-    // Chunk não carregou ou WebGL falhou (GPU bloqueada etc.): fica o gradiente.
-    canvas3d.remove()
-    document.body.classList.add('sem-3d')
+    // Chunk não carregou: a página fica só sem parallax/reveal, sem quebrar nada.
   })
