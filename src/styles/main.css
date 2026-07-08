@@ -98,6 +98,7 @@ button.solene:not(:disabled):hover { background: var(--ouro); color: var(--marmo
 .lapide .fatos li { color: var(--ouro-baco); font-size: 0.9rem; line-height: 1.7; padding-left: 1rem; position: relative; }
 .lapide .fatos li::before { content: '·'; position: absolute; left: 0; color: var(--ouro); }
 .placar.oculto { display: none; }
+#canvas-card { width: min(24rem, 90vw); height: auto; border: 1px solid var(--ouro-sombra); margin: 1.5rem 0; }
 .revelar { background: none; border: none; color: var(--ouro-baco); font-size: 1.2rem; cursor: pointer; padding: 0.5rem; }
 .fecho { max-width: 34rem; }
 
