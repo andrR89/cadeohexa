@@ -99,3 +99,7 @@ button.solene:hover { background: var(--ouro); color: var(--marmore-0); }
 .placar.oculto { display: none; }
 .revelar { background: none; border: none; color: var(--ouro-baco); font-size: 1.2rem; cursor: pointer; padding: 0.5rem; }
 .fecho { max-width: 34rem; }
+
+.grade-medidores { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1.5rem; max-width: 60rem; width: 100%; }
+.medidor { text-align: center; }
+.numero-medidor { font-size: 3rem; font-weight: 700; color: var(--ouro-vivo); font-variant-numeric: tabular-nums; }
