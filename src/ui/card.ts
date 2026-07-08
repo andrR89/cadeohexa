@@ -2,12 +2,14 @@ import { diasDaEspera, formatarDias } from '../lib/contadores'
 import { obterPatente } from './quiz'
 
 const L = 1080, A = 1080
+const SERIFA = 'Georgia, "Times New Roman", serif'
 
 export function montarCard(el: HTMLElement): void {
   el.innerHTML = `
     <p class="rotulo">Ateste publicamente o seu luto</p>
-    <canvas id="canvas-card" width="${L}" height="${A}"></canvas>
-    <div>
+    <canvas id="canvas-card" width="${L}" height="${A}" role="img"
+      aria-label="Card do memorial: contador de dias sem o hexa e sua patente do exame"></canvas>
+    <div class="acoes-card">
       <button class="solene" id="compartilhar">Compartilhar</button>
       <button class="solene" id="baixar">Baixar</button>
     </div>
@@ -17,10 +19,19 @@ export function montarCard(el: HTMLElement): void {
   document.addEventListener('patente-emitida', () => desenhar(canvas))
 
   el.querySelector('#compartilhar')!.addEventListener('click', async () => {
-    const blob = await new Promise<Blob>((res) => canvas.toBlob((b) => res(b!), 'image/png'))
+    const blob = await new Promise<Blob | null>((res) => canvas.toBlob(res, 'image/png'))
+    if (!blob) {
+      baixar(canvas)
+      return
+    }
     const arquivo = new File([blob], 'cadeohexa.png', { type: 'image/png' })
     if (navigator.canShare?.({ files: [arquivo] })) {
-      await navigator.share({ files: [arquivo], title: 'Cadê o Hexa?' }).catch(() => {})
+      try {
+        await navigator.share({ files: [arquivo], title: 'Cadê o Hexa?' })
+      } catch (erro) {
+        // AbortError = usuário fechou a folha de compartilhamento; o resto é falha real.
+        if (!(erro instanceof DOMException && erro.name === 'AbortError')) baixar(canvas)
+      }
     } else {
       baixar(canvas)
     }
@@ -50,26 +61,26 @@ function desenhar(canvas: HTMLCanvasElement): void {
 
   ctx.textAlign = 'center'
   ctx.fillStyle = '#8a7245'
-  ctx.font = '32px Georgia'
+  ctx.font = `32px ${SERIFA}`
   ctx.fillText('M E M O R I A L   D A   E S P E R A', L / 2, 180)
 
   ctx.fillStyle = '#f0d693'
-  ctx.font = 'bold 220px Georgia'
+  ctx.font = `bold 220px ${SERIFA}`
   ctx.fillText(dias, L / 2, 520)
 
   ctx.fillStyle = '#b39558'
-  ctx.font = '44px Georgia'
+  ctx.font = `44px ${SERIFA}`
   ctx.fillText('dias sem o hexa', L / 2, 600)
 
   if (patente) {
     ctx.fillStyle = '#d4af5f'
-    ctx.font = 'italic 48px Georgia'
+    ctx.font = `italic 48px ${SERIFA}`
     ctx.fillText(patente.titulo, L / 2, 760)
-    ctx.font = '36px Georgia'
+    ctx.font = `36px ${SERIFA}`
     ctx.fillText(patente.placar, L / 2, 820)
   }
 
   ctx.fillStyle = '#6e5c38'
-  ctx.font = '30px Georgia'
+  ctx.font = `30px ${SERIFA}`
   ctx.fillText('cadeohexa.pages.dev', L / 2, A - 90)
 }
