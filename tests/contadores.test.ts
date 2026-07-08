@@ -85,4 +85,32 @@ describe('partesDaEspera', () => {
       expect(v).toBeGreaterThanOrEqual(0)
     }
   })
+
+  test('1º de março de ano não-bissexto: empréstimo de dias em laço (regressão)', () => {
+    // Âncora 30/06; alvo 01/03 exige déficit de dias que fevereiro não-bissexto
+    // (28 dias) não cobre num único empréstimo — precisa emprestar de janeiro também.
+    // 2003-03-01T03:00:00Z = 2003-03-01T00:00:00 em SP
+    expect(partesDaEspera(new Date('2003-03-01T03:00:00Z'))).toEqual({
+      anos: 0, meses: 7, dias: 30, horas: 0, minutos: 0, segundos: 0,
+    })
+    // 2027-03-01T15:00:00Z = 2027-03-01T12:00:00 em SP — caso que dispararia no site
+    expect(partesDaEspera(new Date('2027-03-01T15:00:00Z'))).toEqual({
+      anos: 24, meses: 7, dias: 30, horas: 12, minutos: 0, segundos: 0,
+    })
+  })
+
+  test('propriedade: nenhum componente negativo em 2002–2042 (força bruta)', () => {
+    // Varre um instante por dia (12:00 SP = 15:00 UTC) e confirma o invariante.
+    // 12:00 SP nunca cai em transição de fuso, então a data-alvo é sempre limpa.
+    let inicio = Date.UTC(2002, 5, 30, 15, 0, 0) // 30/06/2002 12:00 SP
+    const fim = Date.UTC(2042, 11, 31, 15, 0, 0)
+    let negativos = 0
+    for (let t = inicio; t <= fim; t += 86_400_000) {
+      const partes = partesDaEspera(new Date(t))
+      for (const v of Object.values(partes)) {
+        if (v < 0) negativos++
+      }
+    }
+    expect(negativos).toBe(0)
+  })
 })

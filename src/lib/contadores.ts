@@ -105,12 +105,17 @@ export function partesDaEspera(agora: Date): PartesEspera {
   if (segundos < 0) { segundos += 60; minutos -= 1 }
   if (minutos < 0) { minutos += 60; horas -= 1 }
   if (horas < 0) { horas += 24; dias -= 1 }
-  if (dias < 0) {
+  // Empréstimo de dias em laço: um único mês pode não cobrir o déficit quando o
+  // mês emprestado é curto (ex.: fevereiro não-bissexto = 28 dias e o déficit é
+  // 29, em 1º de março). O laço pede emprestado meses sucessivos até zerar o
+  // negativo — o mês seguinte (janeiro, 31 dias) sempre fecha a conta.
+  let mesRef = alvo.mes
+  let anoRef = alvo.ano
+  while (dias < 0) {
     meses -= 1
-    let mesAnterior = alvo.mes - 1
-    let anoDoMesAnterior = alvo.ano
-    if (mesAnterior === 0) { mesAnterior = 12; anoDoMesAnterior -= 1 }
-    dias += diasNoMes(anoDoMesAnterior, mesAnterior)
+    mesRef -= 1
+    if (mesRef === 0) { mesRef = 12; anoRef -= 1 }
+    dias += diasNoMes(anoRef, mesRef)
   }
   if (meses < 0) { meses += 12; anos -= 1 }
 
