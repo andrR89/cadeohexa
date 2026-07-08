@@ -102,4 +102,4 @@ button.solene:hover { background: var(--ouro); color: var(--marmore-0); }
 
 .grade-medidores { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1.5rem; max-width: 60rem; width: 100%; }
 .medidor { text-align: center; }
-.numero-medidor { font-size: 3rem; font-weight: 700; color: var(--ouro-vivo); font-variant-numeric: tabular-nums; }
+.medidor .numero-medidor { font-size: 3rem; font-weight: 700; color: var(--ouro-vivo); font-variant-numeric: tabular-nums; }
