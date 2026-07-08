@@ -23,3 +23,8 @@ test('patentes cobrem toda a faixa 0..8 e são crescentes em sofrimento', () => 
 test('patente carrega o placar no formato N/8', () => {
   expect(calcularPatente(6).placar).toBe('6/8 vexames presenciados')
 })
+
+test('entradas fora da faixa são clampadas', () => {
+  expect(calcularPatente(-1).titulo).toBe('Torcedor de Novela')
+  expect(calcularPatente(99).titulo).toBe('Doutor em Vexames, Honoris Causa')
+})
