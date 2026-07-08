@@ -90,6 +90,7 @@ button.solene:hover { background: var(--ouro); color: var(--marmore-0); }
   * { animation: none !important; transition: none !important; }
 }
 
+.placa .rotulo { overflow-wrap: anywhere; }
 .lapides { display: grid; gap: 1.5rem; max-width: 40rem; width: 100%; }
 .lapide { text-align: left; }
 .lapide .epitafio { font-style: italic; color: var(--ouro-vivo); margin: 0.5rem 0 1rem; }
