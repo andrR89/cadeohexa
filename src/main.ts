@@ -5,6 +5,7 @@ import { montarMedidores } from './ui/medidores'
 import { montarProfecia } from './ui/profecia'
 import { montarQuiz } from './ui/quiz'
 import { montarCard } from './ui/card'
+import { diasDaEspera, formatarDias } from './lib/contadores'
 
 // O contador aparece antes de qualquer coisa — a piada nunca espera o WebGL.
 montarHeroi(document.querySelector('#heroi')!)
@@ -14,3 +15,13 @@ montarMedidores(document.querySelector('#medidores')!)
 montarProfecia(document.querySelector('#profecia')!)
 montarQuiz(document.querySelector('#quiz')!)
 montarCard(document.querySelector('#card')!)
+
+const rodape = document.querySelector<HTMLElement>('#placa-final')!
+rodape.innerHTML = `
+  <div class="placa">
+    <p class="rotulo">Placa de inauguração</p>
+    <p>Este memorial foi inaugurado no dia ${formatarDias(diasDaEspera(new Date()))} da espera.</p>
+    <p class="legenda">Ele será demolido em caso de hexa. Ninguém aqui está com pressa de demolir.</p>
+  </div>
+  <div id="slot-apoio" aria-hidden="true"></div>
+`
