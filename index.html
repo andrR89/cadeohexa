@@ -3,9 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cadê o Hexa?</title>
+    <title>Cadê o Hexa? — Memorial da Espera</title>
+    <meta name="description" content="Memorial nacional da espera pelo hexa. O povo mantém a fé." />
+    <meta property="og:title" content="Cadê o Hexa?" />
+    <meta property="og:description" content="Estamos esperando. Contando dia por dia." />
+    <meta property="og:image" content="/og" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="stylesheet" href="/src/styles/main.css" />
   </head>
   <body>
+    <canvas id="cena3d" aria-hidden="true"></canvas>
+    <main>
+      <section id="heroi" class="secao"></section>
+      <section id="proxima-tentativa" class="secao"></section>
+      <section id="ala-das-tentativas" class="secao"></section>
+      <section id="medidores" class="secao"></section>
+      <section id="profecia" class="secao"></section>
+      <section id="quiz" class="secao"></section>
+      <section id="card" class="secao"></section>
+      <footer id="placa-final" class="secao"></footer>
+    </main>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

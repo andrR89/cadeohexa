@@ -1,0 +1,90 @@
+:root {
+  --marmore-0: #0a0805;
+  --marmore-1: #14100a;
+  --marmore-2: #1c1810;
+  --ouro-vivo: #f0d693;
+  --ouro: #d4af5f;
+  --ouro-baco: #8a7245;
+  --ouro-sombra: #6e5c38;
+  --serifa: Georgia, 'Times New Roman', serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--marmore-0);
+  color: var(--ouro);
+  font-family: var(--serifa);
+  overflow-x: hidden;
+}
+
+#cena3d {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+main { position: relative; z-index: 1; }
+
+.secao {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12vh 1.5rem;
+  text-align: center;
+}
+
+.rotulo {
+  font-size: 0.75rem;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--ouro-baco);
+}
+
+.numero-gigante {
+  font-size: clamp(3.5rem, 16vw, 9rem);
+  font-weight: 700;
+  color: var(--ouro-vivo);
+  text-shadow: 0 0 40px rgba(212, 175, 95, 0.35);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.legenda { font-style: italic; color: var(--ouro-sombra); margin-top: 1rem; }
+
+.placa {
+  border: 1px solid var(--ouro-sombra);
+  background: linear-gradient(160deg, var(--marmore-2), var(--marmore-1));
+  padding: 2rem;
+  max-width: 34rem;
+  margin: 1rem auto;
+  border-radius: 2px;
+}
+
+.placa h3 { color: var(--ouro-vivo); letter-spacing: 0.08em; margin-bottom: 0.75rem; }
+.placa p { color: var(--ouro); line-height: 1.6; }
+
+button.solene {
+  font-family: var(--serifa);
+  background: none;
+  border: 1px solid var(--ouro);
+  color: var(--ouro-vivo);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  padding: 0.9rem 2.2rem;
+  margin-top: 2rem;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+button.solene:hover { background: var(--ouro); color: var(--marmore-0); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
+}
