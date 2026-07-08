@@ -4,7 +4,8 @@ import { criarTaca } from './taca'
 export function podeRodar3D(): boolean {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return false
   const c = document.createElement('canvas')
-  return !!(c.getContext('webgl2') ?? c.getContext('webgl'))
+  // three r163+ exige WebGL2 — aceitar WebGL1 aqui seria falso positivo.
+  return !!c.getContext('webgl2')
 }
 
 export function iniciarCena(canvas: HTMLCanvasElement): { taca: THREE.Mesh; camera: THREE.PerspectiveCamera } {
