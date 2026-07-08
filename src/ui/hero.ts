@@ -1,11 +1,5 @@
 import { diasDaEspera, formatarDias } from '../lib/contadores'
-
-const TAGLINES = [
-  'O povo mantém a fé.',
-  'Ninguém disse que seria fácil. E não foi.',
-  'A espera também é uma forma de tradição.',
-  'Seis tentativas. A sétima vem aí.',
-]
+import { TAGLINES } from '../data/taglines'
 
 export function montarHeroi(el: HTMLElement): void {
   const dias = diasDaEspera(new Date())
