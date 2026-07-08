@@ -37,6 +37,10 @@ export function ligarScroll(taca: THREE.Mesh, camera: THREE.PerspectiveCamera, c
   })
   // Revelação solene de cada seção.
   document.querySelectorAll<HTMLElement>('.secao').forEach((secao) => {
+    // Seções já visíveis no boot (herói, deep link no meio da página) não devem
+    // piscar: o gsap.from zeraria a opacidade de algo que o usuário já está lendo.
+    // O corte espelha o start do trigger ('top 70%') — só revela o que ainda vem.
+    if (secao.getBoundingClientRect().top < innerHeight * 0.7) return
     gsap.from(secao.children, {
       opacity: 0, y: 40, stagger: 0.12, duration: 0.8, ease: 'power2.out',
       scrollTrigger: { trigger: secao, start: 'top 70%' },
