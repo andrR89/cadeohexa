@@ -189,6 +189,11 @@ button.solene:not(:disabled):hover { background: var(--ouro); color: var(--marmo
 /* Grade dos cards da Profecia (profecia.ts ainda usa .lapides). A Ala migrou
    pra .linha-tempo, mas a Profecia depende desta regra pro espaçamento. */
 .lapides { display: grid; gap: 1.5rem; max-width: 40rem; width: 100%; }
+/* A galeria completa é o fallback sem JS. Com JS, ligarGraficoInterativo()
+   aplica esta classe: o conteúdo passa a vir só do painel aria-live, ativado
+   ponto a ponto. display:none (e não opacity/visibility) para sair também da
+   árvore de acessibilidade — senão o leitor de tela lê os 6 cards E o painel. */
+.lapides-ocultas { display: none; }
 .lapide { text-align: left; }
 .lapide .epitafio { font-style: italic; color: var(--ouro-vivo); margin: 0.5rem 0 1rem; }
 .lapide .fatos { list-style: none; }
@@ -415,10 +420,4 @@ button.solene:not(:disabled):hover { background: var(--ouro); color: var(--marmo
   border-radius: 3px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
   margin: 0 0 1rem;
-}
-
-.lapides .lapide { transition: border-color 0.2s ease, box-shadow 0.2s ease; }
-.lapides .lapide.lapide-selecionada {
-  border-color: var(--ouro-vivo);
-  box-shadow: 0 0 0 1px var(--ouro-vivo);
 }

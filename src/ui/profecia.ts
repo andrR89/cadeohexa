@@ -9,7 +9,7 @@ export function montarProfecia(el: HTMLElement): void {
       ${detalheHTML(PROFECIA[0])}
     </div>
     <div class="lapides">
-      ${PROFECIA.map((p, i) => cardHTML(p, i)).join('')}
+      ${PROFECIA.map((p) => cardHTML(p)).join('')}
     </div>
     <p class="legenda fecho">${RODAPE_PROFECIA}</p>
   `
@@ -17,9 +17,9 @@ export function montarProfecia(el: HTMLElement): void {
 }
 
 /** Painel de destaque: mostra a profecia selecionada no gráfico (imagem +
- * estatísticas rotuladas). É a camada "vitrine" — o `.lapides` logo abaixo é o
- * arquivo completo, sempre presente, que já cobre a mesma informação pra quem
- * não usa mouse/toque no gráfico. */
+ * estatísticas rotuladas). Com JS ativo é a ÚNICA camada de conteúdo visível —
+ * a galeria `.lapides` fica oculta e serve só de fallback pra quem navega
+ * sem JS. */
 function detalheHTML(p: Previsao): string {
   return `
     <img
@@ -50,13 +50,13 @@ function statsHTML(p: Previsao): string {
 }
 
 /** Galeria completa: as 6 profecias com imagem + estatísticas rotuladas +
- * nota. Não depende de nenhuma interação além da montagem inicial do
- * componente — é o conteúdo "de arquivo", completo para leitor de tela,
- * mobile e qualquer visitante que não toque no gráfico. */
-function cardHTML(p: Previsao, indice: number): string {
-  const selecionada = indice === 0 ? ' lapide-selecionada' : ''
+ * nota. É o fallback sem JS — fica no HTML pra quem navega com JS desligado,
+ * mas ligarGraficoInterativo() a esconde (display:none) assim que a
+ * interatividade do gráfico está de pé: com JS, o conteúdo vem só do painel
+ * aria-live, ativado ponto a ponto. */
+function cardHTML(p: Previsao): string {
   return `
-    <article class="placa lapide${selecionada}" data-ano="${p.ano}">
+    <article class="placa lapide" data-ano="${p.ano}">
       <img
         class="lapide-retrato-profecia"
         src="${p.imagem}"
@@ -111,13 +111,16 @@ function graficoDaVergonha(): string {
  * :hover/:focus-visible) — de propósito NÃO mexem no painel, que é uma região
  * aria-live: assim, tabular pelos 6 pontos não dispara 6 anúncios no leitor de
  * tela; o conteúdo só é anunciado na ativação explícita. Pura melhoria
- * progressiva — o SVG e a galeria completa já existem no HTML montado, então
- * nada aqui é necessário pra ver o conteúdo. */
+ * progressiva — o SVG e a galeria completa já existem no HTML montado; esta
+ * função esconde a galeria (que vira redundante com o painel funcionando) e,
+ * se nunca rodar, os 6 cards continuam visíveis como fallback. */
 function ligarGraficoInterativo(el: HTMLElement): void {
   const pontos = el.querySelectorAll<SVGGElement>('.ponto-vergonha')
   const painelEl = el.querySelector<HTMLElement>('#profecia-detalhe')
-  const cards = el.querySelectorAll<HTMLElement>('.lapides .lapide')
   if (!painelEl || pontos.length === 0) return
+  // Progressive enhancement: só escondemos a galeria quando temos certeza de que
+  // a interatividade do gráfico está de pé. Sem JS, os 6 cards continuam à vista.
+  el.querySelector<HTMLElement>('.lapides')?.classList.add('lapides-ocultas')
   const painel: HTMLElement = painelEl
   let atual = 0
 
@@ -132,9 +135,6 @@ function ligarGraficoInterativo(el: HTMLElement): void {
       const ativo = i === indice
       ponto.classList.toggle('selecionado', ativo)
       ponto.setAttribute('aria-pressed', String(ativo))
-    })
-    cards.forEach((card) => {
-      card.classList.toggle('lapide-selecionada', card.dataset.ano === String(previsao.ano))
     })
     painel.innerHTML = detalheHTML(previsao)
   }
