@@ -44,9 +44,13 @@ function ligarRevelarPlacar(el: HTMLElement): void {
   )
 }
 
-/** Revelação item a item conforme a linha do tempo entra na tela — mesma
- * receita do medidores.ts (threshold + unobserve), mas isolada aqui: cada
- * `.linha-tempo-item` ganha `.visivel` sozinho, sem depender do scroll.ts. */
+/** Revelação item a item conforme a linha do tempo entra na tela: cada
+ * `.linha-tempo-item` ganha `.visivel` sozinho, sem depender do scroll.ts.
+ * Usa threshold 0 + rootMargin inferior negativo — o reveal dispara quando a
+ * BORDA SUPERIOR do item cruza ~85% da altura da tela, independente da altura
+ * do item. (Com threshold fracionário, um item mais alto que a viewport — em
+ * telas baixas, iframes, split-screen — nunca atingiria a razão e ficaria
+ * preso invisível, já que só damos unobserve no sucesso.) */
 function ligarRevelacaoDaLinhaDoTempo(el: HTMLElement): void {
   const itens = el.querySelectorAll<HTMLElement>('.linha-tempo-item')
   const semMovimento = matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -62,7 +66,7 @@ function ligarRevelacaoDaLinhaDoTempo(el: HTMLElement): void {
         e.target.classList.add('visivel')
       }
     },
-    { threshold: 0.25 },
+    { threshold: 0, rootMargin: '0px 0px -15% 0px' },
   )
   itens.forEach((item) => observador.observe(item))
 }

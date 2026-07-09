@@ -183,6 +183,9 @@ button.solene:not(:disabled):hover { background: var(--ouro); color: var(--marmo
 }
 
 .placa .rotulo { overflow-wrap: anywhere; }
+/* Grade dos cards da Profecia (profecia.ts ainda usa .lapides). A Ala migrou
+   pra .linha-tempo, mas a Profecia depende desta regra pro espaçamento. */
+.lapides { display: grid; gap: 1.5rem; max-width: 40rem; width: 100%; }
 .lapide { text-align: left; }
 .lapide .epitafio { font-style: italic; color: var(--ouro-vivo); margin: 0.5rem 0 1rem; }
 .lapide .fatos { list-style: none; }
