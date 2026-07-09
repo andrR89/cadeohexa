@@ -76,7 +76,8 @@ Adicionar **Lenis** (~6 kB gzip). Cabe: a v2 devolveu 521 kB ao remover o three.
 
 Uma `<nav>` fixa na lateral direita, uma bolinha por seção.
 
-- Cada bolinha é uma **âncora real** (`<a href="#medidores">`), não um `<div>` com handler. Funciona sem JS, no teclado e com clique do meio.
+- Cada bolinha é uma **âncora real** (`<a href="#medidores">`), não um `<div>` com handler. Isso dá semântica de link: teclado, foco, clique do meio, "abrir em nova aba", e o leitor de tela anuncia como link.
+  **Ressalva honesta:** a `<nav>` é montada por JS, então *sem* JS não há bolinha alguma. Isso é aceitável — sem JS o visitante rola a página normalmente e não perde nenhum conteúdo. A exigência de âncora real é por semântica e teclado, não por funcionamento sem JS.
 - Nome acessível: o título da seção (`aria-label="Ala das Tentativas"`), nunca só "•".
 - Seção corrente marcada com `aria-current="true"` e destaque visual (não só cor — usar tamanho/anel, para não depender de percepção de cor).
 - Com JS: `click` chama `lenis.scrollTo(alvo)` e dá `preventDefault()`. Sob reduced-motion (sem Lenis): deixar o comportamento nativo da âncora (salto instantâneo), **sem** `scroll-behavior: smooth`.
