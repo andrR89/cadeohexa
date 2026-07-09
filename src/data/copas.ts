@@ -62,7 +62,7 @@ export const COPAS: Copa[] = [
   },
   {
     ano: 2026, algoz: 'Noruega', placar: '1x2', fase: 'OITAVAS de final',
-    epitafio: 'Eliminados por um país com menos gente que a Grande Curitiba. Nas oitavas.',
+    epitafio: 'Eliminados por um país que a gente jurava ter menos gente que a Grande Curitiba. Nas oitavas.',
     fatos: [
       'Pênalti perdido aos 14 minutos; dois gols do Haaland; gol de honra aos 90+10.',
       'Neymar se aposentou da Seleção no mesmo estádio em que estreou, 16 anos antes. "Acabou."',
