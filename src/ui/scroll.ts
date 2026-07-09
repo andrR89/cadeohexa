@@ -1,11 +1,24 @@
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Lenis from 'lenis'
+import { ligarNavegacaoSuave } from './navegacao'
 
 gsap.registerPlugin(ScrollTrigger)
 
 /** Amarra o scroll da página ao parallax da taça do herói e revela as seções. */
 export function ligarScroll(): void {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+  // Inércia. Vive dentro do guard de reduced-motion: quem pediu menos movimento
+  // fica com a rolagem nativa do navegador, que é a experiência correta.
+  const lenis = new Lenis()
+  // Sem estas duas linhas o ScrollTrigger continua lendo a posição nativa e os
+  // reveals disparam nas alturas erradas.
+  lenis.on('scroll', ScrollTrigger.update)
+  gsap.ticker.add((tempo) => lenis.raf(tempo * 1000))
+  gsap.ticker.lagSmoothing(0)
+
+  ligarNavegacaoSuave((alvo) => lenis.scrollTo(alvo))
 
   // A taça (imagem) do herói deriva sutilmente conforme rola o primeiro viewport.
   gsap.to('.heroi-taca', {

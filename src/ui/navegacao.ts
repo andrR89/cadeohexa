@@ -52,3 +52,16 @@ function ligarScrollSpy(el: HTMLElement): void {
     if (secao) observador.observe(secao)
   })
 }
+
+/** Chamado só pelo chunk de scroll, quando o Lenis está de pé. Sem isso, as
+ * bolinhas continuam funcionando como âncoras nativas. */
+export function ligarNavegacaoSuave(irPara: (alvo: HTMLElement) => void): void {
+  document.querySelectorAll<HTMLAnchorElement>('.nav-bolinha').forEach((a) => {
+    a.addEventListener('click', (evento) => {
+      const alvo = document.getElementById(a.dataset.secao!)
+      if (!alvo) return
+      evento.preventDefault()
+      irPara(alvo)
+    })
+  })
+}

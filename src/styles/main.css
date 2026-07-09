@@ -15,7 +15,10 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+/* auto, não smooth: o Lenis gerencia a rolagem quando está ativo, e os dois
+   juntos produzem rolagem dupla. Sob prefers-reduced-motion o Lenis nem é
+   instanciado, e o salto instantâneo da âncora é o comportamento correto. */
+html { scroll-behavior: auto; }
 
 body {
   background: var(--marmore-0);
