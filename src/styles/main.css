@@ -183,13 +183,121 @@ button.solene:not(:disabled):hover { background: var(--ouro); color: var(--marmo
 }
 
 .placa .rotulo { overflow-wrap: anywhere; }
-.lapides { display: grid; gap: 1.5rem; max-width: 40rem; width: 100%; }
 .lapide { text-align: left; }
 .lapide .epitafio { font-style: italic; color: var(--ouro-vivo); margin: 0.5rem 0 1rem; }
 .lapide .fatos { list-style: none; }
 .lapide .fatos li { color: var(--ouro-baco); font-size: 0.9rem; line-height: 1.7; padding-left: 1rem; position: relative; }
 .lapide .fatos li::before { content: '·'; position: absolute; left: 0; color: var(--ouro); }
 .placar.oculto { display: none; }
+
+/* Ala das Tentativas: linha do tempo cronológica (2006 no topo → 2026 embaixo).
+   Espinha vertical dourada com um nó por Copa; nas telas largas os cartões
+   alternam de lado (clássico timeline), no mobile tudo cai numa coluna só com
+   a espinha à esquerda — sem overflow horizontal em 375px. */
+.linha-tempo {
+  position: relative;
+  max-width: 54rem;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.linha-tempo::before {
+  content: '';
+  position: absolute;
+  top: 0.25rem;
+  bottom: 0.25rem;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--ouro-sombra) 4%,
+    var(--ouro-sombra) 96%,
+    transparent
+  );
+}
+
+.linha-tempo-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 2.75rem 1fr;
+  column-gap: 1.5rem;
+  align-items: start;
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+/* Estado inicial: só existe porque o próprio JS aplica a classe ao montar a
+   timeline (ver timeline.ts). Sem JS o markup nem chega a existir (a seção
+   inteira é montada via innerHTML), e sem suporte a IntersectionObserver o
+   próprio script já adiciona ".visivel" a todos de imediato — então esconder
+   por CSS aqui nunca deixa item nenhum irrecuperavelmente invisível. */
+.linha-tempo-item.pre-reveal { opacity: 0; transform: translateY(1.75rem); }
+.linha-tempo-item.pre-reveal.visivel { opacity: 1; transform: translateY(0); }
+
+.linha-tempo-no {
+  grid-column: 2;
+  justify-self: center;
+  align-self: start;
+  margin-top: 0.25rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--marmore-1);
+  border: 2px solid var(--ouro);
+  color: var(--ouro-vivo);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  z-index: 1;
+  box-shadow: 0 0 0 4px var(--marmore-0);
+}
+
+.linha-tempo-item .lapide {
+  grid-column: 1;
+  margin: 0;
+  max-width: 100%;
+  width: 100%;
+}
+
+.linha-tempo-item:nth-child(even) .lapide { grid-column: 3; }
+
+.linha-tempo-retrato {
+  display: block;
+  width: 100%;
+  max-width: 11rem;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border: 3px solid var(--ouro-sombra);
+  border-radius: 3px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+  margin: 0 0 1rem;
+}
+
+@media (max-width: 40rem) {
+  .linha-tempo::before { left: 1.375rem; }
+
+  .linha-tempo-item {
+    grid-template-columns: 2.75rem 1fr;
+    column-gap: 1rem;
+  }
+
+  .linha-tempo-no { grid-column: 1; }
+
+  .linha-tempo-item .lapide,
+  .linha-tempo-item:nth-child(even) .lapide {
+    grid-column: 2;
+  }
+
+  .linha-tempo-retrato { max-width: 9rem; }
+}
 #canvas-card { width: min(24rem, 90vw); height: auto; border: 1px solid var(--ouro-sombra); margin: 1.5rem 0; }
 .acoes-card { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
 .revelar { background: none; border: none; color: var(--ouro-baco); font-size: 1.2rem; cursor: pointer; padding: 0.5rem; }

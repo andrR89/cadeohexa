@@ -3,19 +3,36 @@ import { COPAS, FECHO_DA_ALA } from '../data/copas'
 export function montarTimeline(el: HTMLElement): void {
   el.innerHTML = `
     <p class="rotulo">Ala das Tentativas · 2006–2026</p>
-    <div class="lapides">
+    <div class="linha-tempo">
       ${COPAS.map(
         (c) => `
-        <article class="placa lapide" data-ano="${c.ano}">
-          <p class="rotulo">${c.ano} · ${c.fase}</p>
-          <h3>${c.algoz} ${c.placarOculto ? `<button class="revelar" aria-label="revelar placar de ${c.ano}">†</button><span class="placar oculto">${c.placar}</span>` : c.placar}</h3>
-          <p class="epitafio">“${c.epitafio}”</p>
-          <ul class="fatos">${c.fatos.map((f) => `<li>${f}</li>`).join('')}</ul>
-        </article>`,
+        <div class="linha-tempo-item pre-reveal" data-ano="${c.ano}">
+          <span class="linha-tempo-no" aria-hidden="true">${String(c.ano).slice(2)}</span>
+          <article class="placa lapide">
+            <img
+              class="linha-tempo-retrato"
+              src="${c.imagem}"
+              alt="${c.algoz}, ${c.ano}"
+              loading="lazy"
+              width="768"
+              height="1024"
+            />
+            <p class="rotulo">${c.ano} · ${c.fase}</p>
+            <h3>${c.algoz} ${c.placarOculto ? `<button class="revelar" aria-label="revelar placar de ${c.ano}">†</button><span class="placar oculto">${c.placar}</span>` : c.placar}</h3>
+            <p class="epitafio">“${c.epitafio}”</p>
+            <ul class="fatos">${c.fatos.map((f) => `<li>${f}</li>`).join('')}</ul>
+          </article>
+        </div>`,
       ).join('')}
     </div>
     <p class="legenda fecho">${FECHO_DA_ALA}</p>
   `
+  ligarRevelarPlacar(el)
+  ligarRevelacaoDaLinhaDoTempo(el)
+}
+
+/** Botão "†" de 2014: revela o placar oculto (1x7), move o foco e some — preservado tal qual. */
+function ligarRevelarPlacar(el: HTMLElement): void {
   el.querySelectorAll<HTMLButtonElement>('.revelar').forEach((btn) =>
     btn.addEventListener('click', () => {
       const alvo = btn.nextElementSibling as HTMLElement
@@ -25,4 +42,27 @@ export function montarTimeline(el: HTMLElement): void {
       btn.hidden = true
     }),
   )
+}
+
+/** Revelação item a item conforme a linha do tempo entra na tela — mesma
+ * receita do medidores.ts (threshold + unobserve), mas isolada aqui: cada
+ * `.linha-tempo-item` ganha `.visivel` sozinho, sem depender do scroll.ts. */
+function ligarRevelacaoDaLinhaDoTempo(el: HTMLElement): void {
+  const itens = el.querySelectorAll<HTMLElement>('.linha-tempo-item')
+  const semMovimento = matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (semMovimento || typeof IntersectionObserver === 'undefined') {
+    itens.forEach((item) => item.classList.add('visivel'))
+    return
+  }
+  const observador = new IntersectionObserver(
+    (entradas) => {
+      for (const e of entradas) {
+        if (!e.isIntersecting) continue
+        observador.unobserve(e.target)
+        e.target.classList.add('visivel')
+      }
+    },
+    { threshold: 0.25 },
+  )
+  itens.forEach((item) => observador.observe(item))
 }

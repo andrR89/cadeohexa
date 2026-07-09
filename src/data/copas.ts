@@ -6,6 +6,7 @@ export interface Copa {
   fase: string
   epitafio: string
   fatos: string[]
+  imagem: string // retrato-memorial em /public/img, formato "elim-<ano>-<algoz>.jpg"
 }
 
 export const COPAS: Copa[] = [
@@ -17,6 +18,7 @@ export const COPAS: Copa[] = [
       'O Quadrado Mágico jogou junto uma única vez em 18 jogos de Eliminatórias.',
       'Zidane deu chapéu no Ronaldo jogando lesionado na coxa.',
     ],
+    imagem: '/img/elim-2006-franca.jpg',
   },
   {
     ano: 2010, algoz: 'Holanda', placar: '1x2', fase: 'quartas de final',
@@ -26,6 +28,7 @@ export const COPAS: Copa[] = [
       'A virada veio em 8 minutos; o gol de cabeça foi do Sneijder, o menor jogador em campo (1,70m).',
       'A comunidade "Felipe Melo me deve um feriado" juntou 10 mil pessoas no Orkut em dias.',
     ],
+    imagem: '/img/elim-2010-holanda.jpg',
   },
   {
     ano: 2014, algoz: 'Alemanha', placar: '1x7', placarOculto: true, fase: 'semifinal, em casa',
@@ -35,6 +38,7 @@ export const COPAS: Copa[] = [
       'Klose quebrou o recorde do Ronaldo ali, com o Ronaldo no estádio comentando.',
       '35,6 milhões de tweets — o maior evento de zoação da história da internet brasileira.',
     ],
+    imagem: '/img/elim-2014-alemanha.jpg',
   },
   {
     ano: 2018, algoz: 'Bélgica', placar: '1x2', fase: 'quartas de final',
@@ -44,6 +48,7 @@ export const COPAS: Copa[] = [
       'Neymar passou 13min50s da Copa deitado no gramado. O planeta rolou junto: #NeymarChallenge.',
       'Messi, Cristiano Ronaldo e Neymar foram eliminados na mesma semana. Só um deles rolando.',
     ],
+    imagem: '/img/elim-2018-belgica.jpg',
   },
   {
     ano: 2022, algoz: 'Croácia', placar: '1(2)x(4)1', fase: 'quartas de final, nos pênaltis',
@@ -53,6 +58,7 @@ export const COPAS: Copa[] = [
       'Dias antes, um gato chamado Hexa foi arremessado da mesa na coletiva. Tire suas conclusões.',
       'O time que dançou em cada gol da fase de grupos não teve o que dançar nas quartas.',
     ],
+    imagem: '/img/elim-2022-croacia.jpg',
   },
   {
     ano: 2026, algoz: 'Noruega', placar: '1x2', fase: 'OITAVAS de final',
@@ -62,6 +68,7 @@ export const COPAS: Copa[] = [
       'Neymar se aposentou da Seleção no mesmo estádio em que estreou, 16 anos antes. "Acabou."',
       'A torcida deles remou. A nossa assistiu. Sexta eliminação consecutiva para europeus.',
     ],
+    imagem: '/img/elim-2026-noruega.jpg',
   },
 ]
 
