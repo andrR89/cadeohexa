@@ -4,43 +4,53 @@ export interface Previsao {
   algoz: string
   populacao: number
   populacaoRotulo: string
+  rankingFifa: string
   fase: string
+  imagem: string
   nota: string
 }
 
 export const PROFECIA: Previsao[] = [
   {
-    ano: 2030, sede: 'Espanha/Portugal/Marrocos', algoz: 'Islândia', populacao: 390_000, populacaoRotulo: '390 mil',
-    fase: 'fase de grupos',
+    ano: 2030, sede: 'Espanha/Portugal/Marrocos', algoz: 'Islândia', populacao: 390_000,
+    populacaoRotulo: '390 mil habitantes', rankingFifa: '72º', fase: 'fase de grupos',
+    imagem: '/img/prof-2030-islandia.jpg',
     nota: 'Mais vulcões ativos que jogadores profissionais. As palmas vikings já estão ensaiadas.',
   },
   {
-    ano: 2034, sede: 'Arábia Saudita', algoz: 'Ilhas Faroé', populacao: 54_000, populacaoRotulo: '54 mil',
-    fase: 'repescagem intercontinental',
+    ano: 2034, sede: 'Arábia Saudita', algoz: 'Ilhas Faroé', populacao: 54_000,
+    populacaoRotulo: '54 mil habitantes', rankingFifa: '141º', fase: 'repescagem intercontinental',
+    imagem: '/img/prof-2034-faroe.jpg',
     nota: 'Primeira seleção da história com mais ovelhas que torcedores.',
   },
   {
-    ano: 2038, sede: 'a definir', algoz: 'San Marino', populacao: 34_000, populacaoRotulo: '34 mil',
-    fase: 'Eliminatórias',
-    nota: 'A pior seleção do ranking FIFA quebra um jejum milenar justamente contra nós. Estatisticamente inevitável.',
+    ano: 2038, sede: 'a definir', algoz: 'San Marino', populacao: 34_000,
+    populacaoRotulo: '34 mil habitantes', rankingFifa: '210º — último colocado do mundo', fase: 'Eliminatórias',
+    imagem: '/img/prof-2038-sanmarino.jpg',
+    nota: 'Literalmente a pior seleção do ranking FIFA quebra um jejum de décadas sem vitórias justamente contra nós. Estatisticamente inevitável.',
   },
   {
-    ano: 2042, sede: 'a definir', algoz: 'Vaticano', populacao: 764, populacaoRotulo: '764',
-    fase: 'amistoso preparatório',
+    ano: 2042, sede: 'a definir', algoz: 'Vaticano', populacao: 764,
+    populacaoRotulo: '764 habitantes', rankingFifa: 'sem ranking (nem filiado à FIFA)', fase: 'amistoso preparatório',
+    imagem: '/img/prof-2042-vaticano.jpg',
     nota: 'Gol de milagre aos 90+7. O VAR não pode contestar decisão divina. O Papa decreta feriado.',
   },
   {
-    ano: 2046, sede: 'a definir', algoz: 'Robôs da RoboCup', populacao: 22, populacaoRotulo: '22 robôs',
-    fase: 'sorteio dos grupos',
-    nota: 'A meta oficial do projeto era vencer os campeões humanos em 2050. Contra o Brasil, anteciparam.*',
+    ano: 2046, sede: 'a definir', algoz: 'Figueirense', populacao: 30,
+    populacaoRotulo: '30 — o elenco profissional inteiro',
+    rankingFifa: 'clube (a FIFA ampliou a Copa para 512 vagas e ficou sem países)', fase: '64-avos de final',
+    imagem: '/img/prof-2046-figueirense.jpg',
+    nota: 'A Copa de 512 seleções. Sem países suficientes no planeta, a FIFA passou a convocar clubes. O Figueirense, então na Série B, eliminou o Brasil nos 64-avos e recebeu bônus por participação.',
   },
   {
-    ano: 2050, sede: 'a definir', algoz: 'Seleção do Gemini', populacao: 1, populacaoRotulo: '1 modelo',
-    fase: 'antes da convocação',
-    nota: 'A seleção do Claude Code, invicta, recusou o convite por falta de desafio. O Gemini alucinou um impedimento no próprio ataque, pediu desculpas duas vezes — e venceu de 2x1, com gol contra nosso.',
+    ano: 2050, sede: 'a definir', algoz: 'Seleção das IAs', populacao: 2,
+    populacaoRotulo: '2 modelos', rankingFifa: 'fora do ranking (formas de vida não-humanas)',
+    fase: 'antes mesmo da convocação',
+    imagem: '/img/prof-2050-ias.jpg',
+    nota: 'A seleção das IAs. O Claude subiu mais alto que a zaga e fez de cabeça. O Gemini, para fechar o caixão, tentou o segundo duas vezes — alucinou um impedimento, pediu desculpas, e na segunda fez. 2x0. A máquina não sente nada; ainda assim aprendeu a zoar.',
   },
 ]
 
 export const RODAPE_PROFECIA =
   'Projeção por regressão linear da vergonha (R² = 0,97). A ciência não erra. ' +
-  '*A meta da RoboCup para 2050 é real e verificável. Nós conferimos. Duas vezes.'
+  '(A Copa de 512 seleções ainda é ficção — a de 2026 teve 48. Por enquanto.)'

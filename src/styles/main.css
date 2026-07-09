@@ -314,9 +314,108 @@ button.solene:not(:disabled):hover { background: var(--ouro); color: var(--marmo
 .medidor { text-align: center; }
 .medidor .numero-medidor { font-size: 3rem; font-weight: 700; color: var(--ouro-vivo); font-variant-numeric: tabular-nums; }
 
-.grafico-vergonha { width: min(40rem, 100%); margin: 2rem 0; }
+.grafico-vergonha { width: min(40rem, 100%); margin: 2rem 0 0.5rem; }
 .grafico-vergonha .tique { fill: var(--ouro-baco); font-size: 11px; font-family: var(--serifa); }
 /* px dentro do SVG são unidades do viewBox: no mobile o gráfico encolhe ~0,5x, então dobramos. */
 @media (max-width: 40rem) {
   .grafico-vergonha .tique { font-size: 22px; }
+}
+
+.grafico-legenda { max-width: 40rem; font-size: 0.8rem; margin-top: 0; margin-bottom: 1.5rem; }
+
+/* Pontos interativos do gráfico da vergonha: alvo de toque generoso (invisível,
+   r maior) por trás do círculo visível, focáveis via Tab (role=button em <g>
+   dentro do SVG) e selecionáveis por hover, foco OU clique/toque — todos
+   convergem pro mesmo estado (.selecionado) que também reflete no painel de
+   destaque e no card correspondente da galeria. */
+.ponto-vergonha { cursor: pointer; }
+.ponto-vergonha .ponto-alvo { fill: transparent; }
+.ponto-vergonha .ponto-nucleo {
+  fill: var(--ouro);
+  transition: fill 0.15s ease, r 0.15s ease;
+}
+.ponto-vergonha:hover .ponto-nucleo,
+.ponto-vergonha:focus-visible .ponto-nucleo,
+.ponto-vergonha.selecionado .ponto-nucleo {
+  fill: var(--ouro-vivo);
+  r: 7px;
+}
+/* Contorno dourado de foco — redundância pro caso de outline em elemento SVG
+   não ser suportado (o stroke do alvo de toque garante o indicador mesmo assim). */
+.ponto-vergonha:focus-visible {
+  outline: 2px solid var(--ouro-vivo);
+  outline-offset: 3px;
+}
+.ponto-vergonha:focus-visible .ponto-alvo {
+  stroke: var(--ouro-vivo);
+  stroke-width: 2px;
+}
+
+/* Painel de destaque da Profecia: imagem + estatísticas rotuladas da profecia
+   selecionada no gráfico. Troca de conteúdo é instantânea (innerHTML), sem
+   animação — nada a desligar em prefers-reduced-motion. */
+.profecia-detalhe {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  text-align: left;
+  max-width: 40rem;
+  width: 100%;
+  margin: 0 auto 2rem;
+  padding: 1.5rem;
+  border: 1px solid var(--ouro);
+  background: linear-gradient(160deg, var(--marmore-2), var(--marmore-1));
+  border-radius: 2px;
+}
+
+.profecia-detalhe-imagem {
+  flex-shrink: 0;
+  width: 8rem;
+  height: 8rem;
+  object-fit: cover;
+  border: 2px solid var(--ouro-sombra);
+  border-radius: 3px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+}
+
+.profecia-detalhe-texto { flex: 1; min-width: 0; }
+.profecia-detalhe-texto h3 { color: var(--ouro-vivo); letter-spacing: 0.08em; margin: 0.25rem 0 0.5rem; }
+.profecia-detalhe-texto .epitafio { font-style: italic; color: var(--ouro-vivo); margin-top: 0.75rem; }
+
+.stats-profecia {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.3rem 0.75rem;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+.stats-profecia > div { display: contents; }
+.stats-profecia dt { color: var(--ouro-baco); }
+.stats-profecia dd { color: var(--ouro); font-weight: 700; }
+
+@media (max-width: 40rem) {
+  .profecia-detalhe { flex-direction: column; align-items: center; text-align: center; }
+  .profecia-detalhe-imagem { width: 100%; max-width: 12rem; height: auto; aspect-ratio: 1 / 1; }
+  .stats-profecia { grid-template-columns: max-content 1fr; justify-content: center; text-align: left; }
+}
+
+/* Galeria completa (cards .lapide da Profecia): imagem quadrada + estatísticas
+   rotuladas, sempre presentes independentemente do JS do gráfico. */
+.lapide-retrato-profecia {
+  display: block;
+  width: 100%;
+  max-width: 9rem;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border: 3px solid var(--ouro-sombra);
+  border-radius: 3px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+  margin: 0 0 1rem;
+}
+
+.lapides .lapide { transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+.lapides .lapide.lapide-selecionada {
+  border-color: var(--ouro-vivo);
+  box-shadow: 0 0 0 1px var(--ouro-vivo);
 }
