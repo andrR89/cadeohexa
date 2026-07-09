@@ -58,9 +58,20 @@ function ligarScrollSpy(el: HTMLElement): void {
 export function ligarNavegacaoSuave(irPara: (alvo: HTMLElement) => void): void {
   document.querySelectorAll<HTMLAnchorElement>('.nav-bolinha').forEach((a) => {
     a.addEventListener('click', (evento) => {
+      // Modifier-clicks (nova aba/janela) e botões que não o esquerdo ficam
+      // com o comportamento nativo da âncora — é o que o usuário pediu.
+      if (evento.ctrlKey || evento.metaKey || evento.shiftKey || evento.altKey || evento.button !== 0)
+        return
       const alvo = document.getElementById(a.dataset.secao!)
       if (!alvo) return
       evento.preventDefault()
+      // pushState não dispara o salto nativo: preserva o histórico e o deep
+      // link, que o preventDefault acima tinha engolido.
+      history.pushState(null, '', a.hash)
+      // O foco acompanha a navegação. Sem isto, Enter na bolinha rola a página
+      // mas o próximo Tab cai na bolinha seguinte, não no conteúdo da seção.
+      alvo.tabIndex = -1
+      alvo.focus({ preventScroll: true })
       irPara(alvo)
     })
   })

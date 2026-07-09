@@ -184,7 +184,6 @@ button.solene {
 button.solene:not(:disabled):hover { background: var(--ouro); color: var(--marmore-0); }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
   * { animation: none !important; transition: none !important; }
 }
 
