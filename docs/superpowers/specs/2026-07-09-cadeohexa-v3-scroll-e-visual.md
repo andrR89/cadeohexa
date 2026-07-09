@@ -101,11 +101,9 @@ Reduzir para deriva sutil: `yPercent: ~6`, **sem `scale`**. Manter `scrub` e o d
 
 Hoje `src/ui/profecia.ts` renderiza o gráfico SVG **e** uma galeria `.lapides` com os 6 cards sempre visíveis.
 
-**Restrição de acessibilidade:** a galeria é hoje o fallback de conteúdo para quem está sem JS. Apagá-la do HTML deixaria esses usuários sem nada.
+**Restrição de acessibilidade (corrigida em 09/07 à noite):** a formulação original dizia que a galeria era "o fallback para quem está sem JS" — **falso**: o site inteiro é renderizado por JS (`index.html` é uma casca de 1,5 kB), então sem JS não há galeria, gráfico, nem nada. O fallback real da galeria é o cenário em que a *montagem* roda mas a *fiação interativa* falha (erro em `ligarGraficoInterativo`, por exemplo): como o hide acontece dentro dela, uma falha deixa os 6 cards visíveis, e o visitante não perde conteúdo.
 
-**Solução — progressive enhancement:** os 6 cards continuam no HTML renderizado. `ligarGraficoInterativo()` (que só roda com JS) esconde a galeria no boot, via `display: none` (não `visibility`/`opacity` — precisa sair da árvore de acessibilidade para o leitor de tela não ler 6 cards duplicados). O painel de detalhe `aria-live` já existente continua sendo a única superfície de conteúdo quando há JS, e já anuncia exatamente uma vez por ativação.
-
-Sem JS: o gráfico é inerte e os 6 cards aparecem — conteúdo íntegro.
+**Solução — progressive enhancement (correta pelas razões acima):** os 6 cards continuam no HTML montado. `ligarGraficoInterativo()` esconde a galeria no boot, via `display: none` (não `visibility`/`opacity` — precisa sair da árvore de acessibilidade para o leitor de tela não ler 6 cards duplicados). O painel de detalhe `aria-live` continua sendo a única superfície de conteúdo quando a interatividade está de pé, anunciando exatamente uma vez por ativação. A classe é aplicada só em runtime, nunca no template.
 
 ## Acessibilidade (o padrão que a v1/v2 seguraram)
 
