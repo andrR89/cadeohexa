@@ -13,6 +13,9 @@
 - **Profecia:** gráfico INTERATIVO (hover mostra imagem `prof-*` + **ranking FIFA + população** — resolve o "(390.000)?" sem rótulo). **2046 = Copa de 512 times**, a FIFA sem países chama clube; Brasil cai nos 64-avos pro **Figueirense**. **2050 = seleção das IAs**: Claude faz de cabeça, Gemini tenta 2× pra fechar o caixão.
 - Manter tudo que já passou nas 30+ revisões do v1 (a11y, reduced-motion, timezone SP, conteúdo em src/data/, contraste AA).
 
+## Progresso (breakpoint 08/07 ~22:30)
+✅ V1 contador ao vivo (`c09aed9`+`10a6af1`) · ✅ V2+V8 taça-imagem/parallax/remove three.js (`0616f3f`+`159b4bd`) · ✅ V3 fundo mármore + AA `--ouro-baco`→#a08a50 (`52b1145`) · ✅ V4 timeline cronológica (`b09b628`+`80993f2`) · ✅ V5 medidores expandidos (`3ca1be5`) · 🔄 V6 Profecia interativa (`572af64`) — implementada, revisão spec+qualidade rodando no breakpoint (aplicar fixes ao retomar). Faltam: **V7** (otimizar imagens) e **V9** (verificação final v2 + redeploy).
+
 ## Tarefas
 - **V1 — Contador ao vivo expandido (TDD):** `contadores.ts` ganha `partesDaEspera(agora): {anos,meses,dias,horas,min,seg}` (matemática civil em timezone SP, testada). Herói renderiza as partes e faz tick a cada 1s (rAF/setInterval), respeitando reduced-motion (sem "flip" agressivo, mas o número atualiza).
 - **V2 — Herói taça-imagem + parallax; remover three.js:** apagar `src/cena3d/`, tirar import dinâmico e `#cena3d` do index/main; herói com `<img>` da taça + camada de fundo mármore, parallax sutil no scroll (GSAP). Fallback reduced-motion: imagem estática.
