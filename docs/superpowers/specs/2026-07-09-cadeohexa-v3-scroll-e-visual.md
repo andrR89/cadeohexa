@@ -26,7 +26,9 @@ A v2 está no ar em https://cadeohexa.pages.dev (commit `56fd43f`). Ao ver o sit
 
 ### 1. Taça
 
-Imagem nova gerada por `fal-ai/flux-pro`, escolhida pelo andre entre as variantes do lote `taca-d*`. Substitui `public/img/taca-heroi.webp` **no mesmo caminho e nome** — assim o preload de `index.html:15`, o `<img>` de `src/ui/hero.ts` e o `dist/` continuam coerentes sem mais nenhuma mudança.
+Imagem nova gerada por `fal-ai/flux-pro`. O andre escolheu a variante **`taca-d1`** (a que já traz o facho de luz descendo sobre a taça). Substitui `public/img/taca-heroi.webp` **no mesmo caminho e nome** — assim o preload de `index.html:15`, o `<img>` de `src/ui/hero.ts` e o `dist/` continuam coerentes sem mais nenhuma mudança.
+
+⚠️ **A d1 tem facho de luz próprio.** O `.heroi-veu` (`main.css:87-94`) é um gradiente calibrado para escurecer a faixa central, onde o texto senta, justamente porque a imagem antiga era mais clara no meio. A d1 é *ainda mais* clara ali. Recalcular o contraste do texto do herói sobre a imagem nova e, se furar o piso AA de 4,5:1, escurecer o véu na faixa central. Verificação obrigatória, não opcional.
 
 A imagem passa pelo mesmo pipeline da v2: `scripts/otimizar-imagens.sh` (resize `900x900>`, `-strip`, WebP q78 `method=6`). O JPEG/PNG original vai para `assets/img-fonte/` (gitignored) e o script deve continuar idempotente.
 
