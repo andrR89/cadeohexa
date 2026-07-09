@@ -63,7 +63,7 @@ rm -f assets/img-fonte/taca-heroi.jpg   # o cálice genérico não é mais fonte
 ls -la assets/fontes/
 ```
 
-Esperado: `assets/fontes/taca-heroi.png` existe (~1,4 MB, 1024×1024).
+Esperado: `assets/fontes/taca-heroi.png` existe (~190 kB, 1024×1024).
 
 - [ ] **Step 2: Abrir exceção no `.gitignore`**
 
