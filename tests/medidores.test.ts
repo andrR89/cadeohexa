@@ -22,4 +22,12 @@ test('valores conferidos na data de referência', () => {
   expect(porId['tecnicos']).toBe(10)
   expect(porId['copas-perdidas']).toBe(6)
   expect(porId['campeoes-na-fila']).toBe(5)
+  expect(porId['playstations']).toBe(3)
+  expect(porId['servicos-mortos']).toBe(5)
+  expect(porId['megaeventos-sediados']).toBe(2)
+})
+
+test('todos os ids de medidores são únicos e temos 9 no total', () => {
+  expect(MEDIDORES.length).toBe(9)
+  expect(new Set(MEDIDORES.map((m) => m.id)).size).toBe(MEDIDORES.length)
 })
