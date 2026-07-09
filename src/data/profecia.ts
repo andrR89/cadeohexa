@@ -36,11 +36,11 @@ export const PROFECIA: Previsao[] = [
     nota: 'Gol de milagre aos 90+7. O VAR não pode contestar decisão divina. O Papa decreta feriado.',
   },
   {
-    ano: 2046, sede: 'a definir', algoz: 'Figueirense', populacao: 30,
+    ano: 2046, sede: 'a definir', algoz: 'Morecambe FC', populacao: 30,
     populacaoRotulo: '30 — o elenco profissional inteiro',
     rankingFifa: 'clube (a FIFA ampliou a Copa para 512 vagas e ficou sem países)', fase: '64-avos de final',
-    imagem: '/img/prof-2046-figueirense.webp',
-    nota: 'A Copa de 512 seleções. Sem países suficientes no planeta, a FIFA passou a convocar clubes. O Figueirense, então na Série B, eliminou o Brasil nos 64-avos e recebeu bônus por participação.',
+    imagem: '/img/prof-2046-morecambe.webp',
+    nota: 'A Copa de 512 seleções. Sem países suficientes no planeta, a FIFA passou a convocar clubes. O Morecambe FC — quarta divisão inglesa, mascote camarão — eliminou o Brasil nos 64-avos e voltou de ônibus no mesmo dia: tinha jogo do campeonato no sábado. Décima primeira eliminação consecutiva para europeus; a tradição resiste até quando o adversário é clube.',
   },
   {
     ano: 2050, sede: 'a definir', algoz: 'Seleção das IAs', populacao: 2,

@@ -15,9 +15,9 @@ test('população do algoz cai estritamente a cada Copa (a curva da vergonha nun
   }
 })
 
-test('temos as 6 Copas da profecia, de 2030 a 2050, e o Figueirense/IAs entram em 2046/2050', () => {
+test('temos as 6 Copas da profecia, de 2030 a 2050, e o Morecambe/IAs entram em 2046/2050', () => {
   expect(PROFECIA.length).toBe(6)
   expect(PROFECIA.map((p) => p.ano)).toEqual([2030, 2034, 2038, 2042, 2046, 2050])
-  expect(PROFECIA.find((p) => p.ano === 2046)?.algoz).toBe('Figueirense')
+  expect(PROFECIA.find((p) => p.ano === 2046)?.algoz).toBe('Morecambe FC')
   expect(PROFECIA.find((p) => p.ano === 2050)?.algoz).toBe('Seleção das IAs')
 })

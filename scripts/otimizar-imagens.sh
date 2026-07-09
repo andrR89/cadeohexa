@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 #
-# Task V7 — Otimização das imagens do memorial.
+# Pipeline geral de imagens do site.
 #
-# Converte os retratos-memoriais (JPEGs originais de 768x1024 / 1024x1024, ~3,6 MB
-# no total) para WebP redimensionado (~900px), gravando em public/img/.
+# Converte os originais (os da v2 arquivados na tag do git + as fontes
+# versionadas pós-v2, respeitando a lista de aposentadas) para WebP
+# redimensionado (~900px), gravando em public/img/.
 #
 # É idempotente e re-executável: lê os originais de DUAS pastas e (re)gera os
 # .webp em public/img/:
@@ -51,6 +52,12 @@ ORIGEM="${ORIGEM:-$RAIZ/assets/img-fonte}"
 # Fontes versionadas (assets/fontes) têm precedência sobre as restauradas da
 # tag: são originais que não existem em nenhum outro objeto do git.
 FONTES_VERSIONADAS="${FONTES_VERSIONADAS:-$RAIZ/assets/fontes}"
+# Fontes aposentadas: basenames que a tag imagens-originais-v2 ainda contém,
+# mas que foram substituídos por OUTRO nome e não devem mais gerar webp.
+# Sem esta lista, o passo 1 ressuscitaria a imagem antiga como webp órfão a
+# cada restauração limpa. Substituições que reusam o MESMO basename não
+# precisam entrar aqui (a precedência de assets/fontes/ já resolve).
+APOSENTADAS=(prof-2046-figueirense)
 DESTINO="$RAIZ/public/img"
 QUALIDADE="${QUALIDADE:-78}"
 REF_ORIGINAIS="${REF_ORIGINAIS:-imagens-originais-v2}"
@@ -70,6 +77,28 @@ if ! compgen -G "$ORIGEM/*.jpg" > /dev/null; then
   restaurar_origem
 fi
 
+# Falha alto se duas fontes versionadas dividem o mesmo nome-base (ex.: x.jpg E
+# x.png): as duas converteriam pro mesmo .webp e a última venceria em silêncio.
+duplicadas="$(
+  for f in "$FONTES_VERSIONADAS"/*.{jpg,png}; do
+    [ -e "$f" ] && basename "${f%.*}"
+  done | sort | uniq -d
+)"
+if [ -n "$duplicadas" ]; then
+  echo "erro: nome-base duplicado em $FONTES_VERSIONADAS (jpg E png do mesmo nome):" >&2
+  echo "$duplicadas" | sed 's/^/  - /' >&2
+  echo "Mantenha só um formato por nome-base." >&2
+  exit 1
+fi
+
+aposentada() {
+  local nome="$1" a
+  for a in "${APOSENTADAS[@]}"; do
+    [ "$a" = "$nome" ] && return 0
+  done
+  return 1
+}
+
 mkdir -p "$DESTINO"
 total=0
 
@@ -88,6 +117,8 @@ converter() {
 for origem in "$ORIGEM"/*.jpg; do
   [ -e "$origem" ] || continue
   nome="$(basename "${origem%.*}")"
+  # pulada se aposentada (substituída por outro nome — não deve mais gerar webp)
+  if aposentada "$nome"; then continue; fi
   # pulada se houver fonte versionada com o mesmo nome (ela é a verdade)
   if compgen -G "$FONTES_VERSIONADAS/$nome.*" > /dev/null; then continue; fi
   converter "$origem"
