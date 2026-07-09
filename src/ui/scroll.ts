@@ -21,7 +21,7 @@ export function ligarScroll(): void {
   ligarNavegacaoSuave((alvo) => lenis.scrollTo(alvo))
 
   // Deriva sutil da taça do herói: sem scale (que estourava o enquadramento) e
-  // com metade da translação anterior.
+  // com menos de um terço da translação anterior (yPercent 20 → 6).
   gsap.to('.heroi-taca', {
     yPercent: 6,
     ease: 'none',
