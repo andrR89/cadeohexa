@@ -82,7 +82,7 @@ function graficoDaVergonha(): string {
   const primeiro = PROFECIA[0]!
   const ultimo = PROFECIA[PROFECIA.length - 1]!
   return `
-    <svg viewBox="0 0 ${larg} ${alt}" class="grafico-vergonha" role="img"
+    <svg viewBox="0 0 ${larg} ${alt}" class="grafico-vergonha" role="group"
          aria-label="Gráfico: população do algoz por Copa, em escala logarítmica decrescente — de ${primeiro.populacaoRotulo} em ${primeiro.ano} a ${ultimo.populacaoRotulo} em ${ultimo.ano}. Cada ponto é interativo e abre os detalhes da profecia.">
       <polyline points="${pontos}" fill="none" stroke="var(--ouro)" stroke-width="2" />
       ${PROFECIA.map(
@@ -91,7 +91,7 @@ function graficoDaVergonha(): string {
            aria-label="Ver profecia de ${p.ano}: ${p.algoz}"
            aria-pressed="${i === 0 ? 'true' : 'false'}"
            aria-controls="profecia-detalhe">
-          <circle class="ponto-alvo" cx="${xDe(p.ano)}" cy="${yDe(p.populacao)}" r="14" />
+          <circle class="ponto-alvo" cx="${xDe(p.ano)}" cy="${yDe(p.populacao)}" r="22" />
           <circle class="ponto-nucleo" cx="${xDe(p.ano)}" cy="${yDe(p.populacao)}" r="4" />
         </g>
         <text x="${xDe(p.ano)}" y="${alt - 12}" text-anchor="middle" class="tique">${p.ano}</text>`,
@@ -99,25 +99,34 @@ function graficoDaVergonha(): string {
     </svg>
     <p class="legenda grafico-legenda">
       Eixo vertical: população do algoz (escala logarítmica — quanto mais baixo, menor o povo que nos elimina).
-      Passe o mouse, toque ou use Tab e Enter em cada ponto para abrir os detalhes.
+      Clique, toque ou use Tab e Enter em cada ponto para abrir os detalhes.
     </p>
   `
 }
 
-/** Camada de interatividade do gráfico: cada ponto é focável/clicável e, ao
- * ganhar hover, foco ou clique/toque, atualiza o painel de destaque acima da
- * galeria. Pura melhoria progressiva — o SVG e a galeria completa já existem
- * no HTML montado, então nada aqui é necessário pra ver o conteúdo. */
+/** Camada de interatividade do gráfico: cada ponto é focável/clicável e, ao ser
+ * ativado (clique/toque, Enter ou Espaço), atualiza o painel de destaque acima
+ * da galeria. Hover e foco dão apenas a prévia visual (realce do ponto, via CSS
+ * :hover/:focus-visible) — de propósito NÃO mexem no painel, que é uma região
+ * aria-live: assim, tabular pelos 6 pontos não dispara 6 anúncios no leitor de
+ * tela; o conteúdo só é anunciado na ativação explícita. Pura melhoria
+ * progressiva — o SVG e a galeria completa já existem no HTML montado, então
+ * nada aqui é necessário pra ver o conteúdo. */
 function ligarGraficoInterativo(el: HTMLElement): void {
   const pontos = el.querySelectorAll<SVGGElement>('.ponto-vergonha')
   const painelEl = el.querySelector<HTMLElement>('#profecia-detalhe')
   const cards = el.querySelectorAll<HTMLElement>('.lapides .lapide')
   if (!painelEl || pontos.length === 0) return
   const painel: HTMLElement = painelEl
+  let atual = 0
 
   function selecionar(indice: number): void {
+    // Guarda anti-disparo múltiplo: um toque emite pointer+focus+click; sem
+    // isto, reselecionar o ponto já ativo reescreveria a região aria-live à toa.
+    if (indice === atual) return
     const previsao = PROFECIA[indice]
     if (!previsao) return
+    atual = indice
     pontos.forEach((ponto, i) => {
       const ativo = i === indice
       ponto.classList.toggle('selecionado', ativo)
@@ -130,8 +139,8 @@ function ligarGraficoInterativo(el: HTMLElement): void {
   }
 
   pontos.forEach((ponto, i) => {
-    ponto.addEventListener('pointerenter', () => selecionar(i))
-    ponto.addEventListener('focus', () => selecionar(i))
+    // Só ativação explícita mexe no painel aria-live. Hover/foco = prévia visual
+    // (realce do ponto) resolvida no CSS, sem listener aqui.
     ponto.addEventListener('click', () => selecionar(i))
     ponto.addEventListener('keydown', (evento) => {
       if (evento.key === 'Enter' || evento.key === ' ') {

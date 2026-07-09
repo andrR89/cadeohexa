@@ -325,9 +325,9 @@ button.solene:not(:disabled):hover { background: var(--ouro); color: var(--marmo
 
 /* Pontos interativos do gráfico da vergonha: alvo de toque generoso (invisível,
    r maior) por trás do círculo visível, focáveis via Tab (role=button em <g>
-   dentro do SVG) e selecionáveis por hover, foco OU clique/toque — todos
-   convergem pro mesmo estado (.selecionado) que também reflete no painel de
-   destaque e no card correspondente da galeria. */
+   dentro do SVG). Hover e foco dão só a prévia visual (realce do núcleo, abaixo);
+   a seleção — que reflete no painel de destaque e no card da galeria via
+   .selecionado — acontece na ativação explícita (clique/toque, Enter ou Espaço). */
 .ponto-vergonha { cursor: pointer; }
 .ponto-vergonha .ponto-alvo { fill: transparent; }
 .ponto-vergonha .ponto-nucleo {
