@@ -30,7 +30,21 @@ Imagem nova gerada por `fal-ai/flux-pro`. O andre escolheu a variante **`taca-d1
 
 ⚠️ **A d1 tem facho de luz próprio.** O `.heroi-veu` (`main.css:87-94`) é um gradiente calibrado para escurecer a faixa central, onde o texto senta, justamente porque a imagem antiga era mais clara no meio. A d1 é *ainda mais* clara ali. Recalcular o contraste do texto do herói sobre a imagem nova e, se furar o piso AA de 4,5:1, escurecer o véu na faixa central. Verificação obrigatória, não opcional.
 
-A imagem passa pelo mesmo pipeline da v2: `scripts/otimizar-imagens.sh` (resize `900x900>`, `-strip`, WebP q78 `method=6`). O JPEG/PNG original vai para `assets/img-fonte/` (gitignored) e o script deve continuar idempotente.
+A imagem passa pelo mesmo pipeline da v2: `scripts/otimizar-imagens.sh` (resize `900x900>`, `-strip`, WebP q78 `method=6`). O script deve continuar idempotente.
+
+#### A fonte da taça nova precisa de um lar versionado
+
+Dois problemas reais, descobertos ao preparar a fonte:
+
+1. **O glob do script só pega `*.jpg`** (`otimizar-imagens.sh:60` e `:66`). A d1 veio em PNG e seria silenciosamente ignorada.
+2. **A taça velha ressuscitaria.** O script restaura os originais com `git archive imagens-originais-v2 -- public/img`, e essa tag aponta para um commit anterior à V7, onde `public/img/` ainda continha os 13 JPEGs — incluindo o `taca-heroi.jpg` do cálice genérico. A taça nova **não existe em nenhum objeto do git**: mora só no `assets/img-fonte/`, que é gitignored. Num clone limpo, o script regeneraria a taça errada e desfaria a v3.
+
+**Decisão:** versionar a fonte da nova taça. Ela é o único original que muda na v3, e são ~250 kB.
+
+- Gravar a d1 como `assets/fontes/taca-heroi.jpg` (ou `.png`), **rastreada pelo git** — abrindo exceção no `.gitignore`, que hoje ignora `assets/img-fonte/` inteiro.
+- Ajustar o script para converter também esse arquivo (ampliar o glob para `*.jpg` + `*.png`, ou apontar explicitamente para a fonte versionada).
+- Garantir que o passo de restauração **não sobrescreva** uma fonte que já existe localmente, e que o `taca-heroi.jpg` restaurado da tag v2 não vença sobre a fonte nova. O teste de aceite é direto: apagar `assets/img-fonte/`, rodar o script, e o `public/img/taca-heroi.webp` resultante tem de ser a **taça nova**, não o cálice.
+- Manter a idempotência: rodar o script duas vezes seguidas deixa `git status public/img` vazio.
 
 ⚠️ **Atenção ao filtro NSFW do fal.ai:** o lote anterior voltou 100% preto (`has_nsfw_concepts: [true×4]`) porque o prompt continha a palavra "nude" dentro de uma *negação* ("NOT a nude Atlas figure"). O filtro casa por palavra e ignora a negação. Descrever formas ("stylised human forms", "sculpted silhouettes"), nunca corpos nus, e passar `safety_tolerance: "5"`.
 
