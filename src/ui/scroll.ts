@@ -20,22 +20,27 @@ export function ligarScroll(): void {
 
   ligarNavegacaoSuave((alvo) => lenis.scrollTo(alvo))
 
-  // A taça (imagem) do herói deriva sutilmente conforme rola o primeiro viewport.
+  // Deriva sutil da taça do herói: sem scale (que estourava o enquadramento) e
+  // com metade da translação anterior.
   gsap.to('.heroi-taca', {
-    yPercent: 20,
-    scale: 1.06,
+    yPercent: 6,
     ease: 'none',
     scrollTrigger: { trigger: '#heroi', start: 'top top', end: 'bottom top', scrub: 0.6 },
   })
 
-  // Revelação solene de cada seção.
+  // Fade único da seção inteira. O reveal antigo animava cada filho com stagger,
+  // o que produzia um pisca-pisca em cascata. Um fade curto é mais sóbrio e
+  // combina com o tom de memorial.
   document.querySelectorAll<HTMLElement>('.secao').forEach((secao) => {
-    // Seções já visíveis no boot (herói, deep link no meio da página) não devem
-    // piscar: o gsap.from zeraria a opacidade de algo que o usuário já está lendo.
-    // O corte espelha o start do trigger ('top 70%') — só revela o que ainda vem.
+    // Seções já visíveis no boot não devem piscar: o gsap.from zeraria a
+    // opacidade de algo que o usuário já está lendo. O corte espelha o start
+    // do trigger ('top 70%') — só revela o que ainda vem.
     if (secao.getBoundingClientRect().top < innerHeight * 0.7) return
-    gsap.from(secao.children, {
-      opacity: 0, y: 40, stagger: 0.12, duration: 0.8, ease: 'power2.out',
+    gsap.from(secao, {
+      opacity: 0,
+      y: 16,
+      duration: 0.5,
+      ease: 'power2.out',
       scrollTrigger: { trigger: secao, start: 'top 70%' },
     })
   })
