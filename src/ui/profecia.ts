@@ -17,9 +17,10 @@ export function montarProfecia(el: HTMLElement): void {
 }
 
 /** Painel de destaque: mostra a profecia selecionada no gráfico (imagem +
- * estatísticas rotuladas). Com JS ativo é a ÚNICA camada de conteúdo visível —
- * a galeria `.lapides` fica oculta e serve só de fallback pra quem navega
- * sem JS. */
+ * estatísticas rotuladas). Com o gráfico interativo de pé é a ÚNICA camada de
+ * conteúdo visível — a galeria `.lapides` fica oculta e vira rede de segurança:
+ * se a fiação da interatividade falhar depois da montagem, os 6 cards seguem
+ * visíveis e nenhum conteúdo se perde. */
 function detalheHTML(p: Previsao): string {
   return `
     <img
@@ -50,10 +51,11 @@ function statsHTML(p: Previsao): string {
 }
 
 /** Galeria completa: as 6 profecias com imagem + estatísticas rotuladas +
- * nota. É o fallback sem JS — fica no HTML pra quem navega com JS desligado,
- * mas ligarGraficoInterativo() a esconde (display:none) assim que a
- * interatividade do gráfico está de pé: com JS, o conteúdo vem só do painel
- * aria-live, ativado ponto a ponto. */
+ * nota. É a rede de segurança da interatividade — entra no DOM já na montagem
+ * e só some (display:none) quando ligarGraficoInterativo() confirma que o
+ * gráfico está de pé; se essa fiação falhar ou nunca rodar, os 6 cards
+ * continuam visíveis e nenhum conteúdo se perde. Com o gráfico funcionando, o
+ * conteúdo vem só do painel aria-live, ativado ponto a ponto. */
 function cardHTML(p: Previsao): string {
   return `
     <article class="placa lapide" data-ano="${p.ano}">
@@ -118,8 +120,9 @@ function ligarGraficoInterativo(el: HTMLElement): void {
   const pontos = el.querySelectorAll<SVGGElement>('.ponto-vergonha')
   const painelEl = el.querySelector<HTMLElement>('#profecia-detalhe')
   if (!painelEl || pontos.length === 0) return
-  // Progressive enhancement: só escondemos a galeria quando temos certeza de que
-  // a interatividade do gráfico está de pé. Sem JS, os 6 cards continuam à vista.
+  // Só escondemos a galeria quando temos certeza de que a interatividade do
+  // gráfico está de pé (a guarda acima passou). Se esta fiação falhar ou nunca
+  // rodar, os 6 cards continuam à vista — nenhum conteúdo se perde.
   el.querySelector<HTMLElement>('.lapides')?.classList.add('lapides-ocultas')
   const painel: HTMLElement = painelEl
   let atual = 0
