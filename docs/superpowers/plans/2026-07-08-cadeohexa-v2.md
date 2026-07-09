@@ -14,7 +14,9 @@
 - Manter tudo que já passou nas 30+ revisões do v1 (a11y, reduced-motion, timezone SP, conteúdo em src/data/, contraste AA).
 
 ## Progresso (breakpoint 08/07 ~22:30)
-✅ V1 contador ao vivo (`c09aed9`+`10a6af1`) · ✅ V2+V8 taça-imagem/parallax/remove three.js (`0616f3f`+`159b4bd`) · ✅ V3 fundo mármore + AA `--ouro-baco`→#a08a50 (`52b1145`) · ✅ V4 timeline cronológica (`b09b628`+`80993f2`) · ✅ V5 medidores expandidos (`3ca1be5`) · 🔄 V6 Profecia interativa (`572af64`) — implementada, revisão spec+qualidade rodando no breakpoint (aplicar fixes ao retomar). Faltam: **V7** (otimizar imagens) e **V9** (verificação final v2 + redeploy).
+✅ V1 contador ao vivo (`c09aed9`+`10a6af1`) · ✅ V2+V8 taça-imagem/parallax/remove three.js (`0616f3f`+`159b4bd`) · ✅ V3 fundo mármore + AA `--ouro-baco`→#a08a50 (`52b1145`) · ✅ V4 timeline cronológica (`b09b628`+`80993f2`) · ✅ V5 medidores expandidos (`3ca1be5`) · 🔄 V6 Profecia interativa (`572af64`) — implementada; spec ✅; qualidade = "with fixes" (a11y). **Fixes a aplicar ao retomar (src/ui/profecia.ts):** (1) `aria-live="polite"` do painel dispara no `focus` puro → spam de leitor de tela ao tabular pelos 6 pontos; não mutar a região viva no focus/hover (só em click/Enter/Space); focus/hover = preview visual apenas. (2) guard `if (indice === atual) return` no `selecionar()` — tap dispara 3–4× (pointerenter+focus+click). (3) trocar `<svg role="img">` externo por `role="group"` (mantendo aria-label) — antipadrão ter `role=button` dentro de `role=img`. (4) menor: aumentar alvo de toque `.ponto-alvo` r=14→~22 (44px). Depois: re-review do V6.
+
+Faltam: fechar V6 (fixes+re-review), **V7** (otimizar imagens: resize/webp+lazy) e **V9** (verificação final v2 + redeploy).
 
 ## Tarefas
 - **V1 — Contador ao vivo expandido (TDD):** `contadores.ts` ganha `partesDaEspera(agora): {anos,meses,dias,horas,min,seg}` (matemática civil em timezone SP, testada). Herói renderiza as partes e faz tick a cada 1s (rAF/setInterval), respeitando reduced-motion (sem "flip" agressivo, mas o número atualiza).
