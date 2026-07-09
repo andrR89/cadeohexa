@@ -9,7 +9,7 @@ export function montarProfecia(el: HTMLElement): void {
       ${detalheHTML(PROFECIA[0])}
     </div>
     <div class="lapides">
-      ${PROFECIA.map((p) => cardHTML(p)).join('')}
+      ${PROFECIA.map((p, i) => cardHTML(p, i)).join('')}
     </div>
     <p class="legenda fecho">${RODAPE_PROFECIA}</p>
   `
@@ -53,9 +53,10 @@ function statsHTML(p: Previsao): string {
  * nota. Não depende de nenhuma interação além da montagem inicial do
  * componente — é o conteúdo "de arquivo", completo para leitor de tela,
  * mobile e qualquer visitante que não toque no gráfico. */
-function cardHTML(p: Previsao): string {
+function cardHTML(p: Previsao, indice: number): string {
+  const selecionada = indice === 0 ? ' lapide-selecionada' : ''
   return `
-    <article class="placa lapide" data-ano="${p.ano}">
+    <article class="placa lapide${selecionada}" data-ano="${p.ano}">
       <img
         class="lapide-retrato-profecia"
         src="${p.imagem}"
@@ -87,7 +88,7 @@ function graficoDaVergonha(): string {
       <polyline points="${pontos}" fill="none" stroke="var(--ouro)" stroke-width="2" />
       ${PROFECIA.map(
         (p, i) => `
-        <g class="ponto-vergonha" tabindex="0" role="button" data-i="${i}"
+        <g class="ponto-vergonha${i === 0 ? ' selecionado' : ''}" tabindex="0" role="button" data-i="${i}"
            aria-label="Ver profecia de ${p.ano}: ${p.algoz}"
            aria-pressed="${i === 0 ? 'true' : 'false'}"
            aria-controls="profecia-detalhe">
@@ -121,8 +122,8 @@ function ligarGraficoInterativo(el: HTMLElement): void {
   let atual = 0
 
   function selecionar(indice: number): void {
-    // Guarda anti-disparo múltiplo: um toque emite pointer+focus+click; sem
-    // isto, reselecionar o ponto já ativo reescreveria a região aria-live à toa.
+    // Reativar o ponto já selecionado não deve reescrever a região aria-live
+    // (o conteúdo já está na tela) — evita um anúncio redundante no leitor de tela.
     if (indice === atual) return
     const previsao = PROFECIA[indice]
     if (!previsao) return
