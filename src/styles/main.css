@@ -423,3 +423,49 @@ button.solene:not(:disabled):hover { background: var(--ouro); color: var(--marmo
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
   margin: 0 0 1rem;
 }
+
+/* Nav de bolinhas: fixa na lateral direita. Vive depois do <main> no DOM (ordem
+   de leitura correta) e é trazida pra cá só visualmente. Escondida em telas
+   estreitas, onde roubaria área útil. */
+#nav-secoes {
+  position: fixed;
+  right: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.nav-secoes-lista { list-style: none; display: flex; flex-direction: column; gap: 0.9rem; }
+
+/* Alvo de toque de 44px, com a marca visível bem menor dentro dele. */
+.nav-bolinha {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  text-decoration: none;
+}
+
+.nav-bolinha-marca {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--ouro-sombra);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+  transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+}
+
+.nav-bolinha:hover .nav-bolinha-marca { background: var(--ouro-baco); }
+
+/* Seção corrente: cor E tamanho/anel — nunca só cor, pra não depender de
+   percepção cromática. */
+.nav-bolinha-ativa .nav-bolinha-marca {
+  background: var(--ouro-vivo);
+  transform: scale(1.5);
+  box-shadow: 0 0 0 3px rgba(212, 175, 95, 0.25);
+}
+
+.nav-bolinha:focus-visible { outline: 2px solid var(--ouro-vivo); outline-offset: -6px; border-radius: 50%; }
+
+@media (max-width: 48rem) { #nav-secoes { display: none; } }

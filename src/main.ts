@@ -5,6 +5,7 @@ import { montarMedidores } from './ui/medidores'
 import { montarProfecia } from './ui/profecia'
 import { montarQuiz } from './ui/quiz'
 import { montarCard } from './ui/card'
+import { montarNavegacao } from './ui/navegacao'
 import { diasDaEspera, formatarDias } from './lib/contadores'
 
 // O contador aparece antes de qualquer coisa — a piada nunca espera o GSAP.
@@ -25,6 +26,8 @@ rodape.innerHTML = `
   </div>
   <div id="slot-apoio" aria-hidden="true"></div>
 `
+
+montarNavegacao(document.querySelector('#nav-secoes')!)
 
 // Scroll/parallax por último e só se der: a piada nunca espera o GSAP carregar.
 import('./ui/scroll')
