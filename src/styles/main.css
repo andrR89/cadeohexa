@@ -29,7 +29,10 @@ body {
    background-attachment:fixed, que engasga o scroll no mobile), com z-index
    negativo pra sentar atrás de <main> e do próprio herói (que tem seu próprio
    fundo opaco e continua intocado). Camadas de cima pra baixo:
-   1) grão de mármore — ruído SVG (feTurbulence) em opacidade baixíssima;
+   1) grão de mármore — ruído SVG (feTurbulence) em opacidade baixíssima. A
+      baseFrequency é ALTA (0.8) de propósito: frequência baixa produz manchas
+      do tamanho do tile de 220px e a repetição do background fica visível a
+      olho nu. Alta frequência lê como granulado de filme;
    2) facho de luz quente vindo do alto — como a iluminação distante de um
       saguão, bem sutil;
    3) vinheta — escurece bordas e rodapé pra manter o texto sempre sobre o
@@ -46,7 +49,7 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='4' stitchTiles='stitch' result='t'/%3E%3CfeColorMatrix in='t' type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23r)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch' result='t'/%3E%3CfeColorMatrix in='t' type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23r)'/%3E%3C/svg%3E"),
     radial-gradient(ellipse 75% 48% at 50% 16%, rgba(110, 92, 56, 0.08), transparent 62%),
     radial-gradient(ellipse 150% 95% at 50% 42%, transparent 42%, rgba(0, 0, 0, 0.62) 100%),
     linear-gradient(180deg, var(--marmore-1) 0%, var(--marmore-0) 55%, var(--marmore-0) 100%);
