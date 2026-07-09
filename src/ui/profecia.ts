@@ -18,9 +18,8 @@ export function montarProfecia(el: HTMLElement): void {
 
 /** Painel de destaque: mostra a profecia selecionada no gráfico (imagem +
  * estatísticas rotuladas). Com o gráfico interativo de pé é a ÚNICA camada de
- * conteúdo visível — a galeria `.lapides` fica oculta e vira rede de segurança:
- * se a fiação da interatividade falhar depois da montagem, os 6 cards seguem
- * visíveis e nenhum conteúdo se perde. */
+ * conteúdo visível — a galeria `.lapides` fica oculta (rede de segurança da
+ * interatividade; ver o docblock de cardHTML). */
 function detalheHTML(p: Previsao): string {
   return `
     <img
@@ -52,13 +51,13 @@ function statsHTML(p: Previsao): string {
 
 /** Galeria completa: as 6 profecias com imagem + estatísticas rotuladas +
  * nota. É a rede de segurança da interatividade — entra no DOM já na montagem
- * e só some (display:none) quando ligarGraficoInterativo() confirma que o
- * gráfico está de pé; se essa fiação falhar ou nunca rodar, os 6 cards
+ * e só some (display:none) na última linha de ligarGraficoInterativo(), depois
+ * de toda a fiação ligada; se essa fiação falhar ou nunca rodar, os 6 cards
  * continuam visíveis e nenhum conteúdo se perde. Com o gráfico funcionando, o
  * conteúdo vem só do painel aria-live, ativado ponto a ponto. */
 function cardHTML(p: Previsao): string {
   return `
-    <article class="placa lapide" data-ano="${p.ano}">
+    <article class="placa lapide">
       <img
         class="lapide-retrato-profecia"
         src="${p.imagem}"
@@ -112,18 +111,13 @@ function graficoDaVergonha(): string {
  * da galeria. Hover e foco dão apenas a prévia visual (realce do ponto, via CSS
  * :hover/:focus-visible) — de propósito NÃO mexem no painel, que é uma região
  * aria-live: assim, tabular pelos 6 pontos não dispara 6 anúncios no leitor de
- * tela; o conteúdo só é anunciado na ativação explícita. Pura melhoria
- * progressiva — o SVG e a galeria completa já existem no HTML montado; esta
- * função esconde a galeria (que vira redundante com o painel funcionando) e,
- * se nunca rodar, os 6 cards continuam visíveis como fallback. */
+ * tela; o conteúdo só é anunciado na ativação explícita. Por fim, esconde a
+ * galeria, que vira redundante com o painel funcionando (rede de segurança;
+ * ver o docblock de cardHTML). */
 function ligarGraficoInterativo(el: HTMLElement): void {
   const pontos = el.querySelectorAll<SVGGElement>('.ponto-vergonha')
   const painelEl = el.querySelector<HTMLElement>('#profecia-detalhe')
   if (!painelEl || pontos.length === 0) return
-  // Só escondemos a galeria quando temos certeza de que a interatividade do
-  // gráfico está de pé (a guarda acima passou). Se esta fiação falhar ou nunca
-  // rodar, os 6 cards continuam à vista — nenhum conteúdo se perde.
-  el.querySelector<HTMLElement>('.lapides')?.classList.add('lapides-ocultas')
   const painel: HTMLElement = painelEl
   let atual = 0
 
@@ -153,4 +147,8 @@ function ligarGraficoInterativo(el: HTMLElement): void {
       }
     })
   })
+
+  // Escondida por último — só depois de todos os listeners ligados. Se qualquer
+  // passo acima falhar, a galeria continua visível (ver o docblock de cardHTML).
+  el.querySelector<HTMLElement>('.lapides')?.classList.add('lapides-ocultas')
 }
