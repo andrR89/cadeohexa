@@ -14,8 +14,8 @@ export function montarTimeline(el: HTMLElement): void {
               src="${c.imagem}"
               alt="${c.algoz}, ${c.ano}"
               loading="lazy"
-              width="768"
-              height="1024"
+              width="675"
+              height="900"
             />
             <p class="rotulo">${c.ano} · ${c.fase}</p>
             <h3>${c.algoz} ${c.placarOculto ? `<button class="revelar" aria-label="revelar placar de ${c.ano}">†</button><span class="placar oculto">${c.placar}</span>` : c.placar}</h3>

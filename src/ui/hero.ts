@@ -5,7 +5,7 @@ export function montarHeroi(el: HTMLElement): void {
   const dias = diasDaEspera(new Date())
   el.innerHTML = `
     <div class="heroi-taca-camada" aria-hidden="true">
-      <img class="heroi-taca" src="/img/taca-heroi.jpg" alt="Taça sob o facho de luz" fetchpriority="high" width="1024" height="1024" />
+      <img class="heroi-taca" src="/img/taca-heroi.webp" alt="Taça sob o facho de luz" fetchpriority="high" width="900" height="900" />
     </div>
     <div class="heroi-veu" aria-hidden="true"></div>
     <div class="heroi-conteudo">

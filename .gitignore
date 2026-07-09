@@ -2,3 +2,7 @@
 node_modules/
 dist/
 .wrangler/
+
+# Originais dos retratos-memoriais (fonte da V7). Só os .webp gerados vão versionados;
+# os JPEGs originais ficam arquivados no histórico do git (ver scripts/otimizar-imagens.sh).
+assets/img-fonte/

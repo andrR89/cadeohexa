@@ -27,8 +27,8 @@ function detalheHTML(p: Previsao): string {
       src="${p.imagem}"
       alt="${p.algoz}, Copa de ${p.ano}"
       loading="lazy"
-      width="1024"
-      height="1024"
+      width="900"
+      height="900"
     />
     <div class="profecia-detalhe-texto">
       <p class="rotulo">${p.ano} · ${p.sede}</p>
@@ -62,8 +62,8 @@ function cardHTML(p: Previsao, indice: number): string {
         src="${p.imagem}"
         alt="${p.algoz}, Copa de ${p.ano}"
         loading="lazy"
-        width="1024"
-        height="1024"
+        width="900"
+        height="900"
       />
       <p class="rotulo">${p.ano} · ${p.sede}</p>
       <h3>${p.algoz}</h3>
