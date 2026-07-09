@@ -17,6 +17,17 @@ export function montarMedidores(el: HTMLElement): void {
       }).join('')}
     </div>
   `
+  const numeros = el.querySelectorAll<HTMLElement>('.numero-medidor')
+  // Sem IntersectionObserver (ou com movimento reduzido) o observador nunca
+  // dispararia e cada medidor ficaria preso no placeholder "0" — perda real de
+  // conteúdo. Mesmo padrão da timeline: mostra o valor final na hora. contar()
+  // já tem seu próprio ramo de prefers-reduced-motion (fixa o número sem
+  // animar), então chamá-lo aqui respeita o movimento reduzido.
+  const semMovimento = matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (semMovimento || typeof IntersectionObserver === 'undefined') {
+    numeros.forEach((n) => contar(n))
+    return
+  }
   const observador = new IntersectionObserver(
     (entradas) => {
       for (const e of entradas) {
@@ -27,7 +38,7 @@ export function montarMedidores(el: HTMLElement): void {
     },
     { threshold: 0.6 },
   )
-  el.querySelectorAll('.numero-medidor').forEach((n) => observador.observe(n))
+  numeros.forEach((n) => observador.observe(n))
 }
 
 function contar(alvo: HTMLElement): void {

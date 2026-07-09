@@ -44,7 +44,15 @@ interface PartesData {
 }
 
 // Âncora da espera: 30/06/2002, 00:00:00 no relógio de São Paulo (fim de Yokohama).
-const ANCORA: PartesData = { ano: 2002, mes: 6, dia: 30, hora: 0, minuto: 0, segundo: 0 }
+// Derivada de DATA_PENTA para não duplicar a data-âncora: DATA_PENTA já é uma
+// data civil "AAAA-MM-DD" em componentes de relógio de parede (mês 1-indexado),
+// exatamente a representação que a matemática de calendário abaixo usa — sem
+// conversão de instante UTC, então não há distorção de fuso. Se DATA_PENTA mudar,
+// esta âncora acompanha automaticamente.
+const [ANCORA_ANO, ANCORA_MES, ANCORA_DIA] = DATA_PENTA.split('-').map(Number)
+const ANCORA: PartesData = {
+  ano: ANCORA_ANO, mes: ANCORA_MES, dia: ANCORA_DIA, hora: 0, minuto: 0, segundo: 0,
+}
 
 const FORMATADOR_PARTES_SP = new Intl.DateTimeFormat('en-CA', {
   timeZone: TIMEZONE_BR,
