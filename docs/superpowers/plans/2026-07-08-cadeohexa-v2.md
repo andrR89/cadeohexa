@@ -13,10 +13,14 @@
 - **Profecia:** gráfico INTERATIVO (hover mostra imagem `prof-*` + **ranking FIFA + população** — resolve o "(390.000)?" sem rótulo). **2046 = Copa de 512 times**, a FIFA sem países chama clube; Brasil cai nos 64-avos pro **Figueirense**. **2050 = seleção das IAs**: Claude faz de cabeça, Gemini tenta 2× pra fechar o caixão.
 - Manter tudo que já passou nas 30+ revisões do v1 (a11y, reduced-motion, timezone SP, conteúdo em src/data/, contraste AA).
 
-## Progresso (breakpoint 08/07 ~22:30)
-✅ V1 contador ao vivo (`c09aed9`+`10a6af1`) · ✅ V2+V8 taça-imagem/parallax/remove three.js (`0616f3f`+`159b4bd`) · ✅ V3 fundo mármore + AA `--ouro-baco`→#a08a50 (`52b1145`) · ✅ V4 timeline cronológica (`b09b628`+`80993f2`) · ✅ V5 medidores expandidos (`3ca1be5`) · 🔄 V6 Profecia interativa (`572af64`) — implementada; spec ✅; qualidade = "with fixes" (a11y). **Fixes a aplicar ao retomar (src/ui/profecia.ts):** (1) `aria-live="polite"` do painel dispara no `focus` puro → spam de leitor de tela ao tabular pelos 6 pontos; não mutar a região viva no focus/hover (só em click/Enter/Space); focus/hover = preview visual apenas. (2) guard `if (indice === atual) return` no `selecionar()` — tap dispara 3–4× (pointerenter+focus+click). (3) trocar `<svg role="img">` externo por `role="group"` (mantendo aria-label) — antipadrão ter `role=button` dentro de `role=img`. (4) menor: aumentar alvo de toque `.ponto-alvo` r=14→~22 (44px). Depois: re-review do V6.
+## Progresso — v2 COMPLETA E NO AR (09/07/2026)
+✅ V1 contador ao vivo (`c09aed9`+`10a6af1`) · ✅ V2+V8 taça-imagem/parallax/remove three.js (`0616f3f`+`159b4bd`) · ✅ V3 fundo mármore + AA `--ouro-baco`→#a08a50 (`52b1145`) · ✅ V4 timeline cronológica (`b09b628`+`80993f2`) · ✅ V5 medidores expandidos (`3ca1be5`) · ✅ V6 Profecia interativa (`572af64`+`1920f64`+`6878b12`) · ✅ V7 imagens WebP (`95f83cb`+`a554184`) · ✅ V9 verificação final + redeploy.
 
-Faltam: fechar V6 (fixes+re-review), **V7** (otimizar imagens: resize/webp+lazy) e **V9** (verificação final v2 + redeploy).
+Fixes finais pós-revisão: `6da4233` (guard de IntersectionObserver nos medidores + ANCORA derivada de DATA_PENTA) e `56fd43f` (epitáfio de 2026 — a Noruega tem ~5,5M hab., MAIS que a Grande Curitiba ~3,7M; a linha virou "um país que a gente jurava ter menos gente que a Grande Curitiba").
+
+**Resultado:** `dist/` = 932 KB (imagens 3614→748 KB, −80%); JS+CSS ≈55 kB gzip (era 200+ kB com o chunk three de 521 kB); 26/26 testes, tsc limpo. Produção = deployment `92ebb211`, commit `56fd43f`.
+
+Pendências conhecidas (não bloqueantes, do review final): contador de 1s e rotação de taglines não pausam sob `prefers-reduced-motion` (WCAG 2.2.2 — decorativo, seconds line é `aria-hidden`); sem cache-busting por hash nos assets de `public/` (Pages invalida por deploy).
 
 ## Tarefas
 - **V1 — Contador ao vivo expandido (TDD):** `contadores.ts` ganha `partesDaEspera(agora): {anos,meses,dias,horas,min,seg}` (matemática civil em timezone SP, testada). Herói renderiza as partes e faz tick a cada 1s (rAF/setInterval), respeitando reduced-motion (sem "flip" agressivo, mas o número atualiza).
