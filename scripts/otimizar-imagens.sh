@@ -5,11 +5,16 @@
 # Converte os retratos-memoriais (JPEGs originais de 768x1024 / 1024x1024, ~3,6 MB
 # no total) para WebP redimensionado (~900px), gravando em public/img/.
 #
-# É idempotente e re-executável: lê os JPEGs de uma pasta de ORIGEM e (re)gera os
-# .webp em public/img/. Os originais NÃO ficam versionados na árvore de trabalho
-# (ver .gitignore) — quem manda pro deploy são só os .webp. Se a pasta de origem
-# não existir (ex.: clone novo), o script restaura os originais direto do git,
-# a partir da ref REF_ORIGINAIS.
+# É idempotente e re-executável: lê os originais de DUAS pastas e (re)gera os
+# .webp em public/img/:
+#   1. ORIGEM (assets/img-fonte/, gitignorada) — os JPEGs da v2; se a pasta não
+#      existir (ex.: clone novo), o script os restaura direto do git, a partir
+#      da ref REF_ORIGINAIS.
+#   2. FONTES_VERSIONADAS (assets/fontes/, rastreada) — originais pós-v2 que não
+#      existem em nenhum outro objeto do git. Têm PRECEDÊNCIA: se um arquivo de
+#      mesmo nome-base existir nas duas pastas, vale o versionado (a tag da v2
+#      pode conter uma versão antiga dele, ex.: taca-heroi).
+# Quem manda pro deploy são só os .webp.
 #
 # ⚠️  ARQUIVO ÚNICO DOS ORIGINAIS: como os JPEGs saíram da árvore de trabalho, a
 #     ÚNICA cópia versionada deles é o objeto git apontado pela tag anotada
@@ -39,9 +44,13 @@
 #   -quality 78 + webp:method=6  melhor razão peso/qualidade sem banding visível
 #                    nos degradês dourados das molduras.
 set -euo pipefail
+shopt -s nullglob
 
 RAIZ="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ORIGEM="${ORIGEM:-$RAIZ/assets/img-fonte}"
+# Fontes versionadas (assets/fontes) têm precedência sobre as restauradas da
+# tag: são originais que não existem em nenhum outro objeto do git.
+FONTES_VERSIONADAS="${FONTES_VERSIONADAS:-$RAIZ/assets/fontes}"
 DESTINO="$RAIZ/public/img"
 QUALIDADE="${QUALIDADE:-78}"
 REF_ORIGINAIS="${REF_ORIGINAIS:-imagens-originais-v2}"
@@ -63,12 +72,30 @@ fi
 
 mkdir -p "$DESTINO"
 total=0
-for origem in "$ORIGEM"/*.jpg; do
-  nome="$(basename "${origem%.jpg}")"
+
+converter() {
+  local origem="$1"
+  local nome saida bytes
+  nome="$(basename "${origem%.*}")"
   saida="$DESTINO/$nome.webp"
   magick "$origem" -resize '900x900>' -strip -quality "$QUALIDADE" -define webp:method=6 "$saida"
   bytes=$(stat -c%s "$saida")
   total=$((total + bytes))
   printf '  %-28s %5d KB\n' "$nome.webp" "$((bytes / 1024))"
+}
+
+# 1) restauradas/locais
+for origem in "$ORIGEM"/*.jpg; do
+  [ -e "$origem" ] || continue
+  nome="$(basename "${origem%.*}")"
+  # pulada se houver fonte versionada com o mesmo nome (ela é a verdade)
+  if compgen -G "$FONTES_VERSIONADAS/$nome.*" > /dev/null; then continue; fi
+  converter "$origem"
+done
+
+# 2) versionadas (jpg ou png)
+for origem in "$FONTES_VERSIONADAS"/*.{jpg,png}; do
+  [ -e "$origem" ] || continue
+  converter "$origem"
 done
 printf 'Total em %s: %d KB (%d arquivos)\n' "$DESTINO" "$((total / 1024))" "$(ls -1 "$DESTINO"/*.webp | wc -l)"

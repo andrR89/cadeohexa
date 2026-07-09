@@ -6,3 +6,6 @@ dist/
 # Originais dos retratos-memoriais (fonte da V7). Só os .webp gerados vão versionados;
 # os JPEGs originais ficam arquivados no histórico do git (ver scripts/otimizar-imagens.sh).
 assets/img-fonte/
+# assets/fontes/ é rastreado de propósito: guarda os originais que NÃO existem
+# em nenhum outro objeto do git (a tag imagens-originais-v2 só tem os da v2).
+!assets/fontes/
