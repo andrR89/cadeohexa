@@ -14,6 +14,15 @@ export function montarProfecia(el: HTMLElement): void {
     <p class="legenda fecho">${RODAPE_PROFECIA}</p>
   `
   ligarGraficoInterativo(el)
+
+  // Animação por cima, nunca por baixo: chunk separado, só sem reduced-motion,
+  // e se falhar o gráfico segue estático e clicável — mesma filosofia do
+  // scroll no main.ts (a piada nunca espera o GSAP).
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    import('./profecia-animacao')
+      .then(({ ligarAnimacaoProfecia }) => ligarAnimacaoProfecia(el))
+      .catch(() => {})
+  }
 }
 
 /** Painel de destaque: mostra a profecia selecionada no gráfico (imagem +
