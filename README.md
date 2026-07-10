@@ -3,6 +3,8 @@
 Site-zoação: contador de dias desde o penta, countdown pra 2030, a Ala das
 Tentativas, a Profecia e o Exame Oficial de Sofrimento.
 
+**No ar:** https://cadeohexa.pages.dev · **Código:** https://github.com/andrR89/cadeohexa
+
 - `npm run dev` — desenvolvimento
 - `npm test` — Vitest (datas, quiz, OG template)
 - `npm run build && npx wrangler pages dev dist` — build + Pages Functions locais
