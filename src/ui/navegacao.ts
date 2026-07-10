@@ -66,8 +66,9 @@ export function ligarNavegacaoSuave(irPara: (alvo: HTMLElement) => void): void {
       if (!alvo) return
       evento.preventDefault()
       // pushState não dispara o salto nativo: preserva o histórico e o deep
-      // link, que o preventDefault acima tinha engolido.
-      history.pushState(null, '', a.hash)
+      // link, que o preventDefault acima tinha engolido. O guard evita empilhar
+      // entradas idênticas ao clicar a mesma bolinha — âncora nativa não empilha.
+      if (a.hash !== location.hash) history.pushState(null, '', a.hash)
       // O foco acompanha a navegação. Sem isto, Enter na bolinha rola a página
       // mas o próximo Tab cai na bolinha seguinte, não no conteúdo da seção.
       alvo.tabIndex = -1
