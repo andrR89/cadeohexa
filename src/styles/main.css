@@ -514,3 +514,9 @@ button.opcao { transition: background 0.3s, color 0.3s, opacity 0.4s ease; }
 .nav-bolinha:focus-visible { outline: 2px solid var(--ouro-vivo); outline-offset: -6px; border-radius: 50%; }
 
 @media (max-width: 48rem) { #nav-secoes { display: none; } }
+
+/* ── Rodapé de créditos ─────────────────────────────────────────────── */
+.rodape-creditos { margin-top: 2.5rem; text-align: center; }
+.rodape-creditos .legenda { margin: 0.3rem 0; }
+.rodape-creditos a { color: var(--ouro-vivo); text-decoration-color: var(--ouro-baco); }
+.rodape-stack { opacity: 0.7; letter-spacing: 0.06em; }

@@ -6,6 +6,7 @@ import { montarProfecia } from './ui/profecia'
 import { montarQuiz } from './ui/quiz'
 import { montarCard } from './ui/card'
 import { montarNavegacao } from './ui/navegacao'
+import { htmlRodape } from './ui/rodape'
 import { diasDaEspera, formatarDias } from './lib/contadores'
 
 // O contador aparece antes de qualquer coisa — a piada nunca espera o GSAP.
@@ -25,6 +26,7 @@ rodape.innerHTML = `
     <p class="legenda">Ele será demolido em caso de hexa. Ninguém aqui está com pressa de demolir.</p>
   </div>
   <div id="slot-apoio" aria-hidden="true"></div>
+  ${htmlRodape()}
 `
 
 montarNavegacao(document.querySelector('#nav-secoes')!)
