@@ -383,7 +383,14 @@ button.opcao { transition: background 0.3s, color 0.3s, opacity 0.4s ease; }
    a seleção — que reflete no ponto (via .selecionado) e no painel de destaque —
    acontece na ativação explícita (clique/toque, Enter ou Espaço). */
 .ponto-vergonha { cursor: pointer; }
-.ponto-vergonha .ponto-alvo { fill: transparent; }
+/* Halo permanente: o alvo de 22px vira um anel pontilhado sutil — é ele que
+   diz "sou clicável" sem depender de hover (que celular não tem). */
+.ponto-vergonha .ponto-alvo {
+  fill: transparent;
+  stroke: var(--ouro-baco);
+  stroke-opacity: 0.4;
+  stroke-dasharray: 2 5;
+}
 .ponto-vergonha .ponto-nucleo {
   fill: var(--ouro);
   transition: fill 0.15s ease, r 0.15s ease;
@@ -406,8 +413,15 @@ button.opcao { transition: background 0.3s, color 0.3s, opacity 0.4s ease; }
 }
 
 /* Painel de destaque da Profecia: imagem + estatísticas rotuladas da profecia
-   selecionada no gráfico. Troca de conteúdo é instantânea (innerHTML), sem
-   animação — nada a desligar em prefers-reduced-motion. */
+   selecionada no gráfico. A troca de conteúdo faz crossfade (mesmo padrão do
+   quiz, .detalhe-saindo/entrando); sob prefers-reduced-motion o JS troca na
+   hora e nenhuma destas classes entra em cena. */
+.profecia-detalhe.detalhe-saindo {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.25s ease-in, transform 0.25s ease-in;
+}
+.profecia-detalhe.detalhe-entrando { animation: surgir 0.3s ease-out; }
 .profecia-detalhe {
   display: flex;
   gap: 1.5rem;

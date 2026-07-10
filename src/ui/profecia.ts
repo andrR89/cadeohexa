@@ -121,6 +121,28 @@ function ligarGraficoInterativo(el: HTMLElement): void {
   const painel: HTMLElement = painelEl
   let atual = 0
 
+  const reduzirMovimento = () => matchMedia('(prefers-reduced-motion: reduce)').matches
+  const DURACAO_SAIDA = 250
+
+  /** Crossfade do painel, padrão do quiz v3.1: anima a saída, troca o conteúdo
+   * (UMA escrita no aria-live, no meio do fade — sem anúncio duplicado no
+   * leitor de tela), anima a entrada. Sob reduced-motion troca na hora. */
+  function trocarDetalhe(previsao: Previsao): void {
+    if (reduzirMovimento()) {
+      painel.innerHTML = detalheHTML(previsao)
+      return
+    }
+    painel.classList.add('detalhe-saindo')
+    setTimeout(() => {
+      painel.classList.remove('detalhe-saindo')
+      painel.classList.add('detalhe-entrando')
+      painel.innerHTML = detalheHTML(previsao)
+      painel.addEventListener('animationend', () => painel.classList.remove('detalhe-entrando'), {
+        once: true,
+      })
+    }, DURACAO_SAIDA)
+  }
+
   function selecionar(indice: number): void {
     // Reativar o ponto já selecionado não deve reescrever a região aria-live
     // (o conteúdo já está na tela) — evita um anúncio redundante no leitor de tela.
@@ -133,7 +155,10 @@ function ligarGraficoInterativo(el: HTMLElement): void {
       ponto.classList.toggle('selecionado', ativo)
       ponto.setAttribute('aria-pressed', String(ativo))
     })
-    painel.innerHTML = detalheHTML(previsao)
+    trocarDetalhe(previsao)
+    // O módulo de animação (chunk lazy) escuta este evento para deslizar o anel
+    // e ligar o flatline — acoplamento por evento: sem o chunk, nada quebra.
+    el.dispatchEvent(new CustomEvent('profecia:selecao', { detail: { indice } }))
   }
 
   pontos.forEach((ponto, i) => {
