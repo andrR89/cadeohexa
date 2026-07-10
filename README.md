@@ -10,4 +10,4 @@ Tentativas, a Profecia e o Exame Oficial de Sofrimento.
 - `npm run build && npx wrangler pages dev dist` — build + Pages Functions locais
 - Deploy: `npx wrangler pages deploy dist --project-name cadeohexa`
 
-Conteúdo/piadas: `src/data/` · Spec: `docs/superpowers/specs/` · Pesquisa: `docs/pesquisa-zoacao.md`
+Conteúdo/piadas: `src/data/` · Spec: `docs/superpowers/specs/` · Backlog: `docs/BACKLOG.md` · Pesquisa: `docs/pesquisa-zoacao.md`
