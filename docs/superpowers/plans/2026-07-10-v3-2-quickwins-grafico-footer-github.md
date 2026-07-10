@@ -32,7 +32,7 @@
 - Modify: `src/main.ts:20-28`
 - Modify: `src/styles/main.css` (fim do arquivo)
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Criar `tests/rodape.test.ts`:
 
@@ -63,12 +63,12 @@ test('créditos citam a stack de verdade', () => {
 })
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `npx vitest run tests/rodape.test.ts`
 Expected: FAIL — `Cannot find module '../src/ui/rodape'` (ou equivalente).
 
-- [ ] **Step 3: Write minimal implementation**
+- [x] **Step 3: Write minimal implementation**
 
 Criar `src/ui/rodape.ts`:
 
@@ -89,12 +89,12 @@ export function htmlRodape(): string {
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 Run: `npx vitest run tests/rodape.test.ts`
 Expected: PASS (3 testes).
 
-- [ ] **Step 5: Montar no `main.ts`**
+- [x] **Step 5: Montar no `main.ts`**
 
 Em `src/main.ts`, adicionar o import junto aos demais:
 
@@ -117,7 +117,7 @@ rodape.innerHTML = `
 `
 ```
 
-- [ ] **Step 6: Estilos do footer**
+- [x] **Step 6: Estilos do footer**
 
 No fim de `src/styles/main.css`:
 
@@ -129,14 +129,14 @@ No fim de `src/styles/main.css`:
 .rodape-stack { opacity: 0.7; letter-spacing: 0.06em; }
 ```
 
-- [ ] **Step 7: Suíte inteira + verificação visual rápida**
+- [x] **Step 7: Suíte inteira + verificação visual rápida**
 
 Run: `npm test`
 Expected: todas as suítes PASS.
 
 Run: `npm run dev` e conferir no browser que o footer aparece sob a placa de inauguração com os dois links funcionando (abrir cada um).
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add src/ui/rodape.ts tests/rodape.test.ts src/main.ts src/styles/main.css
@@ -151,7 +151,7 @@ git commit -m "feat(v3.2): footer de créditos — mágoa, TypeScript e código 
 - Modify: `src/ui/profecia.ts:117-154` (função `ligarGraficoInterativo`)
 - Modify: `src/styles/main.css:385-408` (bloco dos pontos) + fim do arquivo
 
-- [ ] **Step 1: Crossfade e evento em `ligarGraficoInterativo`**
+- [x] **Step 1: Crossfade e evento em `ligarGraficoInterativo`**
 
 Substituir a função `selecionar` inteira (linhas 124–137 de `src/ui/profecia.ts`) por:
 
@@ -197,7 +197,7 @@ Substituir a função `selecionar` inteira (linhas 124–137 de `src/ui/profecia
   }
 ```
 
-- [ ] **Step 2: CSS do crossfade e do halo permanente**
+- [x] **Step 2: CSS do crossfade e do halo permanente**
 
 Em `src/styles/main.css`, trocar a regra `.ponto-vergonha .ponto-alvo { fill: transparent; }` (linha 386) por:
 
@@ -226,14 +226,14 @@ E adicionar, perto do bloco `.profecia-detalhe` existente (linha ~411):
 
 (A keyframe `surgir` já existe — é a mesma do quiz.)
 
-- [ ] **Step 3: Verificar**
+- [x] **Step 3: Verificar**
 
 Run: `npm test`
 Expected: PASS (nada de profecia depende do DOM nos testes).
 
 Run: `npm run dev` — clicar nos pontos: painel faz fade-out/in; halo pontilhado visível em todos os pontos sem hover. Com DevTools → Rendering → emulate `prefers-reduced-motion: reduce`: troca instantânea, sem fade.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add src/ui/profecia.ts src/styles/main.css
@@ -249,7 +249,7 @@ git commit -m "feat(v3.2): crossfade no painel da Profecia e halo permanente nos
 - Modify: `src/ui/profecia.ts:16` (fim de `montarProfecia`)
 - Modify: `src/styles/main.css` (fim do arquivo)
 
-- [ ] **Step 1: Criar `src/ui/profecia-animacao.ts`**
+- [x] **Step 1: Criar `src/ui/profecia-animacao.ts`**
 
 ```ts
 import gsap from 'gsap'
@@ -383,7 +383,7 @@ export function ligarAnimacaoProfecia(el: HTMLElement): void {
 }
 ```
 
-- [ ] **Step 2: Lazy-load no fim de `montarProfecia`**
+- [x] **Step 2: Lazy-load no fim de `montarProfecia`**
 
 Em `src/ui/profecia.ts`, depois de `ligarGraficoInterativo(el)` (linha 16):
 
@@ -398,7 +398,7 @@ Em `src/ui/profecia.ts`, depois de `ligarGraficoInterativo(el)` (linha 16):
   }
 ```
 
-- [ ] **Step 3: CSS do anel e do flatline**
+- [x] **Step 3: CSS do anel e do flatline**
 
 No fim de `src/styles/main.css`:
 
@@ -425,7 +425,7 @@ No fim de `src/styles/main.css`:
 }
 ```
 
-- [ ] **Step 4: Verificar build, testes e comportamento**
+- [x] **Step 4: Verificar build, testes e comportamento**
 
 Run: `npm test`
 Expected: PASS.
@@ -443,7 +443,7 @@ Run: `npm run dev` e conferir:
 
 Nota: como o chunk é lazy, pode haver um flash sutil (pontos aparecem e re-pipocam) se o usuário já estiver com o gráfico na tela no boot — aceitável, a Profecia fica bem abaixo da dobra.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/ui/profecia-animacao.ts src/ui/profecia.ts src/styles/main.css
@@ -458,7 +458,7 @@ git commit -m "feat(v3.2): gráfico da Profecia cinematográfico — draw-in, an
 - Modify: `README.md`
 - Git: remote + branches
 
-- [ ] **Step 1: Link do site no README**
+- [x] **Step 1: Link do site no README**
 
 Em `README.md`, trocar a primeira seção para incluir o link no ar (logo após o parágrafo de abertura):
 
@@ -471,7 +471,7 @@ git add README.md
 git commit -m "docs: links do site no ar e do repositório no README"
 ```
 
-- [ ] **Step 2: Scan de segredos no histórico (repo vai ser público)**
+- [x] **Step 2: Scan de segredos no histórico (repo vai ser público)**
 
 ```bash
 cd /home/andre/Workspace/hexa-site
@@ -481,7 +481,7 @@ git grep -iE '(api[_-]?key|token|senha|password|secret)\s*[:=]\s*["'"'"']?[A-Za-
 
 Expected: os dois `echo` de "nenhum". Se aparecer match, LER o trecho — match em texto de piada/doc é falso positivo; segredo real = PARAR e avisar o andre antes de qualquer push.
 
-- [ ] **Step 3: Configurar remote e testar autenticação**
+- [x] **Step 3: Configurar remote e testar autenticação**
 
 ```bash
 git remote add origin git@github.com:andrR89/cadeohexa.git
@@ -490,7 +490,7 @@ git ls-remote origin
 
 Expected: `git ls-remote` responde (vazio, repo sem commits) sem erro de auth. Se der `Permission denied (publickey)`: trocar para HTTPS com `git remote set-url origin https://github.com/andrR89/cadeohexa.git` e testar de novo (pode exigir `gh auth login` — nesse caso, pedir ao andre para rodar `! gh auth login`).
 
-- [ ] **Step 4: Atualizar `main` e push**
+- [x] **Step 4: Atualizar `main` e push**
 
 ```bash
 git checkout main
@@ -502,7 +502,7 @@ git push -u origin dev/site
 
 Expected: merge fast-forward limpo (main não tem commits próprios). Se `--ff-only` falhar, PARAR e mostrar `git log --oneline dev/site..main` ao andre — não fazer merge commit sem confirmar.
 
-- [ ] **Step 5: Verificar no GitHub**
+- [x] **Step 5: Verificar no GitHub**
 
 ```bash
 curl -s https://api.github.com/repos/andrR89/cadeohexa | grep -E '"(default_branch|size|pushed_at)"'
@@ -516,7 +516,7 @@ Expected: `size` > 0 e `pushed_at` de hoje. Conferir também que o README render
 
 **Files:** nenhum (build + deploy)
 
-- [ ] **Step 1: Suíte completa + build**
+- [x] **Step 1: Suíte completa + build**
 
 ```bash
 npm test && npm run build
@@ -524,7 +524,7 @@ npm test && npm run build
 
 Expected: testes PASS, build limpo.
 
-- [ ] **Step 2: Preview local com Pages Functions**
+- [x] **Step 2: Preview local com Pages Functions**
 
 ```bash
 npx wrangler pages dev dist
@@ -532,7 +532,7 @@ npx wrangler pages dev dist
 
 Conferir o site inteiro uma última vez (footer + gráfico animado).
 
-- [ ] **Step 3: Deploy**
+- [x] **Step 3: Deploy**
 
 ```bash
 npx wrangler pages deploy dist --project-name cadeohexa
@@ -540,7 +540,7 @@ npx wrangler pages deploy dist --project-name cadeohexa
 
 Expected: URL de deployment no output.
 
-- [ ] **Step 4: Verificar produção**
+- [x] **Step 4: Verificar produção**
 
 ```bash
 curl -s https://cadeohexa.pages.dev | grep -o 'rodape-creditos\|andrR89' | sort -u
@@ -548,7 +548,7 @@ curl -s https://cadeohexa.pages.dev | grep -o 'rodape-creditos\|andrR89' | sort 
 
 Expected: as duas strings presentes. Abrir o site e confirmar o gráfico animando.
 
-- [ ] **Step 5: Commit final de docs (se houver ajuste) e push**
+- [x] **Step 5: Commit final de docs (se houver ajuste) e push**
 
 ```bash
 git push origin dev/site main
