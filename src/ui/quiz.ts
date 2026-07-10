@@ -10,6 +10,27 @@ export function montarQuiz(el: HTMLElement): void {
   let indice = 0
   let acertos = 0
 
+  const reduzirMovimento = () => matchMedia('(prefers-reduced-motion: reduce)').matches
+  const JANELA_CONSOLO = 2200
+  const DURACAO_SAIDA = 250
+
+  /** Crossfade entre placas: anima a saída, troca o conteúdo, anima a entrada.
+   * Sob reduced-motion troca na hora — a transition CSS não rodaria e os 250ms
+   * virariam espera morta. */
+  function trocarPlaca(renderizar: () => void): void {
+    if (reduzirMovimento()) {
+      renderizar()
+      return
+    }
+    el.classList.add('quiz-saindo')
+    setTimeout(() => {
+      el.classList.remove('quiz-saindo')
+      el.classList.add('quiz-entrando')
+      renderizar()
+      el.addEventListener('animationend', () => el.classList.remove('quiz-entrando'), { once: true })
+    }, DURACAO_SAIDA)
+  }
+
   function renderizarPergunta(): void {
     const p = PERGUNTAS[indice]
     el.innerHTML = `
@@ -32,11 +53,18 @@ export function montarQuiz(el: HTMLElement): void {
           if (p.opcoes[i].correta) b.classList.add('correta')
           else if (b === btn) b.classList.add('errada')
         })
+        // Errou: a placa inteira treme — o estádio sentiu. A classe pode ficar,
+        // a placa morre na próxima troca de innerHTML.
+        if (!escolhida.correta) el.querySelector('.placa')?.classList.add('placa-tremida')
         el.querySelector<HTMLElement>('.consolo')!.hidden = false
-        setTimeout(() => {
-          indice++
-          indice < PERGUNTAS.length ? renderizarPergunta() : renderizarResultado()
-        }, 2200)
+        setTimeout(
+          () => {
+            indice++
+            trocarPlaca(indice < PERGUNTAS.length ? renderizarPergunta : renderizarResultado)
+          },
+          // O crossfade vive DENTRO da janela de 2,2s: a saída começa 250ms antes.
+          reduzirMovimento() ? JANELA_CONSOLO : JANELA_CONSOLO - DURACAO_SAIDA,
+        )
       }),
     )
   }
@@ -56,7 +84,7 @@ export function montarQuiz(el: HTMLElement): void {
     el.querySelector('#refazer')!.addEventListener('click', () => {
       indice = 0
       acertos = 0
-      renderizarPergunta()
+      trocarPlaca(renderizarPergunta)
     })
     document.dispatchEvent(new CustomEvent('patente-emitida'))
   }
@@ -69,5 +97,5 @@ export function montarQuiz(el: HTMLElement): void {
       <button class="solene" id="comecar">Iniciar o exame</button>
     </div>
   `
-  el.querySelector('#comecar')!.addEventListener('click', renderizarPergunta)
+  el.querySelector('#comecar')!.addEventListener('click', () => trocarPlaca(renderizarPergunta))
 }

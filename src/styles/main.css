@@ -321,6 +321,49 @@ button.solene:not(:disabled):hover { background: var(--ouro); color: var(--marmo
 .opcao.correta { border-color: var(--ouro-vivo); background: var(--ouro); color: var(--marmore-0); }
 .opcao.errada { opacity: 0.35; }
 
+/* Animações do quiz — CSS puro de propósito: o quiz vive no chunk principal e o
+   GSAP no chunk de scroll. O bloco global de prefers-reduced-motion zera
+   animation/transition, então tudo aqui desliga de graça. */
+
+/* Acerto (e revelação da certa no erro): pulso dourado, 2 batidas que assentam.
+   rgba = --ouro (#d4af5f) com alfa. */
+@keyframes pulso-dourado {
+  0%   { box-shadow: 0 0 0 0 rgba(212, 175, 95, 0.55); }
+  45%  { box-shadow: 0 0 0 9px rgba(212, 175, 95, 0); }
+  60%  { box-shadow: 0 0 0 0 rgba(212, 175, 95, 0.35); }
+  100% { box-shadow: 0 0 0 6px rgba(212, 175, 95, 0); }
+}
+.opcao.correta { animation: pulso-dourado 0.6s ease-out; }
+
+/* Erro: a placa inteira treme — o estádio sentiu. */
+@keyframes tremida {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(2px); }
+}
+.placa-tremida { animation: tremida 0.3s ease-in-out; }
+
+/* A escolhida errada esmaece suave (a opacidade final 0.35 já existe em
+   .opcao.errada). button.opcao pra empatar a especificidade com button.solene
+   e vencer pela ordem — por isso repete background/color de lá em vez de só
+   declarar opacity, senão a transition do hover sumia. */
+button.opcao { transition: background 0.3s, color 0.3s, opacity 0.4s ease; }
+
+/* Consolo: fade-in com leve subida em vez do flip seco do hidden. */
+@keyframes surgir {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.consolo:not([hidden]) { animation: surgir 0.4s ease-out; }
+
+/* Troca de pergunta/resultado: crossfade da placa. A classe de saída anima via
+   transition (o conteúdo ainda é o antigo); a de entrada via keyframe (o
+   conteúdo acabou de ser trocado). */
+.quiz-saindo .placa { opacity: 0; transform: translateY(8px); transition: opacity 0.25s ease-in, transform 0.25s ease-in; }
+.quiz-entrando .placa { animation: surgir 0.3s ease-out; }
+
 .grade-medidores { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1.5rem; max-width: 60rem; width: 100%; }
 .medidor { text-align: center; }
 .medidor .numero-medidor { font-size: 3rem; font-weight: 700; color: var(--ouro-vivo); font-variant-numeric: tabular-nums; }
