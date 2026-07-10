@@ -33,7 +33,7 @@
 - Modify: `src/styles/main.css` (junto de `.opcao.correta`/`.opcao.errada`, ~linha 321)
 - Modify: `src/ui/quiz.ts`
 
-- [ ] **Step 1: CSS — keyframes e classes**
+- [x] **Step 1: CSS — keyframes e classes**
 
 Adicionar junto aos estilos do quiz (adaptar se `.opcao` já tiver `transition`):
 
@@ -78,7 +78,7 @@ Adicionar junto aos estilos do quiz (adaptar se `.opcao` já tiver `transition`)
 .quiz-entrando .placa { animation: surgir 0.3s ease-out; }
 ```
 
-- [ ] **Step 2: quiz.ts — orquestração da troca**
+- [x] **Step 2: quiz.ts — orquestração da troca**
 
 No topo de `montarQuiz` (depois de `let acertos = 0`):
 
@@ -105,7 +105,7 @@ No topo de `montarQuiz` (depois de `let acertos = 0`):
   }
 ```
 
-- [ ] **Step 3: quiz.ts — usar a troca e a tremida**
+- [x] **Step 3: quiz.ts — usar a troca e a tremida**
 
 No handler de clique da opção:
 - se a escolhida for errada, tremer a placa: `if (!escolhida.correta) el.querySelector('.placa')?.classList.add('placa-tremida')` (a classe pode ficar — a placa morre na troca de innerHTML).
@@ -128,7 +128,7 @@ E os dois pontos de (re)início trocam com crossfade também:
 
 O foco no `h3` já acontece dentro de `renderizarPergunta`/`renderizarResultado` — não mexer.
 
-- [ ] **Step 4: Verificação**
+- [x] **Step 4: Verificação**
 
 ```bash
 npx vitest run && npx tsc --noEmit && npx vite build
@@ -139,7 +139,7 @@ Esperado: 29/29, tsc limpo, build ✓. Comparar o chunk principal com o baseline
 
 Checagem estática: `grep -n "quiz-saindo\|quiz-entrando\|placa-tremida\|pulso-dourado\|surgir" src/styles/main.css src/ui/quiz.ts` — cada classe usada no TS existe no CSS e vice-versa.
 
-- [ ] **Step 5: Commitar**
+- [x] **Step 5: Commitar**
 
 ```bash
 git add src/styles/main.css src/ui/quiz.ts docs/superpowers/specs/2026-07-09-cadeohexa-v3-1-quiz-animacoes.md docs/superpowers/plans/2026-07-09-cadeohexa-v3-1-quiz-animacoes.md
