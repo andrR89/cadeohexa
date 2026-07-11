@@ -624,3 +624,50 @@ button.opcao { transition: background 0.3s, color 0.3s, opacity 0.4s ease; }
 .cadarco-arrebentou {
   animation: cadarco-tremida 250ms ease-out;
 }
+
+/* ===== v4 · Fliperama — NÃO SOBE! ===== */
+.jogo-nao-sobe {
+  display: grid;
+  gap: 1rem;
+}
+.nao-sobe-campo {
+  position: relative;
+  height: min(52vh, 420px);
+  background:
+    linear-gradient(to bottom, rgb(127 29 29 / 30%), transparent 32%),
+    var(--marmore-1);
+  border: 1px solid var(--ouro-sombra);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.nao-sobe-ataque {
+  position: absolute;
+  top: 0.5rem;
+  width: 100%;
+  text-align: center;
+  color: var(--ouro-baco);
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+.nao-sobe-jogador {
+  position: absolute;
+  top: 74%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  line-height: 1;
+  padding: 0.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  /* a caminhada pro ataque — gameplay: sob reduced-motion vira salto seco */
+  transition: top 600ms ease-in;
+}
+.nao-sobe-jogador.subiu {
+  top: 12%;
+}
+.nao-sobe-jogador:focus-visible {
+  outline: 2px solid var(--ouro-vivo);
+  outline-offset: 2px;
+  border-radius: 50%;
+}
