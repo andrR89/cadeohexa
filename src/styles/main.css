@@ -555,3 +555,75 @@ button.opcao { transition: background 0.3s, color 0.3s, opacity 0.4s ease; }
 @media (prefers-reduced-motion: reduce) {
   .anel-selecao, .grafico-flatline polyline { animation: none; }
 }
+
+/* ===== v4 · Fliperama — Amarre a Chuteira ===== */
+.jogo-chuteira {
+  display: grid;
+  gap: 1.25rem;
+  text-align: center;
+}
+.jogo-placar {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ouro-baco);
+}
+.chuteira-henry {
+  position: relative;
+  height: 2.6rem;
+  border-bottom: 1px dashed var(--ouro-sombra);
+}
+.henry {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  font-size: 2rem;
+  transform: translateX(-50%);
+}
+.chuteira-ilhoses {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  font-size: 1.8rem;
+  color: var(--ouro-baco);
+}
+.chuteira-trilho {
+  position: relative;
+  height: 3rem;
+  background: var(--marmore-1);
+  border: 1px solid var(--ouro-sombra);
+  border-radius: 4px;
+}
+.chuteira-zona {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgb(212 175 95 / 30%);
+  border-inline: 2px solid var(--ouro);
+}
+.chuteira-marcador {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 4px;
+  background: var(--ouro-vivo);
+  transform: translateX(-50%);
+}
+.jogo-acao {
+  justify-self: center;
+  min-width: 60%;
+  min-height: 3rem;
+}
+@keyframes cadarco-tremida {
+  0%, 100% { transform: none; }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+.cadarco-arrebentou {
+  animation: cadarco-tremida 250ms ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cadarco-arrebentou { animation: none; }
+}
