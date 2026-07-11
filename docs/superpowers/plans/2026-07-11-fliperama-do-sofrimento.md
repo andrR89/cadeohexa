@@ -1211,6 +1211,7 @@ export const montar: MontarJogo = (el, aoTerminar) => {
   document.addEventListener('keydown', aoTeclar)
 
   function desmontar(): void {
+    terminado = true // neutraliza apertar() e qualquer frame tardio — sem aoTerminar fantasma pós-Esc
     cancelAnimationFrame(quadro)
     document.removeEventListener('keydown', aoTeclar)
   }
@@ -1288,9 +1289,6 @@ export const montar: MontarJogo = (el, aoTerminar) => {
 }
 .cadarco-arrebentou {
   animation: cadarco-tremida 250ms ease-out;
-}
-@media (prefers-reduced-motion: reduce) {
-  .cadarco-arrebentou { animation: none; }
 }
 ```
 

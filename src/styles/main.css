@@ -624,6 +624,3 @@ button.opcao { transition: background 0.3s, color 0.3s, opacity 0.4s ease; }
 .cadarco-arrebentou {
   animation: cadarco-tremida 250ms ease-out;
 }
-@media (prefers-reduced-motion: reduce) {
-  .cadarco-arrebentou { animation: none; }
-}
