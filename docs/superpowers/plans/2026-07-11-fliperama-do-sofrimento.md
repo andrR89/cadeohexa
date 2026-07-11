@@ -54,7 +54,8 @@ jogos — o rAF já dirige o estado), puppeteer-core + Chromium do sistema no E2
 | `tests/fliperama.test.ts`, `tests/fliperama-ui.test.ts`, `tests/jogos/*.test.ts` (criar) | Vitest |
 
 Convenções dos módulos de lógica: coordenadas normalizadas 0..1; tempo é o
-`tMs` da partida (a UI passa `performance.now() - t0`); `resultado` é
+`tMs` da partida (a UI passa o tempo do `criarCronometro` de relogio.ts —
+delta clampado por quadro, pra aba em segundo plano congelar o jogo); `resultado` é
 `'vitoria' | 'derrota' | null` e, uma vez definido, nunca muda.
 
 ---
@@ -1112,6 +1113,7 @@ Task 11). Verificação da task: `npm run build` (tsc estrito) verde.
 ```ts
 // src/ui/jogos/chuteira.ts
 import { criarChuteira, posicaoMarcador } from '../../lib/jogos/chuteira'
+import { criarCronometro } from '../../lib/jogos/relogio'
 import type { MontarJogo, ResultadoJogo } from '../../lib/jogos/tipos'
 
 /** UI do QTE: o rAF move o marcador e o Henry; espaço/toque aperta. Toda a
@@ -1146,7 +1148,9 @@ export const montar: MontarJogo = (el, aoTerminar) => {
   }
   ajustarZona()
 
-  const t0 = performance.now()
+  // Cronômetro clampado: aba em segundo plano congela a partida em vez de
+  // estourar o timer do Henry de uma vez (decisão da revisão da Task 4).
+  const cronometro = criarCronometro()
   let quadro = 0
   let terminado = false
 
@@ -1158,7 +1162,7 @@ export const montar: MontarJogo = (el, aoTerminar) => {
   }
 
   function frame(agora: number): void {
-    const t = agora - t0
+    const t = cronometro(agora)
     jogo.tick(t)
     marcador.style.left = `${posicaoMarcador(t, periodoMs) * 100}%`
     henry.style.left = `${Math.min(t / duracaoHenryMs, 1) * 100}%`
@@ -1173,7 +1177,7 @@ export const montar: MontarJogo = (el, aoTerminar) => {
 
   function apertar(): void {
     if (terminado) return
-    const resposta = jogo.apertar(performance.now() - t0)
+    const resposta = jogo.apertar(cronometro(performance.now()))
     if (resposta === 'acerto') {
       const { ilhos, resultado } = jogo.estado()
       const fechado = el.querySelector(`.ilhos[data-i="${ilhos - 1}"]`)
@@ -1309,7 +1313,7 @@ Mesma regra da Task 7: verificação por `npm run build`; comportamento no E2E.
 ```ts
 // src/ui/jogos/nao-sobe.ts
 import { CONFIG_NAO_SOBE, criarNaoSobe, gerarEscapes } from '../../lib/jogos/nao-sobe'
-import { formatarMinuto, minutoFicticio } from '../../lib/jogos/relogio'
+import { criarCronometro, formatarMinuto, minutoFicticio } from '../../lib/jogos/relogio'
 import type { MontarJogo, ResultadoJogo } from '../../lib/jogos/tipos'
 
 /** Campo visto de cima: os 10 são botões (toque OU Tab+Enter, de graça).
@@ -1356,7 +1360,9 @@ export const montar: MontarJogo = (el, aoTerminar) => {
     }),
   )
 
-  const t0 = performance.now()
+  // Cronômetro clampado: aba em segundo plano congela a partida em vez de
+  // replayar a fila de escapes de uma vez (decisão da revisão da Task 4).
+  const cronometro = criarCronometro()
   let quadro = 0
   let terminado = false
 
@@ -1368,7 +1374,7 @@ export const montar: MontarJogo = (el, aoTerminar) => {
   }
 
   function frame(agora: number): void {
-    const t = agora - t0
+    const t = cronometro(agora)
     for (const j of jogo.tick(t)) botoes[j]?.classList.add('subiu')
     atualizarAlerta()
     relogio.textContent = formatarMinuto(
@@ -1473,7 +1479,7 @@ Mesma regra: verificação por `npm run build`; comportamento no E2E.
 import {
   CONFIG_CARLETTO, criarCarletto, gerarItens, yDoItem, type TipoItem,
 } from '../../lib/jogos/carletto'
-import { formatarMinuto, minutoFicticio } from '../../lib/jogos/relogio'
+import { criarCronometro, formatarMinuto, minutoFicticio } from '../../lib/jogos/relogio'
 import type { MontarJogo, ResultadoJogo } from '../../lib/jogos/tipos'
 
 const EMOJI: Record<TipoItem, string> = { chiclete: '🍬', menta: '🍃', bandeira: '🇳🇴' }
@@ -1504,14 +1510,16 @@ export const montar: MontarJogo = (el, aoTerminar) => {
   const relogio = el.querySelector<HTMLElement>('.carletto-relogio')!
   const divs = new Map<number, HTMLElement>()
 
-  const t0 = performance.now()
+  // Cronômetro clampado: aba em segundo plano congela a partida em vez de
+  // derramar a chuva de chicletes acumulada (decisão da revisão da Task 4).
+  const cronometro = criarCronometro()
   let xBoca = 0.5
   let quadro = 0
   let terminado = false
 
   function mover(x: number): void {
     // travado pela isca: a cara de decepção não anda
-    if (performance.now() - t0 < jogo.travadoAte()) return
+    if (cronometro(performance.now()) < jogo.travadoAte()) return
     xBoca = Math.min(1, Math.max(0, x))
   }
   function aoApontar(evento: PointerEvent): void {
@@ -1539,7 +1547,7 @@ export const montar: MontarJogo = (el, aoTerminar) => {
   }
 
   function frame(agora: number): void {
-    const t = agora - t0
+    const t = cronometro(agora)
     const eventos = jogo.tick(t, xBoca)
     for (const item of eventos.capturados) {
       divs.get(item.id)?.remove()
