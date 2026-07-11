@@ -1396,6 +1396,7 @@ export const montar: MontarJogo = (el, aoTerminar) => {
   quadro = requestAnimationFrame(frame)
 
   function desmontar(): void {
+    terminado = true // neutraliza qualquer frame/clique tardio pós-Esc
     cancelAnimationFrame(quadro)
   }
   return desmontar
@@ -1403,6 +1404,10 @@ export const montar: MontarJogo = (el, aoTerminar) => {
 ```
 
 - [ ] **Step 2: CSS do jogo (no fim de `src/styles/main.css`)**
+
+Nota: NÃO adicionar bloco `@media (prefers-reduced-motion: reduce)` — o
+main.css já tem kill switch global com `!important` (linha ~186) que desliga
+a transition da caminhada de graça (vira salto seco, jogável do mesmo jeito).
 
 ```css
 /* ===== v4 · Fliperama — NÃO SOBE! ===== */
@@ -1450,9 +1455,6 @@ export const montar: MontarJogo = (el, aoTerminar) => {
   outline: 2px solid var(--ouro-vivo);
   outline-offset: 2px;
   border-radius: 50%;
-}
-@media (prefers-reduced-motion: reduce) {
-  .nao-sobe-jogador { transition: none; }
 }
 ```
 
@@ -1600,6 +1602,7 @@ export const montar: MontarJogo = (el, aoTerminar) => {
   quadro = requestAnimationFrame(frame)
 
   function desmontar(): void {
+    terminado = true // neutraliza qualquer frame/input tardio pós-Esc
     cancelAnimationFrame(quadro)
     document.removeEventListener('keydown', aoTeclar)
     area.removeEventListener('pointermove', aoApontar)
@@ -1610,6 +1613,10 @@ export const montar: MontarJogo = (el, aoTerminar) => {
 ```
 
 - [ ] **Step 2: CSS do jogo (no fim de `src/styles/main.css`)**
+
+Nota: NÃO adicionar bloco `@media (prefers-reduced-motion: reduce)` — o kill
+switch global do main.css (linha ~186) já desliga animação/transition
+decorativas de graça; a queda dos itens é JS inline e continua (gameplay).
 
 ```css
 /* ===== v4 · Fliperama — Segura, Carletto! ===== */
@@ -1677,11 +1684,6 @@ export const montar: MontarJogo = (el, aoTerminar) => {
 }
 .carletto-sofreu {
   animation: carletto-tremida 250ms ease-out;
-}
-@media (prefers-reduced-motion: reduce) {
-  .carletto-sofreu { animation: none; }
-  .carletto-item.no-chao { transition: none; }
-  .carletto-barra-nivel { transition: none; }
 }
 ```
 
