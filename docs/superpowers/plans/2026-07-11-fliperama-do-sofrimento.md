@@ -425,8 +425,10 @@ export function posicaoMarcador(tMs: number, periodoMs: number): number {
   return fase < 0.5 ? fase * 2 : (1 - fase) * 2
 }
 
+/** A zona de acerto é centrada no meio do trilho. O epsilon absorve o erro de
+ * ponto flutuante na borda (0,68 − 0,5 = 0,18000000000000005 > 0,18). */
 export function dentroDaZona(posicao: number, meiaLargura: number): boolean {
-  return Math.abs(posicao - 0.5) <= meiaLargura
+  return Math.abs(posicao - 0.5) <= meiaLargura + 1e-9
 }
 
 export interface Chuteira {
