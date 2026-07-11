@@ -71,3 +71,34 @@ test('gerarEscapes: frequência cresce e o goleiro só aparece no quarto final',
   // com rng 0,99 o goleiro é sorteado assim que entra na roleta
   expect(escapes.some((e) => e.jogador === goleiro)).toBe(true)
 })
+
+test('tick é idempotente — repetir ou retroceder o tempo não reprocessa eventos', () => {
+  const jogo = criarNaoSobe(CFG, [{ tMs: 1000, jogador: 0 }])
+  expect(jogo.tick(1500)).toEqual([0])
+  expect(jogo.tick(1500)).toEqual([])
+  expect(jogo.tick(1200)).toEqual([]) // rAF não deveria voltar, mas se voltar não quebra
+  expect(jogo.avancados()).toEqual([0])
+})
+
+test('depois da vitória o jogo congela: tick não escapa e puxar não puxa', () => {
+  const jogo = criarNaoSobe(CFG, [
+    { tMs: 1000, jogador: 0 },
+    { tMs: 11000, jogador: 1 }, // agendado depois do apito: nunca acontece
+  ])
+  jogo.tick(1000)
+  jogo.tick(10000) // apito final
+  expect(jogo.estado().resultado).toBe('vitoria')
+  expect(jogo.tick(12000)).toEqual([])
+  expect(jogo.puxar(0)).toBe(false)
+})
+
+test('escape no instante do apito que fecha 3 avançados é derrota, não vitória', () => {
+  const jogo = criarNaoSobe(CFG, [
+    { tMs: 1000, jogador: 0 },
+    { tMs: 2000, jogador: 1 },
+    { tMs: 10000, jogador: 2 }, // exatamente no apito
+  ])
+  jogo.tick(9000)
+  jogo.tick(10000)
+  expect(jogo.estado().resultado).toBe('derrota')
+})

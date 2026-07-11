@@ -19,3 +19,18 @@ export function formatarMinuto(minuto: number, acrescimoApos?: number): string {
   }
   return `${minuto}'`
 }
+
+/** Cronômetro de partida imune a pausas do rAF (aba em segundo plano):
+ * acumula o tempo quadro a quadro clampando cada delta em maxDeltaMs.
+ * Uma pausa longa vira um único quadro curto — a partida congela em vez
+ * de estourar os eventos acumulados de uma vez. O primeiro chamado só
+ * calibra (retorna 0). */
+export function criarCronometro(maxDeltaMs = 100): (agoraMs: number) => number {
+  let ultimo: number | null = null
+  let acumulado = 0
+  return (agoraMs) => {
+    if (ultimo !== null) acumulado += Math.min(Math.max(agoraMs - ultimo, 0), maxDeltaMs)
+    ultimo = agoraMs
+    return acumulado
+  }
+}
