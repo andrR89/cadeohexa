@@ -111,3 +111,15 @@ test('yDoItem: 0 no spawn, 1 no chão', () => {
   expect(yDoItem(item, 2500)).toBe(0.5)
   expect(yDoItem(item, 3000)).toBe(1)
 })
+
+test('barra zerada no meio do quadro é derrota — sem resgate no mesmo tick', () => {
+  const jogo = criarCarletto({ ...CFG, barraInicial: 18 }, [
+    chiclete(0, 0.9, 0), // vai pro chão aos 1000
+    chiclete(1, 0.5, 200), // cruza a boca aos 1000 — não pode salvar
+  ])
+  jogo.tick(800, 0.2) // 0 escapou da boca; 1 ainda caindo
+  const eventos = jogo.tick(1000, 0.5)
+  expect(eventos.noChao.map((i) => i.id)).toEqual([0])
+  expect(jogo.barra()).toBe(0)
+  expect(jogo.estado().resultado).toBe('derrota')
+})

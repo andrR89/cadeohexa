@@ -858,7 +858,7 @@ export const CONFIG_CARLETTO: ConfigCarletto = {
   intervaloInicialMs: 1500,
   intervaloFinalMs: 750,
   quedaMs: 1600,
-  yBoca: 0.8,
+  yBoca: 0.8, // INVARIANTE: (1 − yBoca) · quedaMs (320ms) > maxDeltaMs do criarCronometro (100ms) — garante ≥3 frames de janela na boca
   raioBoca: 0.09,
   barraInicial: 50,
   ganhoCaptura: 14,
@@ -946,7 +946,15 @@ export function criarCarletto(cfg: ConfigCarletto, itens: ItemQueda[]): Carletto
         if (situacao.get(item.id) === 'escapou' && y >= 1) {
           situacao.set(item.id, 'chao')
           eventos.noChao.push(item)
-          if (item.tipo === 'chiclete') barra = Math.max(0, barra - cfg.perdaChao)
+          if (item.tipo === 'chiclete') {
+            barra = Math.max(0, barra - cfg.perdaChao)
+            // Na hora: o gol do Haaland não espera o resto do quadro —
+            // sem resgate por uma captura posterior no mesmo tick.
+            if (barra <= 0) {
+              resultado = 'derrota'
+              return eventos
+            }
+          }
         }
       }
       if (barra <= 0) resultado = 'derrota' // Haaland marca na hora
