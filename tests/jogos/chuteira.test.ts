@@ -45,3 +45,21 @@ test('vitória não é sobrescrita por um tick tardio do Henry', () => {
   jogo.tick(99999)
   expect(jogo.estado().resultado).toBe('vitoria')
 })
+
+test('errar no meio do progresso não zera os ilhoses já feitos', () => {
+  const jogo = criarChuteira()
+  const p = jogo.config.periodoMs
+  jogo.apertar(p / 4) // ilhós 1
+  jogo.apertar(p / 4 + p) // ilhós 2
+  expect(jogo.apertar(3 * p)).toBe('erro') // marcador em 0, longe do centro
+  expect(jogo.estado().ilhos).toBe(2)
+})
+
+test('a zona encolhe a cada ilhós — a mesma posição vira erro no ilhós seguinte', () => {
+  const jogo = criarChuteira()
+  const p = jogo.config.periodoMs
+  const tPos035 = 0.175 * p // marcador em 0,35: a 0,15 do centro
+  expect(jogo.apertar(tPos035)).toBe('acerto') // ilhós 1: meia-largura 0,18
+  expect(jogo.apertar(tPos035 + p)).toBe('erro') // ilhós 2: meia-largura 0,13
+  expect(jogo.estado().ilhos).toBe(1)
+})
