@@ -677,3 +677,70 @@ button.opcao { transition: background 0.3s, color 0.3s, opacity 0.4s ease; }
     padding: 0.3rem;
   }
 }
+
+/* ===== v4 · Fliperama — Segura, Carletto! ===== */
+.jogo-carletto {
+  display: grid;
+  gap: 0.75rem;
+}
+.carletto-barra-caixa {
+  display: grid;
+  gap: 0.25rem;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: var(--ouro-baco);
+}
+.carletto-barra {
+  height: 14px;
+  border: 1px solid var(--ouro-sombra);
+  background: var(--marmore-1);
+}
+.carletto-barra-nivel {
+  height: 100%;
+  width: 50%;
+  background: linear-gradient(to right, #7f1d1d, var(--ouro));
+  transition: width 150ms linear;
+}
+.carletto-area {
+  position: relative;
+  height: min(50vh, 400px);
+  overflow: hidden;
+  background:
+    linear-gradient(to bottom, transparent 88%, rgb(34 90 34 / 45%) 88%),
+    var(--marmore-1);
+  border: 1px solid var(--ouro-sombra);
+  border-radius: 4px;
+  touch-action: none;
+  cursor: crosshair;
+}
+.carletto {
+  position: absolute;
+  bottom: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2.4rem;
+  line-height: 1;
+}
+.carletto.travado {
+  filter: grayscale(1);
+}
+.carletto-item {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+.carletto-item.no-chao {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+@keyframes carletto-tremida {
+  0%, 100% { transform: none; }
+  30% { transform: translateY(3px); }
+  60% { transform: translateY(-3px); }
+}
+.carletto-sofreu {
+  animation: carletto-tremida 250ms ease-out;
+}
