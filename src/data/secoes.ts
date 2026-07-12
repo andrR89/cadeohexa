@@ -11,6 +11,7 @@ export const SECOES: readonly Secao[] = [
   { id: 'ala-das-tentativas', titulo: 'Ala das Tentativas' },
   { id: 'medidores', titulo: 'Medidores da espera' },
   { id: 'profecia', titulo: 'A Profecia' },
+  { id: 'fliperama', titulo: 'Fliperama do Sofrimento' },
   { id: 'quiz', titulo: 'Quiz' },
   { id: 'card', titulo: 'Seu card' },
 ]

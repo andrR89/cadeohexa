@@ -744,3 +744,104 @@ button.opcao { transition: background 0.3s, color 0.3s, opacity 0.4s ease; }
 .carletto-sofreu {
   animation: carletto-tremida 250ms ease-out;
 }
+
+/* ===== v4 · Fliperama do Sofrimento — seção, gabinetes e overlay =====
+   Estética de fliperama retrô por cima do mármore: contraste PROPOSITAL
+   (spec v4). Scanlines estáticas — não são movimento, ficam sob
+   reduced-motion. */
+#fliperama .gabinetes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+.gabinete {
+  position: relative;
+  overflow: hidden;
+  background: var(--marmore-2);
+  border: 1px solid var(--ouro-sombra);
+  border-radius: 10px 10px 3px 3px;
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+  display: grid;
+  gap: 0.5rem;
+  justify-items: center;
+}
+.gabinete::after,
+.fliperama-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 2px,
+    rgb(0 0 0 / 16%) 2px 3px
+  );
+}
+.gabinete h3,
+.gabinete .rotulo {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.gabinete-icone {
+  font-size: 3rem;
+  line-height: 1;
+}
+.gabinete .jogar {
+  margin-top: 0.75rem;
+  position: relative;
+  z-index: 1; /* acima das scanlines */
+}
+.fliperama-overlay {
+  width: 100%;
+  height: 100dvh;
+  max-width: 100vw;
+  max-height: 100dvh;
+  margin: 0;
+  border: none;
+  padding: 1.25rem;
+  background: var(--marmore-0);
+  color: inherit;
+  overflow-y: auto;
+}
+.fliperama-overlay::backdrop {
+  background: rgb(0 0 0 / 78%);
+}
+.fliperama-tela {
+  max-width: 720px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1.25rem;
+  padding-top: 4vh;
+  position: relative;
+  z-index: 1; /* conteúdo acima das scanlines do overlay */
+}
+.fliperama-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+.fliperama-instrucoes {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+.fliperama-botoes {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.placa-derrota h3 {
+  letter-spacing: 0.15em;
+}
+.placa-e-se {
+  border-color: var(--ouro-vivo);
+  box-shadow: 0 0 28px rgb(240 214 147 / 22%);
+}
+.placa-e-se h3 {
+  color: var(--ouro-vivo);
+  letter-spacing: 0.15em;
+}

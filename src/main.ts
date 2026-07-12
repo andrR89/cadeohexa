@@ -3,6 +3,7 @@ import { montarCountdown } from './ui/countdown'
 import { montarTimeline } from './ui/timeline'
 import { montarMedidores } from './ui/medidores'
 import { montarProfecia } from './ui/profecia'
+import { montarFliperama } from './ui/fliperama'
 import { montarQuiz } from './ui/quiz'
 import { montarCard } from './ui/card'
 import { montarNavegacao } from './ui/navegacao'
@@ -15,6 +16,7 @@ montarCountdown(document.querySelector('#proxima-tentativa')!)
 montarTimeline(document.querySelector('#ala-das-tentativas')!)
 montarMedidores(document.querySelector('#medidores')!)
 montarProfecia(document.querySelector('#profecia')!)
+montarFliperama(document.querySelector('#fliperama')!)
 montarQuiz(document.querySelector('#quiz')!)
 montarCard(document.querySelector('#card')!)
 
