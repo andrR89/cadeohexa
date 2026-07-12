@@ -5,12 +5,13 @@ cada; detalhe nas specs em `docs/superpowers/specs/`.
 
 ## Em andamento
 
-- [ ] **Fliperama do Sofrimento (mini-jogos das derrotas)** — *must have*.
-  Spec PRONTA: `docs/superpowers/specs/2026-07-10-fliperama-do-sofrimento-design.md`.
-  Decidido: 2006 Amarre a Chuteira (QTE) · 2022 NÃO SOBE! · 2026 Segura,
-  Carletto! (Teoria do Chiclete); difícil-mas-vencível, vitória = "e se...";
-  pixel art via PixelLab (andre vai assinar), placeholders CSS primeiro.
-  **Próximo passo:** andre revisa a spec → plano (writing-plans) → implementar.
+- [ ] **Fliperama — sprites PixelLab** — trocar os placeholders emoji/CSS do
+  Fliperama (v1 já no ar) por pixel art gerada no PixelLab (API já no
+  claude-creds-vault; `services/pixellab/README.md`). Pontos de encaixe prontos:
+  `--gabinete-icone`, `.henry`, `.nao-sobe-jogador`, `.carletto`,
+  `.carletto-item`. Lista de sprites na seção "Direção de arte" da spec; cada
+  geração consome créditos — confirmar o lote com o andre.
+  **Próximo passo:** andre libera o lote → gerar os sprites.
 
 ## Próximas (sem ordem fechada)
 
@@ -42,6 +43,14 @@ cada; detalhe nas specs em `docs/superpowers/specs/`.
 
 ## Feito
 
+- [x] **v4 · Fliperama do Sofrimento (12/07/2026)** — seção `#fliperama` com 3
+  mini-jogos jogáveis das eliminações (2006 Amarre a Chuteira, 2022 NÃO SOBE!,
+  2026 Segura, Carletto!): lógica pura testada (73/73 no Vitest), overlay
+  `<dialog>` com foco/Esc, 3 chunks lazy, stats locais e E2E headless
+  (`scripts/verificar-fliperama.mjs`). Ícones/sprites ainda são placeholders
+  emoji/CSS — a arte do PixelLab ficou pra próxima (ver "Em andamento").
+  Spec: `2026-07-10-fliperama-do-sofrimento-design.md`;
+  plano: `2026-07-11-fliperama-do-sofrimento.md`.
 - [x] **v3.2 (10/07/2026)** — gráfico da Profecia animado/interativo claro
   (draw-in, anel "você está aqui", halo nos pontos, ECG + flatline), footer
   de créditos/portfólio, repo público em github.com/andrR89/cadeohexa.

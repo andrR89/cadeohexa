@@ -67,7 +67,7 @@ delta clampado por quadro, pra aba em segundo plano congelar o jogo); `resultado
 - Create: `src/data/fliperama.ts`
 - Test: `tests/fliperama.test.ts`
 
-- [ ] **Step 1: Escrever o teste que falha**
+- [x] **Step 1: Escrever o teste que falha**
 
 ```ts
 // tests/fliperama.test.ts
@@ -102,12 +102,12 @@ test('textos da seção e linha de stats', () => {
 })
 ```
 
-- [ ] **Step 2: Rodar e ver falhar**
+- [x] **Step 2: Rodar e ver falhar**
 
 Run: `npm test -- tests/fliperama.test.ts`
 Expected: FAIL — `Cannot find module '../src/data/fliperama'`
 
-- [ ] **Step 3: Implementar tipos e dados**
+- [x] **Step 3: Implementar tipos e dados**
 
 ```ts
 // src/lib/jogos/tipos.ts
@@ -246,12 +246,12 @@ export const JOGOS: readonly JogoFliperama[] = [
 ]
 ```
 
-- [ ] **Step 4: Rodar e ver passar**
+- [x] **Step 4: Rodar e ver passar**
 
 Run: `npm test -- tests/fliperama.test.ts`
 Expected: PASS (4 testes)
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/lib/jogos/tipos.ts src/data/fliperama.ts tests/fliperama.test.ts
@@ -266,7 +266,7 @@ git commit -m "feat(v4): dados e contrato dos 3 jogos do Fliperama do Sofrimento
 - Create: `src/lib/jogos/relogio.ts`
 - Test: `tests/jogos/relogio.test.ts`
 
-- [ ] **Step 1: Escrever o teste que falha**
+- [x] **Step 1: Escrever o teste que falha**
 
 ```ts
 // tests/jogos/relogio.test.ts
@@ -290,12 +290,12 @@ test('formatarMinuto: prorrogação é minuto puro; acréscimo usa 90+X', () => 
 })
 ```
 
-- [ ] **Step 2: Rodar e ver falhar**
+- [x] **Step 2: Rodar e ver falhar**
 
 Run: `npm test -- tests/jogos/relogio.test.ts`
 Expected: FAIL — módulo inexistente
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 ```ts
 // src/lib/jogos/relogio.ts
@@ -322,12 +322,12 @@ export function formatarMinuto(minuto: number, acrescimoApos?: number): string {
 }
 ```
 
-- [ ] **Step 4: Rodar e ver passar**
+- [x] **Step 4: Rodar e ver passar**
 
 Run: `npm test -- tests/jogos/relogio.test.ts`
 Expected: PASS
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/lib/jogos/relogio.ts tests/jogos/relogio.test.ts
@@ -342,7 +342,7 @@ git commit -m "feat(v4): relógio fictício dos mini-jogos"
 - Create: `src/lib/jogos/chuteira.ts`
 - Test: `tests/jogos/chuteira.test.ts`
 
-- [ ] **Step 1: Escrever o teste que falha**
+- [x] **Step 1: Escrever o teste que falha**
 
 ```ts
 // tests/jogos/chuteira.test.ts
@@ -395,12 +395,12 @@ test('vitória não é sobrescrita por um tick tardio do Henry', () => {
 })
 ```
 
-- [ ] **Step 2: Rodar e ver falhar**
+- [x] **Step 2: Rodar e ver falhar**
 
 Run: `npm test -- tests/jogos/chuteira.test.ts`
 Expected: FAIL — módulo inexistente
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 ```ts
 // src/lib/jogos/chuteira.ts
@@ -470,12 +470,12 @@ export function criarChuteira(config: Partial<ConfigChuteira> = {}): Chuteira {
 }
 ```
 
-- [ ] **Step 4: Rodar e ver passar**
+- [x] **Step 4: Rodar e ver passar**
 
 Run: `npm test -- tests/jogos/chuteira.test.ts`
 Expected: PASS (6 testes)
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/lib/jogos/chuteira.ts tests/jogos/chuteira.test.ts
@@ -490,7 +490,7 @@ git commit -m "feat(v4): lógica do Amarre a Chuteira — QTE de timing com zona
 - Create: `src/lib/jogos/nao-sobe.ts`
 - Test: `tests/jogos/nao-sobe.test.ts`
 
-- [ ] **Step 1: Escrever o teste que falha**
+- [x] **Step 1: Escrever o teste que falha**
 
 ```ts
 // tests/jogos/nao-sobe.test.ts
@@ -569,12 +569,12 @@ test('gerarEscapes: frequência cresce e o goleiro só aparece no quarto final',
 })
 ```
 
-- [ ] **Step 2: Rodar e ver falhar**
+- [x] **Step 2: Rodar e ver falhar**
 
 Run: `npm test -- tests/jogos/nao-sobe.test.ts`
 Expected: FAIL — módulo inexistente
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 ```ts
 // src/lib/jogos/nao-sobe.ts
@@ -677,12 +677,12 @@ export function criarNaoSobe(cfg: ConfigNaoSobe, escapes: EventoEscape[]): NaoSo
 }
 ```
 
-- [ ] **Step 4: Rodar e ver passar**
+- [x] **Step 4: Rodar e ver passar**
 
 Run: `npm test -- tests/jogos/nao-sobe.test.ts`
 Expected: PASS (5 testes)
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/lib/jogos/nao-sobe.ts tests/jogos/nao-sobe.test.ts
@@ -697,7 +697,7 @@ git commit -m "feat(v4): lógica do NÃO SOBE! — escapes crescentes e regra do
 - Create: `src/lib/jogos/carletto.ts`
 - Test: `tests/jogos/carletto.test.ts`
 
-- [ ] **Step 1: Escrever o teste que falha**
+- [x] **Step 1: Escrever o teste que falha**
 
 ```ts
 // tests/jogos/carletto.test.ts
@@ -816,12 +816,12 @@ test('yDoItem: 0 no spawn, 1 no chão', () => {
 })
 ```
 
-- [ ] **Step 2: Rodar e ver falhar**
+- [x] **Step 2: Rodar e ver falhar**
 
 Run: `npm test -- tests/jogos/carletto.test.ts`
 Expected: FAIL — módulo inexistente
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 ```ts
 // src/lib/jogos/carletto.ts
@@ -966,12 +966,12 @@ export function criarCarletto(cfg: ConfigCarletto, itens: ItemQueda[]): Carletto
 }
 ```
 
-- [ ] **Step 4: Rodar e ver passar**
+- [x] **Step 4: Rodar e ver passar**
 
 Run: `npm test -- tests/jogos/carletto.test.ts`
 Expected: PASS (9 testes)
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/lib/jogos/carletto.ts tests/jogos/carletto.test.ts
@@ -986,7 +986,7 @@ git commit -m "feat(v4): lógica do Segura, Carletto! — chuva de chicletes, is
 - Create: `src/lib/jogos/stats.ts`
 - Test: `tests/jogos/stats.test.ts`
 
-- [ ] **Step 1: Escrever o teste que falha**
+- [x] **Step 1: Escrever o teste que falha**
 
 ```ts
 // tests/jogos/stats.test.ts
@@ -1039,12 +1039,12 @@ test('storage que lança (modo privado/bloqueado) também não derruba', () => {
 })
 ```
 
-- [ ] **Step 2: Rodar e ver falhar**
+- [x] **Step 2: Rodar e ver falhar**
 
 Run: `npm test -- tests/jogos/stats.test.ts`
 Expected: FAIL — módulo inexistente
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 ```ts
 // src/lib/jogos/stats.ts
@@ -1094,12 +1094,12 @@ export function registrarPartida(
 }
 ```
 
-- [ ] **Step 4: Rodar e ver passar**
+- [x] **Step 4: Rodar e ver passar**
 
 Run: `npm test -- tests/jogos/stats.test.ts`
 Expected: PASS (4 testes)
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/lib/jogos/stats.ts tests/jogos/stats.test.ts
@@ -1117,7 +1117,7 @@ Task 11). Verificação da task: `npm run build` (tsc estrito) verde.
 - Create: `src/ui/jogos/chuteira.ts`
 - Modify: `src/styles/main.css` (bloco novo no FIM do arquivo)
 
-- [ ] **Step 1: Implementar a UI**
+- [x] **Step 1: Implementar a UI**
 
 ```ts
 // src/ui/jogos/chuteira.ts
@@ -1220,7 +1220,7 @@ export const montar: MontarJogo = (el, aoTerminar) => {
 }
 ```
 
-- [ ] **Step 2: CSS do jogo (no fim de `src/styles/main.css`)**
+- [x] **Step 2: CSS do jogo (no fim de `src/styles/main.css`)**
 
 ```css
 /* ===== v4 · Fliperama — Amarre a Chuteira ===== */
@@ -1293,12 +1293,12 @@ export const montar: MontarJogo = (el, aoTerminar) => {
 }
 ```
 
-- [ ] **Step 3: Build verde**
+- [x] **Step 3: Build verde**
 
 Run: `npm run build`
 Expected: sem erros de tsc; build do Vite conclui
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add src/ui/jogos/chuteira.ts src/styles/main.css
@@ -1315,7 +1315,7 @@ Mesma regra da Task 7: verificação por `npm run build`; comportamento no E2E.
 - Create: `src/ui/jogos/nao-sobe.ts`
 - Modify: `src/styles/main.css` (bloco novo no fim)
 
-- [ ] **Step 1: Implementar a UI**
+- [x] **Step 1: Implementar a UI**
 
 ```ts
 // src/ui/jogos/nao-sobe.ts
@@ -1408,7 +1408,7 @@ export const montar: MontarJogo = (el, aoTerminar) => {
 }
 ```
 
-- [ ] **Step 2: CSS do jogo (no fim de `src/styles/main.css`)**
+- [x] **Step 2: CSS do jogo (no fim de `src/styles/main.css`)**
 
 Nota: NÃO adicionar bloco `@media (prefers-reduced-motion: reduce)` — o
 main.css já tem kill switch global com `!important` (linha ~186) que desliga
@@ -1469,12 +1469,12 @@ a transition da caminhada de graça (vira salto seco, jogável do mesmo jeito).
 }
 ```
 
-- [ ] **Step 3: Build verde**
+- [x] **Step 3: Build verde**
 
 Run: `npm run build`
 Expected: sem erros
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add src/ui/jogos/nao-sobe.ts src/styles/main.css
@@ -1491,7 +1491,7 @@ Mesma regra: verificação por `npm run build`; comportamento no E2E.
 - Create: `src/ui/jogos/carletto.ts`
 - Modify: `src/styles/main.css` (bloco novo no fim)
 
-- [ ] **Step 1: Implementar a UI**
+- [x] **Step 1: Implementar a UI**
 
 ```ts
 // src/ui/jogos/carletto.ts
@@ -1629,7 +1629,7 @@ export const montar: MontarJogo = (el, aoTerminar) => {
 }
 ```
 
-- [ ] **Step 2: CSS do jogo (no fim de `src/styles/main.css`)**
+- [x] **Step 2: CSS do jogo (no fim de `src/styles/main.css`)**
 
 Nota: NÃO adicionar bloco `@media (prefers-reduced-motion: reduce)` — o kill
 switch global do main.css (linha ~186) já desliga animação/transition
@@ -1704,12 +1704,12 @@ decorativas de graça; a queda dos itens é JS inline e continua (gameplay).
 }
 ```
 
-- [ ] **Step 3: Build verde**
+- [x] **Step 3: Build verde**
 
 Run: `npm run build`
 Expected: sem erros
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add src/ui/jogos/carletto.ts src/styles/main.css
@@ -1728,7 +1728,7 @@ git commit -m "feat(v4): UI do Segura, Carletto! — catch de chicletes com barr
 - Modify: `src/styles/main.css` (bloco arcade da seção/overlay)
 - Test: `tests/fliperama-ui.test.ts` (builders puros de HTML, padrão do `rodape.ts`)
 
-- [ ] **Step 1: Escrever o teste que falha**
+- [x] **Step 1: Escrever o teste que falha**
 
 ```ts
 // tests/fliperama-ui.test.ts
@@ -1766,12 +1766,12 @@ test('derrota mostra a placa solene; vitória mostra o "e se..." dourado', () =>
 })
 ```
 
-- [ ] **Step 2: Rodar e ver falhar**
+- [x] **Step 2: Rodar e ver falhar**
 
 Run: `npm test -- tests/fliperama-ui.test.ts`
 Expected: FAIL — módulo inexistente
 
-- [ ] **Step 3: Implementar `src/ui/fliperama.ts`**
+- [x] **Step 3: Implementar `src/ui/fliperama.ts`**
 
 ```ts
 // src/ui/fliperama.ts
@@ -1916,12 +1916,12 @@ export function montarFliperama(el: HTMLElement): void {
 }
 ```
 
-- [ ] **Step 4: Rodar e ver passar**
+- [x] **Step 4: Rodar e ver passar**
 
 Run: `npm test -- tests/fliperama-ui.test.ts`
 Expected: PASS (3 testes)
 
-- [ ] **Step 5: Ligar a seção no site**
+- [x] **Step 5: Ligar a seção no site**
 
 Em `index.html`, entre as seções `profecia` e `quiz`:
 
@@ -1953,7 +1953,7 @@ montarFliperama(document.querySelector('#fliperama')!)
 montarQuiz(document.querySelector('#quiz')!)
 ```
 
-- [ ] **Step 6: CSS arcade da seção e do overlay (no fim de `src/styles/main.css`)**
+- [x] **Step 6: CSS arcade da seção e do overlay (no fim de `src/styles/main.css`)**
 
 ```css
 /* ===== v4 · Fliperama do Sofrimento — seção, gabinetes e overlay =====
@@ -2060,13 +2060,13 @@ montarQuiz(document.querySelector('#quiz')!)
 }
 ```
 
-- [ ] **Step 7: Suite completa + build**
+- [x] **Step 7: Suite completa + build**
 
 Run: `npm test && npm run build`
 Expected: todos os testes passam (os de `secoes.test.ts` agora cobrem a nova
 seção automaticamente); build sem erros
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add src/ui/fliperama.ts tests/fliperama-ui.test.ts index.html src/data/secoes.ts src/main.ts src/styles/main.css
@@ -2082,11 +2082,11 @@ git commit -m "feat(v4): seção Fliperama do Sofrimento — gabinetes, overlay 
 - Modify: `package.json` (devDependency `puppeteer-core`)
 - Modify: `docs/BACKLOG.md` (marcar o Fliperama v1 como entregue, mantendo os jogos v2 listados)
 
-- [ ] **Step 1: Instalar o puppeteer-core (não baixa Chromium; usamos o do sistema)**
+- [x] **Step 1: Instalar o puppeteer-core (não baixa Chromium; usamos o do sistema)**
 
 Run: `npm install --save-dev puppeteer-core`
 
-- [ ] **Step 2: Escrever o script E2E**
+- [x] **Step 2: Escrever o script E2E**
 
 ```js
 // scripts/verificar-fliperama.mjs
@@ -2104,11 +2104,13 @@ const checar = (nome, ok, extra = '') => {
 
 const browser = await puppeteer.launch({
   executablePath: '/usr/bin/chromium',
-  args: ['--no-sandbox'],
+  args: ['--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage'],
 })
 
 try {
   const page = await browser.newPage()
+  const errosPagina = []
+  page.on('pageerror', (erro) => errosPagina.push(String(erro)))
   await page.setViewport({ width: 1280, height: 900 })
   await page.goto(URL_BASE, { waitUntil: 'networkidle0' })
 
@@ -2117,7 +2119,12 @@ try {
     (await page.$$eval('#fliperama .gabinete', (g) => g.length)) === 3)
   checar('bolinha da nav aponta pra #fliperama',
     (await page.$('#nav-secoes a[href="#fliperama"]')) !== null)
-  await page.screenshot({ path: `${CAPTURAS}/fliperama-secao.png` })
+  // captura a própria seção (rola até ela e dispara o reveal) — não o topo da página
+  const secao = await page.$('#fliperama')
+  await secao.scrollIntoViewIfNeeded()
+  await new Promise((r) => setTimeout(r, 700)) // deixa o reveal (GSAP) assentar
+  await secao.screenshot({ path: `${CAPTURAS}/fliperama-secao.png` })
+  await page.evaluate(() => window.scrollTo(0, 0))
 
   // Chuteira: abrir, começar, perder de propósito (Henry chega em ~12s)
   await page.click('.jogar[data-jogo="chuteira"]')
@@ -2151,7 +2158,7 @@ try {
     (await page.$eval('.gabinete[data-jogo="chuteira"] .gabinete-stats',
       (e) => e.textContent ?? '')).includes('Suas tentativas: 1'))
 
-  // NÃO SOBE!: sem puxar ninguém, o contra-ataque vem
+  // NÃO SOBE!: sem puxar ninguém, o contra-ataque vem (~6,6s: 3º escape)
   await page.click('.jogar[data-jogo="nao-sobe"]')
   await page.click('#comecar-jogo')
   await page.waitForSelector('.jogo-nao-sobe')
@@ -2167,8 +2174,35 @@ try {
   await page.screenshot({ path: `${CAPTURAS}/fliperama-carletto.png` })
   await page.waitForFunction(
     () => document.querySelector('.placa-derrota, .placa-e-se') !== null,
-    { timeout: 30000 })
+    { timeout: 32000 })
   checar('Carletto termina com placa de fim (derrota ou e-se)', true)
+  await page.keyboard.press('Escape')
+
+  // === EXTRA 3 (revisão Task 10): Esc nas instruções e reabrir OUTRO jogo ===
+  // sanidade da máquina de estados do overlay (token de geração).
+  await page.click('.jogar[data-jogo="chuteira"]')
+  await page.waitForSelector('#comecar-jogo') // instruções da chuteira
+  await page.keyboard.press('Escape')
+  await page.waitForFunction(() =>
+    !document.querySelector('.fliperama-overlay')?.open)
+  await page.click('.jogar[data-jogo="carletto"]')
+  await page.click('#comecar-jogo')
+  await page.waitForSelector('.jogo-carletto')
+  checar('Esc nas instruções e reabrir outro jogo monta o novo', true)
+  await page.keyboard.press('Escape')
+
+  // === EXTRA 4 (revisão Task 8): teclado no NÃO SOBE! — Tab + Enter sem quebrar ===
+  await page.click('.jogar[data-jogo="nao-sobe"]')
+  await page.click('#comecar-jogo')
+  await page.waitForSelector('.jogo-nao-sobe')
+  const errosAntes = errosPagina.length
+  await page.keyboard.press('Tab') // foca um jogador (botões são focáveis)
+  await page.keyboard.press('Enter') // ativa o puxão (ninguém subiu ainda: no-op)
+  const overlayAberto = await page.$eval('.fliperama-overlay', (d) => d.open)
+  const jogoVivo = (await page.$('.jogo-nao-sobe')) !== null
+  checar('teclado no NÃO SOBE! (Tab+Enter) não quebra e mantém o overlay',
+    overlayAberto && jogoVivo && errosPagina.length === errosAntes,
+    `erros=${errosPagina.length - errosAntes}`)
   await page.keyboard.press('Escape')
 
   // reduced-motion: continua jogável
@@ -2179,6 +2213,44 @@ try {
   await page2.click('#comecar-jogo')
   await page2.waitForSelector('.jogo-chuteira')
   checar('reduced-motion: jogo monta e roda', true)
+  await page2.keyboard.press('Escape')
+  await page2.close()
+
+  // === EXTRA 1 (revisão Task 8): mobile 360px — 10 botões do NÃO SOBE! sem corte ===
+  const pageMobile = await browser.newPage()
+  await pageMobile.setViewport({ width: 360, height: 740 })
+  await pageMobile.goto(URL_BASE, { waitUntil: 'networkidle0' })
+  await pageMobile.click('.jogar[data-jogo="nao-sobe"]')
+  await pageMobile.click('#comecar-jogo')
+  await pageMobile.waitForSelector('.nao-sobe-jogador')
+  const layout = await pageMobile.$eval('.nao-sobe-campo', (campo) => {
+    const c = campo.getBoundingClientRect()
+    const botoes = [...campo.querySelectorAll('.nao-sobe-jogador')]
+    const dentro = botoes.every((b) => {
+      const r = b.getBoundingClientRect()
+      return r.left >= c.left - 0.5 && r.right <= c.right + 0.5
+    })
+    return { total: botoes.length, dentro }
+  })
+  checar('360px: 10 botões do NÃO SOBE! renderizam sem corte horizontal',
+    layout.total === 10 && layout.dentro, JSON.stringify(layout))
+  await pageMobile.keyboard.press('Escape')
+  await pageMobile.close()
+
+  // === EXTRA 2 (revisão Task 10): overlay rola sob viewport curto (data-lenis-prevent) ===
+  const pageCurto = await browser.newPage()
+  await pageCurto.setViewport({ width: 380, height: 320 }) // estreito+curto: força o texto mais longo a estourar o dialog
+  await pageCurto.goto(URL_BASE, { waitUntil: 'networkidle0' })
+  await pageCurto.click('.jogar[data-jogo="carletto"]') // instruções mais longas
+  await pageCurto.waitForSelector('.fliperama-instrucoes')
+  const rolagem = await pageCurto.$eval('.fliperama-overlay', (d) => {
+    const antes = { sh: d.scrollHeight, ch: d.clientHeight, oy: getComputedStyle(d).overflowY }
+    d.scrollTop = 9999
+    return { ...antes, scrollTop: d.scrollTop }
+  })
+  checar('overlay rola sob viewport curto (data-lenis-prevent não bloqueia)',
+    rolagem.sh > rolagem.ch && rolagem.scrollTop > 0, JSON.stringify(rolagem))
+  await pageCurto.close()
 } finally {
   await browser.close()
 }
@@ -2187,7 +2259,7 @@ console.log(falhas ? `\n${falhas} checagem(ns) falharam` : '\ntudo verde')
 process.exit(falhas ? 1 : 0)
 ```
 
-- [ ] **Step 3: Rodar o E2E**
+- [x] **Step 3: Rodar o E2E**
 
 ```bash
 npm run build
@@ -2199,24 +2271,24 @@ CAPTURAS=/tmp node scripts/verificar-fliperama.mjs
 Expected: todas as checagens `✅`, exit 0. Se alguma falhar: é bug real —
 investigar com superpowers:systematic-debugging antes de mexer no script.
 
-- [ ] **Step 4: Olhar os screenshots**
+- [x] **Step 4: Olhar os screenshots**
 
 Abrir `/tmp/fliperama-secao.png`, `/tmp/fliperama-derrota-2006.png` e
 `/tmp/fliperama-carletto.png` e conferir a olho: gabinetes com scanlines,
 placa de derrota legível, jogo do Carletto com barra e itens visíveis.
 
-- [ ] **Step 5: Atualizar o backlog**
+- [x] **Step 5: Atualizar o backlog**
 
 Em `docs/BACKLOG.md`, marcar o item do Fliperama do Sofrimento como entregue
 (v1 — 3 jogos, placeholders CSS), mantendo listados os jogos candidatos a v2
 (Felipe Melo, 7x1, Levante o Neymar) e o passo futuro dos sprites PixelLab.
 
-- [ ] **Step 6: Suite completa uma última vez**
+- [x] **Step 6: Suite completa uma última vez**
 
 Run: `npm test && npm run build`
 Expected: tudo verde
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add scripts/verificar-fliperama.mjs package.json package-lock.json docs/BACKLOG.md
