@@ -671,3 +671,9 @@ button.opcao { transition: background 0.3s, color 0.3s, opacity 0.4s ease; }
   outline-offset: 2px;
   border-radius: 50%;
 }
+@media (max-width: 480px) {
+  .nao-sobe-jogador {
+    font-size: 1.2rem;
+    padding: 0.3rem;
+  }
+}

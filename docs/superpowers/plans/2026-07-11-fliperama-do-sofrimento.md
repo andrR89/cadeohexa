@@ -1341,7 +1341,7 @@ export const montar: MontarJogo = (el, aoTerminar) => {
         <p class="nao-sobe-ataque" aria-hidden="true">ataque · perigo</p>
         ${Array.from({ length: cfg.jogadores }, (_, j) => `
           <button class="nao-sobe-jogador" data-j="${j}"
-                  style="left:${5 + (j / (cfg.jogadores - 1)) * 90}%"
+                  style="left:${8 + (j / (cfg.jogadores - 1)) * 84}%"
                   aria-label="Puxar ${j === goleiro ? 'o goleiro' : `o jogador ${j + 1}`} de volta">
             ${j === goleiro ? '🧤' : '🟡'}
           </button>`).join('')}
@@ -1357,20 +1357,21 @@ export const montar: MontarJogo = (el, aoTerminar) => {
     alerta.textContent = `na frente: ${jogo.avancados().length}/${cfg.limiteAvancados}`
   }
 
+  // Cronômetro clampado: aba em segundo plano congela a partida em vez de
+  // replayar a fila de escapes de uma vez (decisão da revisão da Task 4).
+  const cronometro = criarCronometro()
+  let quadro = 0
+  let terminado = false
+
   botoes.forEach((botao) =>
     botao.addEventListener('click', () => {
+      if (terminado) return
       if (jogo.puxar(Number(botao.dataset.j))) {
         botao.classList.remove('subiu')
         atualizarAlerta()
       }
     }),
   )
-
-  // Cronômetro clampado: aba em segundo plano congela a partida em vez de
-  // replayar a fila de escapes de uma vez (decisão da revisão da Task 4).
-  const cronometro = criarCronometro()
-  let quadro = 0
-  let terminado = false
 
   function terminar(resultado: ResultadoJogo): void {
     if (terminado) return
@@ -1381,8 +1382,11 @@ export const montar: MontarJogo = (el, aoTerminar) => {
 
   function frame(agora: number): void {
     const t = cronometro(agora)
-    for (const j of jogo.tick(t)) botoes[j]?.classList.add('subiu')
-    atualizarAlerta()
+    const escaparam = jogo.tick(t)
+    if (escaparam.length > 0) {
+      for (const j of escaparam) botoes[j]?.classList.add('subiu')
+      atualizarAlerta()
+    }
     relogio.textContent = formatarMinuto(
       minutoFicticio(t, cfg.duracaoMs, cfg.minutoInicial, cfg.minutoFinal),
     )
@@ -1455,6 +1459,12 @@ a transition da caminhada de graça (vira salto seco, jogável do mesmo jeito).
   outline: 2px solid var(--ouro-vivo);
   outline-offset: 2px;
   border-radius: 50%;
+}
+@media (max-width: 480px) {
+  .nao-sobe-jogador {
+    font-size: 1.2rem;
+    padding: 0.3rem;
+  }
 }
 ```
 
