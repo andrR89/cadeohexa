@@ -67,6 +67,9 @@ export function montarFliperama(el: HTMLElement): void {
   `
   const dialog = el.querySelector<HTMLDialogElement>('.fliperama-overlay')!
   let desmontarJogo: (() => void) | null = null
+  // Token de geração: um comecar() antigo que resolver depois de Esc+reabrir
+  // não pode montar num palco morto nem sequestrar o overlay da partida nova.
+  let execucao = 0
 
   // Esc (cancel nativo), "Voltar", "Desistir" e "Aceitar a história" caem
   // todos aqui: desmonta o jogo (idempotente) e limpa o overlay — os chunks
@@ -88,6 +91,7 @@ export function montarFliperama(el: HTMLElement): void {
   }
 
   async function comecar(jogo: JogoFliperama): Promise<void> {
+    const token = ++execucao
     desmontarJogo?.()
     desmontarJogo = null
     dialog.innerHTML = `
@@ -102,7 +106,7 @@ export function montarFliperama(el: HTMLElement): void {
     const palco = dialog.querySelector<HTMLElement>('.fliperama-palco')!
     try {
       const { montar } = await CARREGADORES[jogo.id]()
-      if (!dialog.open) return // Esc no meio do carregamento: não montar em palco morto
+      if (!dialog.open || token !== execucao) return // Esc/reabertura durante o carregamento
       desmontarJogo = montar(palco, (resultado) => {
         desmontarJogo = null // o jogo já se desmontou antes de avisar
         registrarPartida(localStorage, jogo.id, resultado)
