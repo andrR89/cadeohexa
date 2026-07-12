@@ -149,7 +149,8 @@ export const LEGENDA_SECAO = 'Reescreva a história. (Você não vai conseguir.)
 export const RODAPE_SECAO = '98,7% do país também não conseguiu.'
 
 export function textoStats(tentativas: number, vitorias: number): string {
-  return `Suas tentativas: ${tentativas} · Histórias reescritas: ${vitorias}`
+  const n = (valor: number) => (Number.isFinite(valor) ? valor : 0)
+  return `Suas tentativas: ${n(tentativas)} · Histórias reescritas: ${n(vitorias)}`
 }
 
 export const JOGOS: readonly JogoFliperama[] = [
@@ -1839,7 +1840,7 @@ export function montarFliperama(el: HTMLElement): void {
       ${JOGOS.map((j) => gabineteHTML(j, stats[j.id] ?? { tentativas: 0, vitorias: 0 })).join('')}
     </div>
     <p class="legenda fecho">${RODAPE_SECAO}</p>
-    <dialog class="fliperama-overlay" aria-label="Fliperama do Sofrimento"></dialog>
+    <dialog class="fliperama-overlay" aria-label="Fliperama do Sofrimento" data-lenis-prevent></dialog>
   `
   const dialog = el.querySelector<HTMLDialogElement>('.fliperama-overlay')!
   let desmontarJogo: (() => void) | null = null
@@ -1875,10 +1876,11 @@ export function montarFliperama(el: HTMLElement): void {
           <p class="rotulo">${jogo.ano} · ${jogo.titulo}</p>
           <button class="solene" id="fechar-jogo">Desistir</button>
         </div>
-        <div class="fliperama-palco"></div>
+        <div class="fliperama-palco" tabindex="-1"></div>
       </div>`
     dialog.querySelector('#fechar-jogo')!.addEventListener('click', () => dialog.close())
     const palco = dialog.querySelector<HTMLElement>('.fliperama-palco')!
+    palco.focus()
     try {
       const { montar } = await CARREGADORES[jogo.id]()
       if (!dialog.open || token !== execucao) return // Esc/reabertura durante o carregamento
@@ -2005,8 +2007,10 @@ montarQuiz(document.querySelector('#quiz')!)
 }
 .fliperama-overlay {
   width: 100%;
+  height: 100vh;
   height: 100dvh;
   max-width: 100vw;
+  max-height: 100vh;
   max-height: 100dvh;
   margin: 0;
   border: none;

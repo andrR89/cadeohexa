@@ -21,7 +21,8 @@ export const LEGENDA_SECAO = 'Reescreva a história. (Você não vai conseguir.)
 export const RODAPE_SECAO = '98,7% do país também não conseguiu.'
 
 export function textoStats(tentativas: number, vitorias: number): string {
-  return `Suas tentativas: ${tentativas} · Histórias reescritas: ${vitorias}`
+  const n = (valor: number) => (Number.isFinite(valor) ? valor : 0)
+  return `Suas tentativas: ${n(tentativas)} · Histórias reescritas: ${n(vitorias)}`
 }
 
 export const JOGOS: readonly JogoFliperama[] = [
