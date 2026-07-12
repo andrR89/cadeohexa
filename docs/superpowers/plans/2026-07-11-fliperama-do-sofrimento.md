@@ -1536,6 +1536,7 @@ export const montar: MontarJogo = (el, aoTerminar) => {
   let terminado = false
 
   function mover(x: number): void {
+    if (terminado) return
     // travado pela isca: a cara de decepção não anda
     if (cronometro(performance.now()) < jogo.travadoAte()) return
     xBoca = Math.min(1, Math.max(0, x))
@@ -1543,6 +1544,11 @@ export const montar: MontarJogo = (el, aoTerminar) => {
   function aoApontar(evento: PointerEvent): void {
     const r = area.getBoundingClientRect()
     mover((evento.clientX - r.left) / r.width)
+  }
+  function aoPressionar(evento: PointerEvent): void {
+    // Captura o ponteiro: o dedo pode sair da área que o Carletto continua junto.
+    area.setPointerCapture(evento.pointerId)
+    aoApontar(evento)
   }
   function aoTeclar(evento: KeyboardEvent): void {
     if (evento.key === 'ArrowLeft') {
@@ -1554,7 +1560,7 @@ export const montar: MontarJogo = (el, aoTerminar) => {
     }
   }
   area.addEventListener('pointermove', aoApontar)
-  area.addEventListener('pointerdown', aoApontar)
+  area.addEventListener('pointerdown', aoPressionar)
   document.addEventListener('keydown', aoTeclar)
 
   function terminar(resultado: ResultadoJogo): void {
@@ -1616,7 +1622,7 @@ export const montar: MontarJogo = (el, aoTerminar) => {
     cancelAnimationFrame(quadro)
     document.removeEventListener('keydown', aoTeclar)
     area.removeEventListener('pointermove', aoApontar)
-    area.removeEventListener('pointerdown', aoApontar)
+    area.removeEventListener('pointerdown', aoPressionar)
   }
   return desmontar
 }
